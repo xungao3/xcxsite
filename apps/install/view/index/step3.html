@@ -1,0 +1,57 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="xg-container-m xg-mt-4">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg">执行SQL</div>
+		<div class="xg-box-cont">
+			<ul id="logul"></ul>
+			<div class="xg-mt-4">
+				<a href="<?php echo XG_STATIC.xg_cookie('admin-path');?>" class="xg-btn admin-link" style="display:none;">打开后台</a>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+var step2='sql';
+var sqli=0;
+function doinstall(){
+	xg.ajax.post('',{step2:step2,sqli:sqli},function(res){
+		if(res.ok===true){
+			if(step2=='sql'){
+				sqli++;
+				if(res.msg=='sqlok'){
+					step2='config'
+					sqli=0
+				}else if(res.msg){
+					writelog(res.msg);
+				}
+			}else if(step2=='config'){
+				writelog(res.msg);
+				step2='admin'
+			}else if(step2=='admin'){
+				writelog('管理员设置 成功');
+				$('.admin-link').show();
+				return;
+			}else{
+				
+				return;
+			}
+		}else{
+			var msg='发生错误：'+res.msg;
+			xg.err(msg);
+			writelog(msg);
+			return;
+		}
+		doinstall();
+	},'json');
+}
+function writelog(msg){
+	$('<li>'+msg+'</li>').appendTo('#logul');
+}
+$(document).ready(function(){
+	doinstall();
+});
+</script>
+{/block}

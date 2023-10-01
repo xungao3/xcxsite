@@ -1,0 +1,8 @@
+.xg-f{width:1em;min-height:1em;display:inline-block;line-height:inherit;-webkit-mask-repeat:no-repeat;-webkit-mask-position:center center;-webkit-mask-size:100% 100%;background-color:#333;}
+.xg-f::before{content:'.';line-height:inherit;opacity:0;}
+.xg-f-yes{
+	-webkit-mask-image:url('./xg-f-yes.svg');
+}
+.xg-f-no{
+	-webkit-mask-image:url('./xg-f-no.svg');
+}

@@ -1,0 +1,70 @@
+{extend name="public/common"}
+{block name="header"}
+<form id="searchform">
+	{:xg_form()->get_items()}
+	<select name="model">
+	<?php $models=xg_models();
+		foreach($models as $k=>$v){?>
+		<option value="{$v.name}"{$v['name']==$model?' selected':''}>{$v.title}</option>
+	<?php }?>
+	</select>
+	<select name="cid">
+	<option value="">选择分类</option>
+	<?php $catelist=xg_category();
+		foreach($catelist as $k=>$v){?>
+		<option value="{$k}"{$k==$cid?' selected':''}>{$v.title}</option>
+	<?php }?>
+	</select>
+	内容ID <input type="text" name="id" value="{$id?$id:''}" />
+	<input type="submit" value="搜索" />
+	<?php if($keywords){?><input type="button" value="清除搜索" /><?php }?>
+	<input type="hidden" name="tbname" value="{$tbname}" />
+</form>
+{/block}
+{block name="body"}
+<form class="form1 ajax-submit" method="post" id="listform">
+	<div class="mt0">
+		<table width="100%" class="xg-table">
+			<tr>
+				<th width="15"><input class="xg-checkall" type="checkbox" name="checkall" /></th>
+				<th>ID</th>
+				<th>模型</th>
+				<th>分类ID</th>
+				<th>分类</th>
+				{if $infos}<th>信息ID</th><th width="20%">信息</th>{/if}
+				<th width="30%">评论内容</th>
+				<th>发表时间</th>
+				<th>操作</th>
+				</tr>
+			<?php if($list){?>
+			<?php foreach($list as $k=>$v){
+				?>
+				<tr tr2>
+					<td align="center"><input class="xg-checkbox" type="checkbox" name="id[]" value="{$v.id}" /></td>
+					<td>{$v.id}</td>
+					<td>{$models[$v['model']]['title']}</td>
+					<td>{$v['cid']}</td>
+					<td><a class="xg-admin-tab-link" href="{:xg_url('content/contents',['tbname'=>$catelist[$v['cid']]['model'],'cid'=>$v['cid']])}">{$catelist[$v['cid']]['title']}</a></td>
+					{if $infos}<td>{$v.infoid}</td><td><a target="_blank" href="{:xg_content_url($infos[$v['infoid']]['cid'],$v['infoid'])}">{$infos[$v['infoid']]['title']}</a></td>{/if}
+					<td>{:nl2br($v['content'])}</td>
+					<td><?php echo date('Y-m-d H:i:s',$v['time']);?></td>
+					<td>
+						<a class="xg-fl xg-a xg-a-status xg-a-status-{$v.status} xg-ajax-get-status" href="<?php echo xg_url('comment/status',['tbname'=>'comment','id'=>$v['id']]);?>"><?php if($v['status']){echo '停用';}else{echo '启用';}?></a>
+						<a class="xg-fl xg-a xg-a-del xg-ajax-get" href="<?php echo xg_url('comment/delete',['tbname'=>'comment','id'=>$v['id']]);?>">删除</a>
+					</td>
+				</tr>
+				<?php
+			}?>
+			<?php if($pagehtml){?><tr><td colspan="100"><?php echo $pagehtml;?></td></tr><?php }?>
+			<?php }else{?><tr><td colspan="100" align="center" height="150">暂无记录</td></tr><?php }?>
+		</table>
+		<div class="xg-fixed-btns">
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('comment/status',['status'=>0]);?>" xg-confirm="确定停用这些信息吗？">停用</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('comment/status',['status'=>1]);?>" xg-confirm="确定启用这些信息吗？">启用</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('comment/delete',['status'=>-1]);?>" xg-confirm="确定删除这些信息吗？">删除</button>
+			<input type="hidden" name="tbname" value="comment" />
+		</div>
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+{/block}

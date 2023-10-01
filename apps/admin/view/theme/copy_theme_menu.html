@@ -1,0 +1,22 @@
+{extend name="public/common"}
+{block name="style"}
+<style>
+body{padding:20px;padding-top:0;}
+</style>
+{/block}
+{block name="body"}
+<form method="POST" class="xg-form xg-ajax-submit">
+	<?php 
+		$list=array();
+		foreach($themes as $theme){
+			$list[$theme['thid']]='['.$theme['title'].']['.$theme['thid'].']';
+		}
+
+		echo xg_form_item_radio('from','选择要复制菜单的主题',$list);
+		echo xg_form_item_btn();
+	?>
+</form>
+<script>
+layui.form.render();
+</script>
+{/block}

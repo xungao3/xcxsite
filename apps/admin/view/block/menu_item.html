@@ -1,0 +1,14 @@
+<div class="menu-item menu-item-{$index}">
+	{php
+	$option=array('type'=>'image','tag'=>'thid_'.$thid.'_menu_icon_'.$index,'classname'=>'thid_'.$thid.'_menu_icon_'.$index);
+	$tip='可以上传图片，请上传png背景透明的图片，也可以选择图标：<a href="javascript:call_admin_icon(\'.thid_'.$thid.'_menu_icon_'.$index.'\');" style="color:red;">点击选择</a>。';
+	$tip2='<a href="javascript:call_admin_link_input(\'menu_link\',\'.thid_'.$thid.'_menu_link_'.$index.'\');" class="xg-color">点击选择内容</a>';
+	$option2=array('classname'=>'thid_'.$thid.'_menu_link_'.$index);
+	/}
+	{:xg_form_item_upload('data['.$index.'][icon]','按钮图标',$option,(isset($item['icon'])?$item['icon']:''),$tip)}
+	{:xg_form_item_text('data['.$index.'][name]','按钮名称',$item['name'],'四个汉字以内。')}
+	{:xg_form_item_text('data['.$index.'][link]','按钮连接',$item['link'],$tip2,0,$option2)}
+	{:xg_form_item_text('data['.$index.'][title]','按钮打开页面标题',$item['title'])}
+	<a class="xg-block xg-mt-3 menu-data-del" menu-index="{$index}" href="javascript:void(0);">删除</a>
+</div>
+<script>items_bind({$index});menu_item_count={$index};</script>

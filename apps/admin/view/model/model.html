@@ -1,0 +1,19 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>模型信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				<?php echo xg_form('type','模型类型',$info['type'])->values([1=>'外部模型',2=>'内部模型'])->radio();?>
+				<?php echo xg_form_item_text('name','模型标识',$info['name'],'比如：goods');?>
+				<?php echo xg_form_item_text('title','模型名称',$info['title'],'比如：商品模型');?>
+				<?php echo xg_form_item_text('alias','模型别名',$info['alias'],'比如：商品');?>
+				<?php echo xg_form_item_textarea('remark','标注',$info['remark'],'');?>
+				<?php echo xg_form_item_radio('status','状态',['1'=>'启用','0'=>'停用'],$info?$info['status']:1,'');?>
+				<div class="xg-mt-4"><button class="xg-btn" type="submit">提交</button></div>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

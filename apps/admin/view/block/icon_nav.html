@@ -1,0 +1,16 @@
+<div class="icon-nav icon-nav-{$index}">
+	{:xg_form_item_text('icon-nav-list['.$index.'][title]','按钮文字',$item['title'])}
+	{php
+	$option1=array('type'=>'image','tag'=>'thid-'.$thid.'-icon-nav-'.$index,'classname'=>'thid-'.$thid.'-icon-nav-'.$index);
+	$tip1='可以上传图片，请上传png背景透明的图片，也可以选择图标：<a href="javascript:call_admin_icon(\'.thid-'.$thid.'-icon-nav-'.$index.'\');" style="color:red;">点击选择</a>。';
+	$tip2='<a href="javascript:call_admin_link_input(\'menu_link\',\'.thid-'.$thid.'-icon-nav-menu-'.$index.'\');" class="xg-color">点击选择内容</a>';
+	$option2=array('classname'=>'thid-'.$thid.'-icon-nav-menu-'.$index);
+	/}
+	{:xg_form_item_text('icon-nav-list['.$index.'][link]','按钮连接',$item['link'],$tip2,0,$option2)}
+	{:xg_form_item_upload('icon-nav-list['.$index.'][icon]','按钮图标',$option1,$item['icon'],$tip1)}
+	{:xg_form_item_color('icon-nav-list['.$index.'][icon-color]','图标颜色',$item['icon-color'])}
+	{:xg_form_item_color('icon-nav-list['.$index.'][text-color]','文字颜色',$item['text-color'])}
+	{:xg_form_item_color('icon-nav-list['.$index.'][bg-color]','图标背景颜色',$item['bg-color'])}
+	<a class="xg-block xg-mt-3 icon-nav-list-del" btn-index="{$index}" href="javascript:void(0);">删除</a>
+</div>
+<script>icon_nav_list_bind({$index});icon_nav_count={$index};</script>

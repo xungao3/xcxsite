@@ -1,0 +1,21 @@
+<?php if($list){?>
+<ul class="{$isimg?'img':'file'}-list">
+	<?php foreach($list as $k=>$v){
+		?>
+		<li url="{$v.url}" fid="{$v.id}">
+			{if $isimg}<div class="img"><img src="{$v.url}" /></div>{/if}
+			<div class="xg-clear">
+				<div class="xg-fl ext">{:end(explode('.',$v['url']))}</div>
+				<div class="xg-fr size"></div>
+			</div>
+			<!-- <div class="name">{$v.name}</div> -->
+			<a href="javascript:void(0);" title="删除" class="xg-block xg-close"></a>
+		</li>
+		<?php
+	}?>
+</ul>
+<?php if($pagehtml){?><?php echo $pagehtml;?><?php }?>
+<?php }else{?>
+	<div class="xg-no-rs">暂无图片</div>
+<?php }?>
+<script>event();</script>

@@ -1,0 +1,13 @@
+{
+	"title":"Wang富文本编辑器",
+	"name":"wangeditor",
+	"version":2023081801,
+	"developer":"讯高科技",
+	"config":{
+	},
+	"hooks":{
+		"form":{
+			"\\addons\\wangeditor\\wangeditor":["create"]
+		}
+	}
+}

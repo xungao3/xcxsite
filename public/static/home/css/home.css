@@ -1,0 +1,91 @@
+.box-1{
+	display:block;
+	border:solid 1px #eee;
+	border-radius:0.5rem;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+	overflow: hidden;
+}
+.box-1 .title{
+	border-bottom:solid 1px #eee;
+	padding:0.6rem;
+	display:flex;
+	color:#fff;
+	line-height:1.5rem;
+	font-size:1rem;
+	background-color:var(--xg-color);
+}
+.box-1 .title h2,.box-1 .title h3,.box-1 .title h4,.box-1 .title h5{
+	font-size:1rem;
+	line-height:1.5rem;
+}
+.box-1 .title .icon{
+	width:1rem;
+	height:1rem;
+}
+
+.box-1 .title .link{
+	margin-left:auto;
+}
+.box-1 .content{
+	padding:0.5rem;
+}
+.box-1 .content{
+	padding:0.35rem;
+}
+.box-1 .content ul{
+	display:flex;
+	flex-wrap:wrap;
+}
+.box-1 .content li{
+	display:block;
+}
+.box-1 .content .item{
+	width:calc(100% - 0,.7rem);
+	margin:0.35rem;
+	padding:0.7rem;
+	display:flex;
+	background:rgba(0, 0, 0, 0.05);
+	border-radius:0.5rem;
+	overflow:hidden;
+}
+.box-1 .content .item .item-title{
+	flex:1;
+}
+.box-1 .content .item-2{
+	display:flex;
+	flex-wrap:wrap;
+	width:calc(100% - 0.7rem);
+	margin:0.35rem;
+	padding:0.7rem;
+	display:flex;
+	background:rgba(0, 0, 0, 0.05);
+	border-radius:0.5rem;
+	overflow:hidden;
+}
+.box-1 .content .item-right{
+	display:flex;
+	flex-direction: column;
+}
+.box-1 .content .item-pic{
+	display:block;
+}
+.box-1 .content .item-pic img{
+	width:100%;
+	height:auto;
+	border-radius:0.5rem;
+}
+.box-1 .content .item-desc{
+	flex:1;
+	color:#999;
+	line-height:1.2rem;
+	max-height:3.6rem;
+	overflow: hidden;
+}
+.box-1 .content .item-bottom{
+	color:#999;
+	margin-top:auto;
+}
+
+.xg-page{
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}

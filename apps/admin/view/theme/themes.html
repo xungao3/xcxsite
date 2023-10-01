@@ -1,0 +1,48 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="configform xg-ajax-submit" method="post">
+	<table width="100%" align="center" class="xg-table">
+		<tr>
+			<th>ID</th>
+			<th>名称</th>
+			<th>操作</th>
+		</tr>
+	<?php foreach($list as $k=>$v){?>
+		<tr tr2 align="center">
+			<td><?php echo $v['thid']?></td>
+			<td><?php echo $v['title']?></td>
+			<td>
+				<a class="xg-a xg-admin-tab-link" xg-tab-title="修改主题-{$v.thid}"  href="<?php echo xg_url('theme/theme',array('thid'=>$v['thid']));?>">修改</a>
+				<a class="xg-a xg-admin-tab-link" xg-tab-title="管理模块-{$v.thid}" href="<?php echo xg_url('block/block',array('thid'=>$v['thid']));?>">管理模块</a>
+				<a class="xg-a xg-ajax-get" href="<?php echo xg_url('theme/delete',array('thid'=>$v['thid']));?>" xg-confirm="此主题的页面和模块会被同时删除，<br>删除后不可恢复，<br>是否确定删除？" class="ajax-get">删除</a>
+				<a class="xg-a" href="{:xg_url('theme/save',array('thid'=>$v['thid']))}">导出</a>
+				<a class="xg-a" href="javascript:apptheme({$v.thid})">部署</a>
+			</td>
+		</tr>
+	<?php }
+	if(!$list){
+		?><tr align="left"><td colspan="20"><div class="nors">暂无记录</div></td></tr><?php
+	}?>
+	<?php
+	if($pagehtml){
+		?><tr align="left"><td colspan="20"><?php echo $pagehtml;?></td></tr><?php
+	}?>
+	</table>
+</form>
+{/block}
+{block name="script"}
+{/block}
+{block name="header"}
+<a href="{:xg_url('theme/theme')}">添加主题</a>
+<a href="javascript:void(0);" id="load-theme">导入主题</a>
+<script>
+function apptheme(thid){
+	xg.iframe({src:xg.url('apptheme',{thid}),width:450,height:350});
+}
+xg.mod('upload',function(){
+	xg.upload({url:xg.url('theme/load'),done:function(data){
+		xg.msg(data,function(){location.reload();});
+	}}).bind('#load-theme');
+});
+</script>
+{/block}

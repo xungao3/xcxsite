@@ -1,0 +1,94 @@
+{:xg_form($item['name'],$item['title'],$info[$item['name']])->text()}
+{php 
+	if(substr($item['data']['table'],0,3)=='xg_'){
+		$field_search_model=substr($item['data']['table'],3);
+	}else{
+		$field_search_model=$item['data']['table'];
+	}
+	$field_search_field=$item['data']['field'];
+	$field_search_show=$item['data']['show'];
+	if($formtype=='search-multi')$field_search_multi=1;
+/}
+<script>
+(function(){
+	window.xgpops=window.xgpops||{};
+	const name2="{:xg_form($item['name'])->name2()}";
+	const sel=`.xg-form-item-${name2} input`;
+	const model="{$field_search_model}";
+	const field="{$field_search_field}";
+	const show="{$field_search_show}";
+	const multi="{$field_search_multi}";
+	const values=$(sel).val().split(',');
+	$(sel).bind('click',function(e){
+		e.stopPropagation();
+		if(!window.xgpops[name2]){
+			window.xgpops[name2]={show:function(){}};
+			xg.ajax.get('field_search',{model,field,show},function(res){
+				let html='';
+				if(res.ok===true){
+					let i=0;
+					for(let key in res.data){
+						const selected=values.indexOf(res.data[key].value+'')>-1;
+						html+=`<li class="xg-hover-black-1 ${selected?'xg-color':''}" style="padding:0.25rem;border-top:solid 1px #eee;line-height:1.2rem;" ${selected?'selected="1"':''} val="${res.data[key].value}">${res.data[key].title}</li>`;
+						i++;
+					}
+					html=`<ul>${html}</ul>`;
+				}else if(res.ok===false){
+					html='没有找到相关内容';
+				}
+				html=`<div class="field-search-result-${name2}" style="padding:0.25rem;border:solid 1px #eee;border-radius:0.25rem;overflow:auto;background:#fff;max-height:200px;">${html}</div>`;
+				window.xgpops[name2]=xg.pop().ref(sel,html,{alignleft:1,minw:1,maxw:1});
+				$(`.field-search-result-${name2}`).prepend(`<input type="text" class="xg-input xg-w-100 xg-pd-1 xg-mb-1 xg-border-0 field-search-input-${name2}" placeholder="请输入关键词进行搜索" />`).bind('click',function(e){
+					e.stopPropagation();
+				});;
+				function funa(){
+					const val=$(`.field-search-input-${name2}`).val().toLowerCase();
+					$(`.field-search-result-${name2} li`).show();
+					if(val){
+						for(let i in res.data){
+							let datai=res.data[i];
+							if(
+								!(datai.value.includes(val)
+								|| datai.title.includes(val)
+								|| datai.pinyin.includes(val)
+								|| datai.letter.includes(val))
+							){
+								$(`.field-search-result-${name2} li[val="${datai.value}"]`).hide();
+							}
+						}
+					}
+				}
+				$(`.field-search-input-${name2}`).bind('input',funa).focus();
+				if(multi){
+					$(`.field-search-result-${name2} li`).click(function(){
+						if($(this).attr('selected')){
+							$(this).removeAttr('selected').removeClass('xg-color');
+						}else{
+							$(this).attr('selected',1).addClass('xg-color');
+						}
+						const vals=[];
+						$(`.field-search-result-${name2} li[selected]`).each(function(){
+							vals.push($(this).attr('val'));
+						});
+						$(sel).val(vals.join(','));
+					});
+				}else{
+					$(`.field-search-result-${name2} li`).click(function(){
+						$(sel).val($(this).attr('val'));
+						window.xgpops[name2].close();
+					});
+				}
+				$(document).bind('click',function(){
+					window.xgpops[name2].close();
+				});
+			});
+		}
+		for(let name in window.xgpops){
+			if(xg.isfun(window.xgpops[name].close))window.xgpops[name].close();
+		}
+		window.xgpops[name2].show();
+		$(`.field-search-result-${name2} li`).show();
+		$(`.field-search-input-${name2}`).val('').focus();
+	});
+})();
+</script>

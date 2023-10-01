@@ -1,0 +1,62 @@
+<div class="xg-editor-img-option xg-over-hide">
+	<div class="xg-left xg-mg-3 xg-form xg-over-hide" style="color:#000;">
+		<label class="xg-form-label xg-mt-0">alt属性</label>
+		<input type="text" id="img-option-alt" />
+		<label class="xg-form-label">图片宽高</label>
+		<div class="xg-flex xg-max-500">
+			<input type="text" id="img-option-width" /><div style="height:1rem;line-height:1rem;padding-top:1.25rem;width:2rem;text-align:center;">*</div><input type="text" id="img-option-height" />
+		</div>
+		<label class="xg-form-label">图片地址</label>
+		<input type="text" id="img-option-src" />
+		<div class="xg-mt-3">
+			<button type="button" class="xg-btn xg-btn-s up-btn">上传替换图片</button>
+			<button type="button" class="xg-btn xg-btn-s select-btn">选择替换图片</button>
+			<button type="button" class="xg-btn xg-btn-s save-btn xg-fr">保存</button>
+		</div>
+	</div>
+</div>
+<script>
+(function(){
+	var whchanged=false;
+	var editor=xg.editor.get('editor-name');
+	var img=editor.actionimg;
+	$('#img-option-alt').val(img.attr('alt')||'');
+	$('#img-option-src').val(img.attr('src'));
+	xg.img.size(img.attr('src'),function(wh){
+		var width=img.width();
+		var height=img.height();
+		var width2=wh.width;
+		var height2=wh.height;
+		$('#img-option-width').val(width!=width2?width:'').change(function(){whchanged=true;});
+		$('#img-option-height').val(height!=height2?height:'').change(function(){whchanged=true;});
+	});
+	if(!img)return;
+	xg.mod('upload',function(){
+		xg.upload(editor.o.upload).done(function(data){
+			if(data.imgurl){
+				$('#img-option-src').val(data.imgurl);
+			}
+		}).data(function(){return editor.o.upload.data;}).data('isimg',1).bind($('.xg-editor-img-option .up-btn')).setname('xg-editor-upload-pic');
+	});
+	$('.xg-editor-img-option .save-btn').click(function(){
+		img.attr('src',$('#img-option-src').val());
+		img.attr('alt',$('#img-option-alt').val());
+		if($('#img-option-width').val()||whchanged)img.width($('#img-option-width').val());
+		if($('#img-option-height').val()||whchanged)img.height($('#img-option-height').val());
+		editor.save();
+		editor.format(1);
+		xg.close(editor.img_option_win);
+	});
+	$('.xg-editor-img-option .select-btn').click(function(){
+		var data=$.extend({},editor.o.upload.data);
+		data.isimg=1;
+		data.count=1;
+		var id=xg.iframe({src:xg.url('file/select',data),width:960,height:600,ok:1,cancel:1,onok:function(){
+			var selected=xg.iframe(id).selected;
+			if(selected&&selected.length){
+				$('#img-option-src').val(selected[0]);
+			}
+		}});
+	});
+})();
+</script>

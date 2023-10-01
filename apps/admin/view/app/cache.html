@@ -1,0 +1,40 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-ajax-not-reload" method="post">
+	<table class="xg-table" id="table-1" width="100%">
+		<tr>
+			<th width="1" xg-table-checkbox="id"><input class="xg-checkall" type="checkbox" name="checkall" /></th>
+			<th xg-table-item-key="type">类型</th>
+			<!-- <th xg-table-item-key="theme">主题</th> -->
+			<th xg-table-item-key="sysname">系统</th>
+			<th xg-table-item-key="cate">分类</th>
+			<th xg-table-item-key="infoid">信息</th>
+			<!-- <th xg-table-item-key="page">页码</th> -->
+			<!-- <th xg-table-item-key="pagesize">分页</th> -->
+			<!-- <th xg-table-item-key="count">数量</th> -->
+			<th xg-table-item-key="file">文件</th>
+		</tr>
+		<tr><td colspan="100" class="xg-table-loading">加载中...</td></tr>
+		<tr><td colspan="100" class="xg-table-nors">无记录</td></tr>
+	</table>
+	<div class="xg-fixed-btns">
+		<button class="xg-btn xg-btn-action xg-need-select xg-ajax-not-reload" xg-btn-table-reload="table-1" type="submit" xg-action="<?php echo xg_url('clear');?>">删除选中</button>
+		<button class="xg-btn xg-btn-action xg-ajax-not-reload" xg-btn-table-reload="table-1" type="button" xg-action="<?php echo xg_url('clear',['type'=>'content']);?>">删除内容详情缓存</button>
+		<button class="xg-btn xg-btn-action xg-ajax-not-reload" xg-btn-table-reload="table-1" type="button" xg-action="<?php echo xg_url('clear',['type'=>'contents']);?>">删除内容列表缓存</button>
+		<button class="xg-btn xg-btn-action xg-ajax-not-reload" xg-btn-table-reload="table-1" type="button" xg-action="<?php echo xg_url('clear',['type'=>'allcate']);?>">删除全部分类缓存</button>
+		<button class="xg-btn xg-btn-action xg-ajax-not-reload" xg-btn-table-reload="table-1" type="button" xg-action="<?php echo xg_url('clear',['type'=>'curcate']);?>">删除当前分类缓存</button>
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+<script>xg.table('#table-1').name('table-1').load();</script>
+{/block}
+{block name="header"}
+<form>
+<a href="{:xg_url('clear')}" class="xg-ajax-get">清空所有</a>
+
+{:xg_form('type','',$type,['content'=>'内容详情','contents'=>'内容列表','allcate'=>'全部分类','curcate'=>'当前分类'])->base_select()}
+
+<input type="submit" value="搜索">
+<a href="?">清除搜索</a>
+</form>
+{/block}

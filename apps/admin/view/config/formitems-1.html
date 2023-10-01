@@ -1,0 +1,39 @@
+<?php if($item['type']=='int' or $item['type']=='text'){?>
+	<?php echo xg_form_item_text($item['name'],$item['title'],$item['value'],$item['tips'],$helpid);?>
+<?php }?>
+<?php if($item['type']=='bool'){?>
+	<?php echo xg_form_item_bool($item['name'],$item['title'],$item['option'],$item['value'],$item['tips'],$helpid);?>
+<?php }?>
+<?php if($item['type']=='radio' or $item['type']=='checkbox' or $item['type']=='select'){?>
+	<?php
+	$data=xg_line_arr($item['option']);
+	$option=array();
+	foreach($data as $k=>$v){
+		if(strpos($v,'=')!==false){
+			$arr=xg_arr($v,'=');
+			if(strpos($v,':default')!==false){
+				$value=$arr[0];
+				$option[$arr[0]]=str_replace(':default','',$arr[1]);
+			}else{
+				$option[$arr[0]]=$arr[1];
+			}
+		}else{
+			$option[$v]=$v;
+			if(strpos($v,':default')!==false){
+				$value=$v;
+				$option[$v]=str_replace(':default','',$v);
+			}else{
+				$option[$v]=$v;
+			}
+		}
+	}
+	if($item['type']=='checkbox')echo xg_form_item_checkbox($item['name'],$item['title'],$option,isset($item['value'])?$item['value']:$value,$item['tips'],$helpid);
+	if($item['type']=='select')echo xg_form_item_select($item['name'],$item['title'],$option,isset($item['value'])?$item['value']:$value,$item['tips'],$helpid);
+	if($item['type']=='radio')echo xg_form_item_radio($item['name'],$item['title'],$option,isset($item['value'])?$item['value']:$value,$item['tips'],$helpid);?>
+<?php }?>
+<?php if($item['type']=='color'){?>
+	<?php echo xg_form_item_color($item['name'],$item['title'],$item['value'],$item['tips'],$helpid);?>
+<?php }?>
+<?php if($item['type']=='image'){?>
+	<?php echo xg_form_item_image($item['name'],$item['title'],[],$item['value'],$item['tips'],$helpid);?>
+<?php }?>

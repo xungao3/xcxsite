@@ -1,0 +1,77 @@
+{extend name="public/common"}
+{block name="body"}
+<canvas id="canvas"></canvas>
+<form class="xg-admin-login-form xg-white" method="post">
+	<header><h1>欢迎使用讯高小程序</h1></header>
+	<div class="form-cont">
+		<div class="input">
+			<label>用户名：</label>
+			<input type="text" name="username" />
+		</div>
+		<div class="input">
+			<label>密码：</label>
+			<input type="password" name="password" />
+		</div>
+		<label class="remember xg-clear"><input type="checkbox" name="remember" value="1" checked />记住我的登录状态</label>
+		<button type="submit">登录</button>
+	</div>
+</form>
+{/block}
+{block name="style"}
+<link href="__CSS__/login.css" rel="stylesheet" />
+{/block}
+{block name="script"}
+<script>
+function bg() {
+	var mycanvas = $('#canvas')[0];
+	var ctx = mycanvas.getContext("2d");
+	var width = $('body').width();
+	var height = $('body').height();
+	$('#canvas').attr('width', width);
+	$('#canvas').attr('height', height);
+
+	function frame() {
+		var rx = 40 + Math.floor(Math.random() * width - 40);
+		var ry = 40 + Math.floor(Math.random() * height - 40);
+		var r = 20 + Math.floor(Math.random() * 50);
+		ctx.beginPath();
+		ctx.arc(rx, ry, r, 0, 2 * Math.PI);
+		ctx.fillStyle = `rgba(255,255,255,0.1)`
+		ctx.fill();
+		ctx.closePath();
+	}
+	ctx.stroke();
+	const grd = ctx.createLinearGradient(0, 0, width, height);
+	grd.addColorStop(0, 'rgba(0,0,0,0)');
+	grd.addColorStop(1, 'rgba(0,0,0,0.1)');
+	ctx.fillStyle = grd;
+	ctx.fillRect(0, 0, width, height);
+	for (var i = 0; i < 30; i++) {
+		frame();
+	}
+}
+function form(){
+	$('form').submit(function(){
+		var self=$(this);
+		if(!self.find("input[name='username']").val()){
+			xg.msg("请填写用户名！",2);
+			return false;
+		}
+		if(!self.find("input[name='password']").val()){
+			xg.msg("请填写密码！",2);
+			return false;
+		}
+		$.post(self.attr("action"),self.serialize(),success,"json");
+		return false;
+		function success(data){
+			xg.msg(data,function(){if(data.goto)location.href=data.goto;});
+		}
+	});
+}
+$(function(){
+	bg();
+	$(window).resize(function(){bg();})
+	form();
+});
+</script>
+{/block}

@@ -1,0 +1,12 @@
+{extend name="public/common"}
+{block name="body"}
+	<form class="xg-ajax-submit xg-form xg-mt--4" method="post">
+		<?php echo xg_form('name[]','选择应用')->values($applist)->checkbox();?>
+		<div class="xg-mt-4"></div>
+		<?php echo xg_form_item_btn('提交');?>
+	</form>
+{/block}
+{block name="script"}
+<script>
+</script>
+{/block}

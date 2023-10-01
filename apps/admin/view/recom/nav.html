@@ -1,0 +1,13 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+	<div style="width:400px;">
+		{:xg_form_item_text('title','标题',$info['title'])}
+		{if $type=='link'}
+			{:xg_form_item_text('link','链接',$info['link'])}
+			{:xg_form_item_hidden('type',$type)}
+		{/if}
+		{:xg_form_item_radio('login','是否需要登录',['不需要','需要'],$info['login'])}
+	</div>
+</form>
+{/block}

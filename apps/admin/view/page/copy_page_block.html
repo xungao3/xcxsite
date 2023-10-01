@@ -1,0 +1,71 @@
+{extend name="public/common"}
+{block name="style"}
+<style>
+body{padding:20px;padding-top:0;}
+form.xg-form .form-label{display:none;}
+form.xg-form .form-item{width:100%; max-width:100%; margin:0;}
+form.xg-form{margin:0;padding:10px;}
+form.xg-form .xg-form-checkbox{margin:3px; background:#ddd; height:30px; line-height:30px;padding-top:0; padding-bottom:0;}
+form.xg-form .xg-form-checkbox span{display:block; height:30px; padding:3px 5px; line-height:22px; border:solid 1px #ddd; color:red; background:#fff; box-sizing:border-box;}
+form.xg-form .xg-form-radio{float:left; margin:3px; background:#ddd; height:30px; line-height:30px; padding:0;}
+form.xg-form .xg-form-radio div{display:block; float:left; height:30px; margin:0; padding:3px 5px; line-height:22px; color:red; background:#fff; box-sizing:border-box;}
+form.xg-form .xg-form-checked .layui-icon{color:red; background:#fff;}
+form.xg-form .xg-form-radio .layui-icon{display:block; width:25px; margin:0; padding:0; float:left; color:red; background:#fff;}
+</style>
+<script>
+var block_sel_list=<?php
+	$blocksetlist=xg_jsonarr(file_get_contents(XG_DATA.'/app/block_sets.json'));
+	$rt=xg_hooks('add-block')->run()->data();
+	if($rt){
+		foreach($rt as $k=>$v){
+			if(is_array($v)){
+				foreach($v as $k2=>$v2){
+					if($v2){
+						$blocksetlist[$v2['name']]=$v2;
+					}
+				}
+			}
+		}
+	}
+	echo xg_jsonstr($blocksetlist);
+?>;
+</script>
+{/block}
+{block name="body"}
+<form method="POST" class="xg-form">
+	<?php $data=xg_model('app_block')->where2('thid',$thid)->column('pagename');?>
+	<?php 
+		$list=array();
+		foreach($data as $name){
+			if(is_numeric($name))continue;
+			$title='';
+			if($name=='index'){
+				$title='首页';
+			}else{
+				$title=xg_model('app_page')->where2('thid',$thid)->where2('name',$name)->value('title');
+			}
+			$list[$name]='['.$title.']['.$name.']';
+		}
+		$rt=xg_hooks('add-page')->run()->data();
+		if($rt){
+			foreach($rt as $k=>$v){
+				if(is_array($v)){
+					foreach($v as $k2=>$v2){
+						$list[$v2['name']]='['.$v2['title'].']['.$v2['name'].']';
+					}
+				}
+			}
+		}
+
+		echo '<div class="clearfix">';
+		echo xg_form_item_radio('from','选择要复制模块的页面',$list);
+		echo '</div>';
+		echo '<div id="pageblocks" class="xg-form"></div>';
+		echo xg_form_item_btn();
+	?>
+</form>
+<script>
+layui.form.render();
+call_admin_copy_page_block_form();
+</script>
+{/block}

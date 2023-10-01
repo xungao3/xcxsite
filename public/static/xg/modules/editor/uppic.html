@@ -1,0 +1,28 @@
+<div class="xg-editor-uppic-pop">
+	<div class="btns">
+		<button type="button" class="xg-btn xg-btn-s up-btn">上传图片</button>
+		<button type="button" class="xg-btn xg-btn-s select-btn">选择图片</button>
+	</div>
+</div>
+<script>
+xg.mod('upload',function(){
+	let editor=xg.editor.get('editor-name');
+	xg.upload(editor.o.upload).data(function(){return editor.o.upload.data;}).data('isimg',1).bind($('.xg-editor-uppic-pop .up-btn')).setname('xg-editor-upload-pic');
+});
+$('.select-btn').click(function(){
+	var editor=xg.editor.get('editor-name');
+	var data=$.extend({},editor.o.upload.data);
+	data.isimg=1;
+	var id=xg.iframe({src:xg.url('file/select',data),width:960,height:600,ok:1,cancel:1,onok:function(){
+		var selected=xg.iframe(id).selected;
+		if(selected&&selected.length){
+			editor.d.focus();
+			if(!xg.isnull(editor.range().data))editor.range().resume();
+			for(let i in selected){
+				document.execCommand('InsertHtml',true,'<p><img src="'+selected[i]+'" /></p>');
+			}
+			editor.format(1);
+		}
+	}});
+});
+</script>

@@ -1,0 +1,40 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-ajax-not-reload xg-form xg-flex-form" method="post">
+	<div class="xg-box xg-box-a xg-tab-box xg-border xg-theme-border">
+		<div class="xg-box-title xg-bg xg-pd-0 xg-h-a">
+			<ul class="xg-tab-title xg-theme-color">
+			{foreach groups key group}
+				{if $group}<li xg-id="{$key}" class="{$key==0?'xg-this':''}">{$group}</li>{/if}
+			{/foreach}
+			</ul>
+		</div>
+		<ul class="xg-tab-content xg-box-cont xg-pd-4 xg-pt-0">
+			{foreach groups key group}
+			<li xg-id="{$key}" class="{$key==0?'xg-this':''}">
+				<div class="xg-flex xg-flex-wrap">
+					<?php
+					foreach($config as $item){
+						if($item['group']==$group){
+							?>{include file="config/formitems-1"}<?php
+						}
+					}
+					?>
+					<div class="xg-form-item-width"></div><div class="xg-form-item-width"></div>
+				</div>
+				<?php
+				foreach($config as $item){
+					if($item['group']==$group){
+						?>{include file="config/formitems-2"}<?php
+					}
+				}
+				?>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div class="xg-fixed-btns"><button class="xg-btn" type="submit">提交</button></div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+<script>var tab=xg.tab('admin-config').bind('.xg-tab-title','.xg-tab-content');</script>
+{/block}

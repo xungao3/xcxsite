@@ -1,0 +1,52 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-container{max-width:1000px;}</style>
+{/block}
+{block name="body"}
+<div class="xg-container xg-mt-3">
+	<div class="xg-box xg-box-a xg-tab-box xg-border xg-theme-border">
+		<div class="xg-box-title xg-bg xg-pd-0 xg-h-a">
+			<ul class="xg-tab-title xg-theme-color">
+				<li class="xg-this" xg-id="1">修改密码</li>
+				<li xg-id="2">修改联系资料</li>
+			</ul>
+		</div>
+		<ul class="xg-tab-content xg-box-cont xg-pd-4">
+			<li class="xg-this xg-row" xg-id="1">
+				<form class="xg-form xg-ajax-submit xg-x-col-4 xg-l-col-4 xg-m-col-4 xg-s-col-7 xg-n-col-12" action="{:xg_url('user/password')}" method="post">
+					<input class="xg-mt-0" type="password" placeholder="请输入旧密码" name="oldpassword" value="" />
+					<input class="xg-mt-3" type="password" placeholder="请输入新密码" name="newpassword" value="" />
+					<input class="xg-mt-3" type="password" placeholder="请输入确认密码" name="repassword" value="" />
+					<input class="xg-btn xg-block xg-w-100 xg-mt-3" type="submit" value="提交" />
+				</form>
+			</li>
+			<li xg-id="2" class="xg-row">
+				<form class="xg-form xg-ajax-submit xg-x-col-4 xg-l-col-4 xg-m-col-4 xg-s-col-7 xg-n-col-12" action="{:xg_url('user/connect')}"  method="post">
+					<input class="xg-mt-0" type="password" placeholder="请输入密码" name="password" value="" />
+					<div class="xg-mt-3 xg-flex">
+						<input class="xg-mt-0 xg-vcode-mobile" type="text" placeholder="请输入需要绑定的手机号" value="{$userinfo.mobile}" name="mobile" />
+						<a id="mobile-a" class="xg-input-a xg-n-ml--7 xg-pr-2 xg-pl-2" href="javascript:editmobile();">修改</a>
+					</div>
+					<div id="vcode" class="xg-hide xg-mt-3 xg-ml-0 xg-mr-0 xg-border-c xg-radius-3">
+						<input class="xg-flex-1 xg-mg-0 xg-border-0" type="text" placeholder="请输入验证码" value="" name="vcode" />
+						<div class="xg-mg-0 xg-vcode xg-vcode-mobile" xg-vcode-type="3">获取</div>
+					</div>
+					<input class="xg-btn xg-block xg-w-100 xg-mt-3" type="submit" value="提交" />
+				</form>
+			</li>
+		</ul>
+	</div>
+</div>
+<script>var tab=xg.tab('main').bind('.xg-tab-title','.xg-tab-content');</script>
+{:xg_hooks('user-profile-after')->run($userinfo)}
+{/block}
+{block name="script"}
+<script>
+function editmobile(){
+	$('#mobile-a').hide();
+	$('#vcode').removeClass('xg-hide').addClass('xg-flex');
+	$('input[name="mobile"]').val('');
+}
+</script>
+<?php if(!$userinfo['mobile']){?><script>$(editmobile);</script><?php }?>
+{/block}

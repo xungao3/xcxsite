@@ -1,0 +1,19 @@
+{extend name="public/common"/}
+{block name="body"}
+<form class="xg-form xg-main-form xg-ajax-submit" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>应用信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--3"></div>
+			<?php echo xg_form_item_text('app_id','AppID',$data['app_id'],'');?>
+			<?php echo xg_form_item_text('client_id','AppKey',$data['client_id'],'');?>
+			<?php echo xg_form_item_text('client_secret','AppSecret',$data['client_secret']);?>
+			<?php echo xg_form_item_text('adsid','流量主应用ID',$data['adsid'],'这里定义的是默认的，可以在模块修改。');?>
+			<?php echo xg_form_item_radio('open_mobile_login','是否开启手机号登录',array('1'=>'开启','0'=>'关闭'),intval($data['open_mobile_login']));;?>
+			<?php echo xg_form_item_radio('open_baidu_login','是否开启百度账号登录',array('1'=>'开启','0'=>'关闭'),intval($data['open_baidu_login']));;?>
+			{:xg_hooks('app-data')->run($name,$data);}
+		</div>
+	</div>
+</form>
+{/block}
+{block name="menus"}<?php echo xg_form_item_btn('提交');?>{/block}

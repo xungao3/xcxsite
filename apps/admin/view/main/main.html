@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{include file="public/head"}
+<script>var pagelock=null;</script>
+<style>
+@font-face{font-family:"logo";src:url("/static/admin/logo.woff2") format("woff2"),url("/static/admin/logo.woff") format("woff");font-display:swap;}
+.xg-admin-header-logo{position:relative;width:200px;padding:5px 0;box-sizing:border-box;}
+.xg-admin-header-logo h3{display:block;font-family:"logo";height:50px;;line-height:50px;font-size:31px;color:#fff;font-weight:700;}
+.xg-admin-header-logo img{width:200px;}
+.xg-admin-header-logo .version{display:none;position:absolute;right:0px;top:6px;font-size:1rem;color:#fff;font-size:0.9rem;}
+</style>
+</head>
+<body class="xg-admin xg-admin-body">
+	<div class="xg-admin-header xg-bg xg-shadow-2">
+		<div class="xg-admin-header-logo"><a href="//e.xg3.cn" target="_blank"><img src="{if $xg.config.admin-logo}{$xg.config.admin-logo}{else}__STATIC__/admin/logo.png{/if}"></a><div class="version">v1.0.0</div></div>
+		<div class="xg-admin-header-center">
+			<ul id="xg-admin-tab-title" class="xg-tab-title xg-tab-show-close xg-clear xg-bg xg-theme-color xg-shadow-2 xg-max-100"></ul>
+			<div id="xg-admin-tab-more" class="xg-tab-more"></div>
+		</div>
+		<div class="xg-admin-header-right">
+			<div class="username">{:xg_session('user_auth.username')}</div>
+			<div class="xg-clear">
+				<a class="xg-inline-block home-link" href="{:xg_url('/home/index/index')}" target="_blank">网站首页</a>
+				<a class="xg-inline-block logout" href="{:xg_url('index/logout')}">退出登录</a>
+			</div>
+		</div>
+	</div>
+	{include file="main/menu"}
+	<ul id="xg-admin-tab-content" class="xg-tab-content"></ul>
+	<iframe class="xg-hide xg-show-n xg-show-s xg-admin-iframe" name="xg-admin-iframe"></iframe>
+</body>
+</html>

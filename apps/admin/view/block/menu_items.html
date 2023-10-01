@@ -1,0 +1,24 @@
+
+<script>
+function items_bind(i){
+	$('.menu-data-del').unbind().click(function(){
+		var i=$(this).attr('menu-index');
+		$('.menu-item-'+i).remove();
+	});
+}
+var menu_item_count=0;
+</script>
+<div class="menu-data">
+	{foreach data.data index item}{include file="menu_item"}{/foreach}
+</div>
+<a class="xg-block xg-mt-3 menu-data-add" href="javascript:void(0);">增加按钮</a>
+<script>
+$('.menu-data-add').click(function(){
+	menu_item_count++;
+	var i=menu_item_count;
+	xg.ajax.get(xg.url('block/menu_item',{thid:{$thid},index:i}),function(html){
+		$('.menu-data').append(html);
+		items_bind(i);
+	});
+});
+</script>

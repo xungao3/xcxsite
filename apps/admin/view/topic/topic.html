@@ -1,0 +1,53 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-form xg-flex-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>编辑专题</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4 xg-flex xg-flex-wrap">
+				{:xg_form('title','专题名称',$info['title'])->text()}
+				{:xg_form('pic','专题图片',$info['pic'])->image()}
+				{foreach form item}
+					{include file="public/formitem"}
+				{/foreach}
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<input type="hidden" name="id" value="<?php echo $info['id']?>" />
+				<input type="hidden" name="fileid" value="<?php echo $fileid?>" />
+			</div>
+			<div class="xg-flex xg-flex-wrap">
+				{foreach form item}
+					{if $item['type']=='textarea'}
+						{:xg_form_item_textarea($item['name'],$item['title'],($info?$info[$item['name']]:''),'')}
+					{/if}
+				{/foreach}
+			</div>
+			{foreach form item}
+				{if $item['type']=='html'}{$item.data.form}{/if}
+			{/foreach}
+			<div class="xg-w-100">
+				{foreach form item}
+					{if $item['type']=='editor'}
+						{:xg_form_item_editor($item['name'],$item['title'],[],($info?$info[$item['name']]:''),'')}
+					{/if}
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	<div class="xg-fixed-btns">
+		<button class="xg-btn" type="submit">提交</button>
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+{/block}

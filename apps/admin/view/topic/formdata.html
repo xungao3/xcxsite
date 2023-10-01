@@ -1,0 +1,11 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="xg-box xg-box-a">
+	<div class="xg-box-title xg-bg">表单详情</div>
+</div>
+<table class="xg-table" width="100%">
+	{foreach data name value}
+		<tr><th width="10%">{$name}</th><td>{$value}</td></tr>
+	{/foreach}
+</table>
+{/block}

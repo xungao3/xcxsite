@@ -1,0 +1,8 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+{:xg_form('bids','选择移动到的模块')->values($blocks)->value($pagename)->radio()}
+{:xg_form('moveto','也可以填写移动到的模块')->text()}
+
+</form>
+{/block}

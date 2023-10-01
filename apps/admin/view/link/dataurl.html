@@ -1,0 +1,23 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-form-item{max-width:100%;}</style>
+{/block}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+	<div class="xg-form-item">
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/login')}">登录用户</label>
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/logout')}">退出登录</label>
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/register')}">注册用户</label>
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/checklogin')}">检测用户登录</label>
+		<!-- <label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/wxxcxlogin')}">微信登录</label>
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/wxxcxmobile')}">微信手机号</label> -->
+		<label class="xg-label-radio"><input type="radio" name="dataurl" value="{:xg_rurl('app/user/getvcode')}">获取验证码</label>
+	</div>
+</form>
+<script>
+var selname='{$selname}';
+$('.xg-form-item input[type="radio"]').click(function(){
+	parent.link_input_value=$(this).val();
+});
+</script>
+{/block}

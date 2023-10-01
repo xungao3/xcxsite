@@ -1,0 +1,72 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-ajax-submit" method="post">
+	<table width="100%" align="center" class="xg-table">
+		<tr>
+			<th width="50">ID</th>
+			<th width="50">名称</th>
+			<th width="50">标识</th>
+			<th width="50">类型</th>
+		</tr>
+	<?php foreach($list as $k=>$v){?>
+		<tr align="center">
+			<td><?php echo $v['pid']?></td>
+			<td><?php echo $v['title']?></td>
+			<td><?php echo $v['name']?></td>
+			<td><?php echo $v['type']?></td>
+		</tr>
+		<tr align="center">
+			<td colspan="4" style="background:#e8e8e8;">
+				<div class="xg-a-list xg-left">
+					<a href="javascript:call_admin_page({$thid},{$v.pid})" class="xg-a">修改</a>
+					<a href="{:xg_url('preview/index/index',['thid'=>$thid,'pagename'=>$v['name']])}" class="xg-a" target="preview">预览</a>
+					<a href="{:xg_url('block/blocks',['thid'=>$thid,'pagename'=>$v['name']])}" xg-iframe-title="{$v.title}模块" xg-iframe-area="600,450" class="xg-a xg-iframe-link">模块</a>
+					{if $v['type']!='index'}
+						<a href="{:xg_url('page/save',['thid'=>$thid,'pagename'=>$v['name'],'pid'=>$v['pid']])}" class="xg-a">导出页面</a>
+						<a href="<?php echo xg_url('page/delete',array('pagename'=>$v['name'],'thid'=>$v['thid']));?>" xg-confirm="此页面的模块会被同时删除，删除后不可恢复，是否确定删除？" class="xg-a xg-ajax-get">删除</a>
+						<a href="<?php echo xg_url('page/copy',array('thid'=>$thid,'pid'=>$v['pid']));?>" class="xg-a xg-ajax-get">复制</a>
+					{/if}
+					<a href="javascript:void(0);" class="xg-a page-load-block" thid="{$thid}" page="{$v.name}">导入模块</a>
+				</div>
+			</td>
+		</tr>
+	<?php }?>
+	</table>
+	<script>
+		$('.page-load-block').each(function(){
+			var $this=$(this);
+			var thid=$(this).attr('thid');
+			var page=$(this).attr('page');
+			xg.mod('upload',function(){
+				xg.upload({url:xg.url('block/load',{thid,page}),done:function(data){
+					xg.msg(data);
+				}}).bind($this);
+			});
+		});
+	</script>
+</form>
+{/block}
+{block name="style"}
+<style>
+body{display:block;width:100%;padding:0;}
+.header{display:block;}
+</style>
+{/block}
+{block name="script"}
+<script>
+var thid='{$thid}';
+</script>
+{/block}
+{block name="header"}
+<a href="javascript:call_admin_page({$thid});">添加页面</a>
+<a href="{:xg_url('page/links',['thid'=>$thid])}" class="xg-admin-tab-link">链接对应关系</a>
+<a href="javascript:void(0);" id="load-page">导入页面</a>
+<a href="{:xg_url('theme/save',array('thid'=>$thid))}">导出主题</a>
+<script>
+xg.mod('upload',function(){
+	xg.upload({url:xg.url('page/load',{thid:thid}),done:function(data){
+		xg.msg(data,function(){location.reload();});
+	}}).bind('#load-page');
+});
+</script>
+{/block}

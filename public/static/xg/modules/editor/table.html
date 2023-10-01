@@ -1,0 +1,64 @@
+<div class="xg-editor-table xg-over-hide">
+	<div class="xg-left xg-mg-3 xg-form xg-over-hide" id="table-id" style="color:#000;">
+		<label class="xg-form-label xg-mt-0">表格样式</label>
+		<div class="xg-flex xg-max-500">
+			<input type="text" class="table-classname xg-mt-3" value="xg-table" />
+			<label class="xg-label-checkbox xg-ml-3 xg-mt-3"><input type="checkbox" class="table-thead" value="1" />是否添加表头</label>
+		</div>
+		<label class="xg-form-label">表单宽高</label>
+		<div class="xg-flex xg-max-500">
+			<div class="xg-form-label-inline">宽</div>
+			<input type="text" class="table-width xg-mt-3" value="100%" />
+			<div class="xg-form-label-inline">高</div>
+			<input type="text" class="table-height xg-mt-3" />
+		</div>
+		<label class="xg-form-label">表单行列数</label>
+		<div class="xg-flex xg-max-500">
+			<div class="xg-form-label-inline">行</div>
+			<input type="text" class="table-row-count xg-mt-3" value="3" />
+			<div class="xg-form-label-inline">列</div>
+			<input type="text" class="table-col-count xg-mt-3" value="2" />
+		</div>
+	</div>
+</div>
+<style>
+.xg-form-label-inline{height:1rem;line-height:1rem;padding-top:1.25rem;margin-right:0.5rem;text-align:center;word-break:keep-all;}
+input~.xg-form-label-inline{margin-left:0.5rem;}
+</style>
+<script>
+(function(){
+	var editor=xg.editor.get('editor-name');
+	window['table-id-fun']=function(){
+		var classname=$('#table-id .table-classname').val();
+		var width=$('#table-id .table-width').val();
+		var height=$('#table-id .table-height').val();
+		var rowcount=$('#table-id .table-row-count').val();
+		var colcount=$('#table-id .table-col-count').val();
+		var thead=$('#table-id .table-thead').is(':checked');
+		var html='';
+		html+=`<table class="${classname}" width="${width}" height="${height}">`;
+		if(thead){
+			html+=`<thead>`;
+			html+=`<tr>`;
+			for(let j=0;j<colcount;j++){
+				html+=`<th>&nbsp;</th>`;
+			}
+			html+=`</tr>`;
+			html+=`</thead>`;
+		}
+		html+=`<tbody>`;
+		for(let i=0;i<rowcount;i++){
+			html+=`<tr>`;
+			for(let j=0;j<colcount;j++){
+				html+=`<td>&nbsp;</td>`;
+			}
+			html+=`</tr>`;
+		}
+		html+=`</tbody>`;
+		html+=`</table>`;
+		editor.d.focus();
+		editor.range().resume();
+		document.execCommand('InsertHtml',true,html);
+	};
+})();
+</script>

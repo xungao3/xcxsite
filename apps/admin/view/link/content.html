@@ -1,0 +1,37 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-form-item{max-width:100%;}</style>
+{/block}
+{block name="body"}
+<form class="xg-form xg-m-t-1">
+<div class="xg-form-item-cid">
+	{foreach conts id cont}
+	<label class="xg-label-radio">
+		<input value="{$id}" name="id" data-title="{$cont.title}" data-id="{$cont.id}" data-cid="{$cont.cid}" data-tbname="{$cates[$cont['cid']]['model']}" type="radio" />
+		{$cont.title}
+	</label>
+	{/foreach}
+</div>
+</form>
+<script>
+var selname='{$selname}';
+var type='{$type}';
+//if(parent.link_select&&parent.link_select[selname])$('input[type="radio"][value="'+parent.link_select[selname]+'"]').prop('checked',true);
+$('.xg-form-item-cid input[type="radio"]').click(function(){
+	var data=$(this).data();
+	var cid=data.cid;
+	var id=data.id;
+	var title=data.title;
+	var tbname=data.tbname;
+	if(type=='data-url'){
+		parent.link_input_value=xg.rurl('app/index/data',{sys:'xg',cid});
+	}else if(parent.link_select){
+		const obj={key:tbname,cid,id,order:0,title:title};
+		obj[tbname]=id;
+		parent.link_select[selname]=obj;
+	}else{
+		parent.link_input_value='[cate]?cid='+cid+'&id='+id;
+	}
+});
+</script>
+{/block}

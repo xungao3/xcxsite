@@ -1,0 +1,37 @@
+{extend name="public/common"}
+{block name="body"}
+<table class="xg-table" width="100%">
+	<tr>
+		<th>名称</th>
+		<th>应用</th>
+		<th>标题</th>
+		<th>设计者</th>
+		<th>版本</th>
+		<th>描述</th>
+		<th>操作</th>
+	</tr>
+	{foreach themes as v}
+	<tr>
+		<td>{$v.name}</td>
+		<td>{$v.app}</td>
+		<td>{$v.title}</td>
+		<td>{$v.designer}</td>
+		<td>{$v.version}</td>
+		<td>{$v.description}</td>
+		<td>
+			{if $v.insed}
+				<a href="{:xg_url('theme_reload',['name'=>$v['name'],'app'=>$v['app']])}" class="xg-a xg-ajax-get">重载</a>
+				<a href="{:xg_url('theme_uninstall',['name'=>$v['name'],'app'=>$v['app']])}" class="xg-a xg-a-del xg-ajax-get">卸载</a>
+				{if !$v['status']}
+					<a href="{:xg_url('theme_status',['name'=>$v['name'],'app'=>$v['app'],'status'=>1])}" class="xg-a xg-ajax-get">启用</a>
+				{else}
+					<a href="{:xg_url('theme_status',['name'=>$v['name'],'app'=>$v['app'],'status'=>0])}" class="xg-a xg-ajax-get">停用</a>
+				{/if}
+			{else}
+				<a href="{:xg_url('theme_install',['name'=>$v['name'],'app'=>$v['app']])}" class="xg-a xg-ajax-get">安装</a>
+			{/if}
+		</td>
+	</tr>
+	{/foreach}
+</table>
+{/block}

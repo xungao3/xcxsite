@@ -1,0 +1,63 @@
+{extend name="public/common"}
+{block name="script"}
+<script>
+function group(){
+	var div=$('#group');
+	if(div.find('a').html()=='输入新分组'){
+		div.find('input.xg-input').attr('name','group').show();
+		div.find('select').attr('name','group2').hide();
+		div.find('a').html('选择已有分组');
+	}else{
+		div.find('input.xg-input').attr('name','group2').hide();
+		div.find('select').attr('name','group').show();
+		div.find('a').html('输入新分组');
+	}
+}
+</script>
+{/block}
+{block name="body"}
+<form class="xg-ajax-submit xg-form xg-flex-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>设置项</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4 xg-flex xg-flex-wrap">
+				<?php echo xg_form_item_text('name','设置名称',$info['name'],'英文名称，比如 site-name');?>
+				<?php echo xg_form_item_text('title','设置标题',$info['title'],'中文名称，比如 网站名称');?>
+				<div id="group" class="xg-form-item-width">
+					<?php echo xg_form_item_label('分组','每个分组会显示到不同的选项卡');?>
+					<div class="xg-form-item">
+						<select name="group">
+							<option value="">请选择分组</option>
+							<?php foreach($group as $k=>$v){
+								if($v){
+									?><option value="<?php echo $v;?>"<?php echo $v==$info['group']?' selected':'';?>><?php echo $v;?></option><?php
+								}
+							}?>
+						</select>
+						<input style="display:none;" type="text" name="group2" value="" class="xg-input" />
+						<a class="xg-inline-block xg-mt-4 xg-ml-2" href="javascript:group();">输入新分组</a>
+					</div>
+				</div>
+				<?php echo xg_form_item_text('tips','提示信息',$info['tips'],'');?>
+				<?php echo xg_form_item_select('type','类型',$type,($info?$info['type']:''),'');?>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+			</div>
+			<?php echo xg_form_item_textarea('option','选项',$info['option'],'');?>
+			<div class="xg-mt-4"><button class="xg-btn" type="submit">提交</button></div>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="<?php echo $info['id']?>" />
+</form>
+{/block}

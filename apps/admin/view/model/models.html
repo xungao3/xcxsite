@@ -1,0 +1,46 @@
+{extend name="public/common"}
+{block name="body"}
+<table width="100%" class="xg-table">
+		<tr tr2>
+			<th>ID</th>
+			<th>模型标识</th>
+			<th>模型名称</th>
+			<th>模型别名</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<th>菜单显示</th>
+			<th>操作</th>
+		</tr>
+		{foreach list item}
+		<tr tr2>
+			<td>{$item.id}</td>
+			<td><?php echo $item['name'];?></td>
+			<td><?php echo $item['title'];?></td>
+			<td><?php echo $item['alias'];?></td>
+			<td><?php echo date('Y-m-d H:i:s',$item['createtime']);?></td>
+			<td><?php echo date('Y-m-d H:i:s',$item['updatetime']);?></td>
+			<td align="center"><a href="{:xg_url('switchf',['field'=>'menu','id'=>$item['id']])}" class="xg-icon xg-switch" xg-status="{$item.menu}" xg-switch="menu"></a></td>
+			<td>
+				<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="修改模型-{$item.name}" href="<?php echo xg_url('model/model',['id'=>$item['id']]);?>">修改</a>
+				<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="模型字段-{$item.name}" href="<?php echo xg_url('fields/fields',['mid'=>$item['id']]);?>">管理字段</a>
+				<a class="xg-fl xg-a xg-admin-tab-link" href="{:xg_url('content/contents',['model'=>$item['name']])}" target="xg-admin-iframe" xg-tab-title="管理{$item.alias}">管理</a>
+				<a class="xg-fl xg-a xg-a-status xg-a-status-{$item.status} xg-ajax-get-status" href="<?php echo xg_url('model/status',['tbname'=>'model','id'=>$item['id']]);?>"><?php if($item['status']){echo '停用';}else{echo '启用';}?></a>
+				<a class="xg-fl xg-a xg-a-del xg-ajax-get" href="<?php echo xg_url('model/delete',['id'=>$item['id']]);?>">删除</a>
+				<a class="xg-fl xg-a" href="{:xg_url('save',['id'=>$item['id']])}">导出</a>
+			</td>
+		</tr>
+		{/foreach}
+</table>
+<div class="xg-fixed-btns">
+	<a href="{:xg_url('model/model')}" class="xg-btn xg-admin-tab-link">添加模型</a>
+	<a href="javascript:void(0);" class="xg-btn" id="load-model">导入模型</a>
+</div>
+<script>
+xg.mod('upload',function(){
+	xg.upload({url:xg.url('load',{thid:thid}),done:function(data){
+		xg.msg(data,function(){location.reload();});
+	}}).bind('#load-model');
+});
+</script>
+{/block}
+{block name="footer"}<div class="xg-fixed-btns-padding"></div>{/block}

@@ -1,0 +1,61 @@
+{extend name="public/common"}
+{block name="body"}
+{php $changefreq=[
+	'always'=>'总是变化的',
+	'hourly'=>'每小时发生变化',
+	'daily'=>'每天发生变化',
+	'weekly'=>'每周发生变化',
+	'monthly'=>'每月发生变化',
+	'yearly'=>'每年发生变化',
+	'never'=>'不会发生变化'
+] /}
+{php $priority=[
+	'1.0'=>'1.0 最高优先级',
+	'0.9'=>'0.9 非常高优先级',
+	'0.8'=>'0.8 高优先级',
+	'0.7'=>'0.7 中上优先级',
+	'0.6'=>'0.6 中等优先级',
+	'0.5'=>'0.5 中下优先级',
+	'0.4'=>'0.4 低优先级',
+	'0.3'=>'0.3 非常低优先级',
+	'0.2'=>'0.2 最低优先级',
+	'0.1'=>'0.1 最最低优先级'
+] /}
+<form class="xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>SEO网站地图</h3></div>
+		<table width="100%" class="xg-table">
+			<tr>
+				<th width="15"><input class="xg-checkall" type="checkbox" name="checkall" /></th>
+				<th>ID</th>
+				<th>分类标识</th>
+				<th>分类名称</th>
+				<th>是否可采集</th>
+				<th>分类更新频率</th>
+				<th>内容优先级</th>
+				<th>是否独立采集</th>
+			</tr>
+			{foreach cates k v}
+				<tr tr2>
+					<td align="center"><input title="操作选择" class="xg-checkbox" type="checkbox" name="id[]" value="{$v.id}" /></td>
+					<td>{$v.id}</td>
+					<td>{$v.name}</td>
+					<td>{$v.title}</td>
+					<td>{$v['join']?'可采集':''}</td>
+					<td>{$changefreq[$v['changefreq']]}</td>
+					<td>{$priority[$v['priority']]}</td>
+					<td>{$v['alone']?'独立采集':''}</td>
+				</tr>
+			{/foreach}
+		</table>
+	</div>
+	<div class="xg-fixed-btns">
+		<button class="xg-btn" type="submit">提交</button>
+		{:xg_form('join','',null,[1=>'可采集',0=>'不可采集'])->placeholder('是否可采集')->base_select()}
+		{:xg_form('changefreq','',null,$changefreq)->placeholder('设置更新频率')->base_select()}
+		{:xg_form('priority','',null,$priority)->placeholder('设置优先级')->base_select()}
+		{:xg_form('alone','',null,[1=>'独立采集',0=>'不独立采集'])->placeholder('是否独立采集')->base_select()}
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+{/block}

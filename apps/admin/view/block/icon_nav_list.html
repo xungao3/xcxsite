@@ -1,0 +1,24 @@
+
+<script>
+function icon_nav_list_bind(i){
+	$('.icon-nav-list-del').unbind().click(function(){
+		var i=$(this).attr('btn-index');
+		$('.icon-nav-'+i).remove();
+	});
+}
+var icon_nav_count=0;
+</script>
+<div class="icon-nav-list">
+	{foreach icons index item}{include file="icon_nav"}{/foreach}
+</div>
+<a class="xg-block xg-mt-3 icon-nav-list-add" href="javascript:void(0);">增加</a>
+<script>
+$('.icon-nav-list-add').click(function(){
+	icon_nav_count++;
+	var i=icon_nav_count;
+	xg.ajax.get(xg.url('block/icon_nav',{thid:{$thid},index:i}),function(html){
+		$('.icon-nav-list').append(html);
+		icon_nav_list_bind(i);
+	});
+});
+</script>

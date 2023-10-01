@@ -1,0 +1,16 @@
+{extend name="public/common"}
+{block name="body"}
+	<form class="form xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3 class="h3">添加主题</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4 xg-mb-4">
+				<?php echo xg_form_item_text('title','主题名称',$info['title'],'');?>
+			</div>
+			<?php echo xg_form_item_btn('提交');?>
+		</div>
+	</div>
+	</form>
+{/block}
+{block name="script"}
+{/block}

@@ -1,0 +1,6 @@
+<?php if($item['type']=='textarea'){?>
+	<?php echo xg_form_item_textarea($item['name'],$item['title'],$item['value'],$item['tips'],$helpid);?>
+<?php }?>
+<?php if($item['type']=='html'){?>
+	<?php echo xg_form_item_editor($item['name'],$item['title'],[],$item['value'],$item['tips'],$helpid);?>
+<?php }?>

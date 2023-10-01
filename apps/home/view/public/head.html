@@ -1,0 +1,16 @@
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title><?php if($pagetitle)echo $pagetitle.'_';?>{$xg.config.site-name}</title>
+<?php if($pagekeywords){?><meta name="keywords" content="{$pagekeywords}" /><?php }?>
+<?php if($pagedescription){?><meta name="description" content="{$pagedescription}" /><?php }?>
+<link href="__STATIC__/xg/xg.css" rel="stylesheet">
+<link href="__CSS__/home.css" rel="stylesheet" />
+<script>window.xginfo={route:<?php echo XG_ROUTE;?>,app:"<?php echo XG_APP?>",controller:"<?php echo XG_CTL;?>",action:"<?php echo XG_ACT?>",root:"{:xg_url('/');}",username:"{if xg_login('home')}{:xg_session('user_auth.username','','home')}{/if}"};</script>
+<script src="__STATIC__/jquery.js"></script>
+<script src="__STATIC__/xg/xg.js"></script>
+<script src="__JS__/home.js"></script>
+{if !$xg['config']['home-theme-color']}{php $xg['config']['home-theme-color']='#05f';/}{/if}
+<style>:root{--xg-rgb-r:{:xg_rgbi($xg['config']['home-theme-color'],0)};--xg-rgb-g:{:xg_rgbi($xg['config']['home-theme-color'],1)};--xg-rgb-b:{:xg_rgbi($xg['config']['home-theme-color'],2)};}</style>
+<script>window.pagelock=1;if(parent!==self&&parent.pagelock)document.write('<style>body{background:#fff;overflow-x:hidden;height:auto;}.nav,header,.header,footer,.footer{display:none;}</style>');</script>
+{:xg_hooks('view-head')->run()}

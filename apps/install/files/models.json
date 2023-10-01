@@ -1,0 +1,28 @@
+[{
+	"info": {
+		"name": "article",
+		"title": "文章模型",
+		"alias": "文章",
+		"type": 1,
+		"menu": 1,
+		"remark": ""
+	},
+	"fields": [{
+		"sys": 0,
+		"name": "content",
+		"title": "文章内容",
+		"type": "mediumtext",
+		"length": 0,
+		"form": "editor",
+		"catef": 0,
+		"contf": 1,
+		"lorder": 0,
+		"forder": 0,
+		"adminf": 0,
+		"jsonf": 0,
+		"func": "",
+		"remark": "",
+		"data": "",
+		"status": 1
+	}]
+}]

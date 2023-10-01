@@ -1,0 +1,13 @@
+<label class="xg-form-label">筛选器数据</label>
+<div class="picker-datas-list xg-mt-2"></div>
+<a href="javascript:addpickerdata();">增加</a>
+<script>
+	window.pickerdatasindex=0;
+	{foreach datas data}addpickerdata(`{$data.msg}`,`{$data.link}`,`{$data.data}`);{/foreach}
+	function addpickerdata(msg,link,data){
+		xg.div('xg-w-500').html(`<div class="xg-mb-2">筛选器提示信息-${window.pickerdatasindex+1}<br>比如：省份</div>`).append($(`<input class="xg-mb-2 xg-w-100" type="text" name="picker-data[${window.pickerdatasindex}][msg]">`).val(msg||'')).appendTo('.picker-datas-list');
+		xg.div('xg-w-500').html(`<div class="xg-mb-2">筛选器请求地址-${window.pickerdatasindex+1}</div>`).append($(`<input class="xg-mb-2 xg-w-100" type="text" name="picker-data[${window.pickerdatasindex}][link]">`).val(link||'')).appendTo('.picker-datas-list');
+		xg.div('xg-w-500').html(`<div class="xg-mb-2">筛选器数据信息-${window.pickerdatasindex+1}<br>格式：<br>1=北京<br>2=天津</div>`).append($(`<textarea class="xg-mb-2 xg-w-100" type="text" name="picker-data[${window.pickerdatasindex}][data]"></textarea>`).html(data||'')).appendTo('.picker-datas-list');
+		window.pickerdatasindex++;
+	}
+</script>

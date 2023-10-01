@@ -1,0 +1,139 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-form-item{max-width:100%;}</style>
+{/block}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+{:xg_form()->get_items()}
+<?php echo xg_form_item_select('pid','上级分类',xg_cate_select_cate(-1),$pid);?>
+<label class="xg-label-checkbox"><input class="xg-checkall" xg-checkall-sel-name=".xg-label-checkbox input" type="checkbox">全选</label>
+<div class="xg-form-item-cids">
+{foreach cates id cate}
+<label class="xg-label-checkbox">
+	<input value="{$cate.id}" name="cids" data-title="{$cate.title}" data-cid="{$cate.id}" type="checkbox" />
+	{$cate.title}
+</label>
+{/foreach}
+</div>
+</form>
+<script>
+$('.xg-form-item-pid select').change(function(){
+	$('.xg-form').submit();
+});
+var selname='{$selname}';
+if(selname=='cids'){
+	var cids=parent.link_input_value.split(',');
+	for(let cid of cids){
+		$('.xg-form-item-cids input[type="checkbox"][value="'+cid+'"]').prop('checked',true);
+	}
+}
+function checkfun(){
+	var data=$(this).data();
+	var cid=data.cid;
+	var id=data.id;
+	var title=data.title;
+	var tbname=data.tbname;
+	if(selname=='cids'){
+		if($(this).is(':checked')){
+			cids.push(cid);
+		}else{
+			cids=cids.filter(function(value){return value!==cid;});
+		}
+		parent.link_input_value=cids.filter(function(value,index,self){return self.indexOf(value)===index&&value;}).join(',');
+	}else if(parent.link_select&&parent.link_select[selname]){
+		let obj={key:'cid',cid,title,order:parent.link_select_index[selname]};
+		if($(this).is(':checked')){
+			parent.link_select_index[selname]++;
+			parent.link_select[selname]=xg.push(parent.link_select[selname],obj,'key,cid');
+		}else{
+			parent.link_select[selname]=xg.delete(parent.link_select[selname],obj,'key,cid');
+		}
+	}
+}
+$('.xg-form-item-cids input[type="checkbox"]').click(checkfun);
+$('.xg-checkall').click(function(){
+	setTimeout(function(){
+		$('.xg-form-item-cids input[type="checkbox"]').each(checkfun);
+	},10);
+});
+</script>
+{/block}
+
+
+
+
+{block name="code-bak"}
+<script>
+const baseurl='?<?php
+$get=xg_input('get.');
+unset($get['xg'],$get['pid']);
+echo http_build_query($get);
+?>';
+$('.xg-form-item-pid select').change(function(){
+	const val=$(this).val();
+	if(val===''){
+		location=baseurl;
+	}else{
+		location=xg.urladd({pid:val},1);
+	}
+});
+var selname='{$selname}';
+if(!parent.input_link)parent.input_link={};
+if(!parent.input_link[selname])parent.input_link[selname]=[];
+var cids={:xg_jsonstr($cids?$cids:[])};
+if(parent.link_select&&parent.link_select[selname]){
+	let selected=parent.link_select[selname];
+	for(var i in selected){
+		if(selected[i]['key']=='cid'&&selected[i]['cid'])$('input[type="checkbox"][value="'+selected[i]['cid']+'"]').prop('checked',true);
+	}
+}
+if(cids.length){
+	for(var i in cids){
+		$('input[type="checkbox"][value="'+cids[i]+'"]').prop('checked',true);
+		parent.input_link[selname].push(cids[i]);
+	}
+}
+
+function checkfun(){
+	var cid=$(this).val();
+	if(parent.input_link){
+		if($(this).is(':checked')){
+			parent.input_link[selname].push(cid);
+		}else{
+			for(let i in parent.input_link[selname]){
+				if(parent.input_link[selname][i]==cid){
+					delete parent.input_link[selname][i];
+				}
+			}
+		}
+	}
+	if(parent.link_select&&parent.link_select[selname]){
+		if($(this).is(':checked')){
+			parent.link_select_index[selname]++;
+			parent.link_select[selname]=xg.push(parent.link_select[selname],{key:'cid',cid:cid,title:$(this).parent().text().trim(),order:parent.link_select_index[selname]},'cid');
+		}else{
+			parent.link_select[selname]=xg.delete(parent.link_select[selname],{cid:cid},'cid');
+		}
+	}
+}
+$('.xg-checkall').click(function(){
+	setTimeout(function(){
+		$('.xg-form-item-cids input[type="checkbox"]').each(function(){
+			var cid=$(this).val();
+			if(parent.input_link){
+				for(let i in parent.input_link[selname]){
+					if(parent.input_link[selname][i]==cid){
+						delete parent.input_link[selname][i];
+					}
+				}
+			}
+			if(parent.link_select&&parent.link_select[selname]){
+				parent.link_select[selname]=xg.delete(parent.link_select[selname],{cid:cid},'cid');
+			}
+		});
+		$('.xg-form-item-cids input[type="checkbox"]').each(checkfun);
+	},100);
+});
+$('.xg-form-item-cids input[type="checkbox"]').click(checkfun);
+</script>
+{/block}

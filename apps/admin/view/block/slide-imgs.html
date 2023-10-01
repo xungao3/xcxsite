@@ -1,0 +1,24 @@
+<label class="xg-form-label">手动上传图片</label>
+<div class="slide-imgs-list xg-mt-2"></div>
+<button class="xg-btn slide-imgs-btn" type="button">上传图片</button>
+<script>
+	{foreach imgs img}addslideimg('{$img}');{/foreach}
+	function addslideimg(url){
+		xg.div().append($('<input class="xg-mb-2 xg-w-100" type="text" name="imgs[]">').val(url||'')).appendTo('.slide-imgs-list');
+	}
+	xg.mod('upload',function(){
+		xg.upload({
+			url:xg.url('file/upload'),
+			multi:true,
+			done:function(data){
+				if(data.ok===true){
+					addslideimg(data.fileurl);
+				}else{
+					xg.err(data.msg);
+				}
+			}
+			,progress:function(n){}
+		})
+		.bind('.slide-imgs-btn')
+	});
+</script>

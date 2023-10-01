@@ -1,0 +1,32 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="form1 ajax-submit" method="post" id="listform">
+	<div class="mt0">
+<table width="100%" class="xg-table">
+<tr>
+	<th>ID</th>
+	<th>标题</th>
+	<th>名称</th>
+	<th>类型</th>
+	<th>操作</th>
+</tr>
+<?php if($list){?>
+{foreach list item}
+<tr>
+	<td>{$item.id}</td>
+	<td><?php echo $item['title'];?></td>
+	<td><?php echo $item['name'];?></td>
+	<td><?php echo $type[$item['type']];?></td>
+	<td>
+		<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="设置项-{$item.id}" href="<?php echo xg_url('config/config',['cid'=>$item['cid'],'id'=>$item['id']]);?>">修改</a>
+		<a class="xg-fl xg-a xg-a-status xg-a-status-{$item.status} xg-ajax-get-status" href="<?php echo xg_url('config/status',['tbname'=>'config','id'=>$item['id']]);?>"><?php if($item['status']){echo '停用';}else{echo '启用';}?></a>
+		<a class="xg-fl xg-a xg-a-del xg-ajax-get" href="<?php echo xg_url('config/delete',['tbname'=>'config','id'=>$item['id']]);?>">删除</a>
+	</td>
+</tr>
+{/foreach}
+<?php if($pagehtml){?><tr><td colspan="100"><?php echo $pagehtml;?></td></tr><?php }?>
+<?php }else{?><tr><td colspan="100" align="center" height="150">暂无记录</td></tr><?php }?>
+</table>
+	</div>
+</form>
+{/block}

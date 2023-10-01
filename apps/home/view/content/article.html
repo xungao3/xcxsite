@@ -1,0 +1,138 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="xg-container-x" style="--xg-gutter-x:0.5rem;">
+	<div class="xg-radius-9 xg-over-hide xg-bg-black-05 xg-em-7 xg-mt-4 xg-mb-4 xg-pd-4 xg-n-ml-2 xg-n-mr-2 xg-s-ml-2 xg-s-mr-2">
+		<div class="xg-mb-4">
+			<h1 class="xg-lh-125 xg-em-15 xg-n-em-12">{$info.title}</h1>
+			<div class="xg-clear xg-border-bottom xg-border-2 xg-pb-4 xg-mt-3 xg-black-5">
+				<div class="xg-fl xg-mr-4">发布日期 : {:date('Y-m-d H:i',$info['newstime'])}</div>
+				<div class="xg-fl">阅读数 : {$info.view}</div>
+			</div>
+		</div>
+		<div class="xg-content"><?php echo $info['content'];?></div>
+	</div>
+</div>
+<div class="xg-container-x xg-mt-4" style="--xg-gutter-x:0.5rem;">
+	<div class="xg-row">
+		<div class="xg-col-8 xg-s-col-12 xg-t-col-12 xg-n-col-12 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+			{recom-contents recom="cont" with="description" cid="$cid" count="10"}
+			{if $data}
+			<div class="box-1 xg-h-100">
+				<div class="title">
+					<div class="icon xg-icon xg-icon-signout"></div>
+					<h3>推荐内容</h3>
+					<div class="link"></div>
+				</div>
+				<div class="content">
+					<ul>
+						{foreach data k v}
+							<li class="xg-x-col-6 xg-l-col-6 xg-col-12">
+								<div class="item-2">
+									<a class="item-pic xg-w-100 xg-x-w-40 xg-l-w-40 xg-m-w-30" href="{:xg_content_url($v['cid'],$v['id'])}"><img src="{$v.pic}"></a>
+									<div class="item-right xg-w-100 xg-x-w-60 xg-l-w-60 xg-m-w-70">
+										<div class="xg-x-ml-3 xg-l-ml-3 xg-m-ml-3 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+											<a class="item-title" href="{:xg_content_url($v['cid'],$v['id'])}">{$v.title}</a>
+											<div class="item-desc xg-hide xg-x-block xg-m-block xg-s-block xg-t-block xg-n-block xg-em-09">{$v.description}</div>
+											<div class="item-bottom xg-em-09 xg-flex xg-flex-between"><div>{$v.username}</div><div>{$v.timedata.y}-{$v.timedata.m}-{$v.timedata.d}</div></div>
+										</div>
+									</div>
+								</div>
+							</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			{/if}
+			{/recom-contents}
+		</div>
+		<div class="xg-col-4 xg-s-col-12 xg-t-col-12 xg-n-col-12 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+			{contents order="`view` desc" with="description,status,view" cid="$cid" count="5"}
+			{if $data}
+			<div class="box-1 xg-h-100">
+				<div class="title">
+					<div class="icon xg-icon xg-icon-signout"></div>
+					<h3>点击排行</h3>
+					<div class="link"></div>
+				</div>
+				<div class="content">
+					<ul>
+						{foreach data k v}
+							<li class="xg-col-12">
+								<div class="item-2">
+									<a class="item-pic xg-w-100 xg-x-w-40 xg-l-w-40 xg-m-w-30" href="{:xg_content_url($v['cid'],$v['id'])}"><img src="{$v.pic}"></a>
+									<div class="item-right xg-w-100 xg-x-w-60 xg-l-w-60 xg-m-w-70">
+										<div class="xg-x-ml-3 xg-l-ml-3 xg-m-ml-3 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+											<a class="item-title" href="{:xg_content_url($v['cid'],$v['id'])}">{$v.title}</a>
+											<div class="item-desc xg-hide xg-x-block xg-m-block xg-s-block xg-t-block xg-n-block xg-em-09">{$v.description}</div>
+											<div class="item-bottom xg-em-09 xg-flex xg-flex-between"><div>{$v.username}</div><div>{$v.timedata.y}-{$v.timedata.m}-{$v.timedata.d}</div></div>
+										</div>
+									</div>
+								</div>
+							</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			{/if}
+			{/contents}
+		</div>
+	</div>
+</div>
+
+
+
+{recom-category recom="cont" tbname="article" count="10"}
+{if $data}
+<div class="xg-container-x xg-mt-4" style="--xg-gutter-x:0.5rem;">
+	<div class="xg-row">
+		<div class="xg-col-8 xg-s-col-12 xg-t-col-12 xg-n-col-12 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+			<div class="box-1 xg-h-100">
+				<div class="title">
+					<div class="icon xg-icon xg-icon-signout"></div>
+					<h3>{$title}</h3>
+					<div class="link"></div>
+				</div>
+				<div class="content">
+					<ul>
+						{foreach data k v}
+							<li class="xg-x-col-6 xg-l-col-6 xg-col-12">
+								<div class="item">
+									<a class="item-title" href="{:xg_content_url($v['cid'],$v['id'])}">{$v.title}</a>
+									<div class="item-username">{$v.timedata.y}-{$v.timedata.m}-{$v.timedata.d}</div>
+								</div>
+							</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="xg-col-4 xg-s-col-12 xg-t-col-12 xg-n-col-12 xg-s-mt-2 xg-t-mt-2 xg-n-mt-2">
+			{contents order="`view` desc" with="description,status,view" cid="$cid" count="5"}
+			{if $data}
+			<div class="box-1 xg-h-100">
+				<div class="title">
+					<div class="icon xg-icon xg-icon-signout"></div>
+					<h3>{$title}点击排行</h3>
+					<div class="link"></div>
+				</div>
+				<div class="content">
+					<ul>
+						{foreach data k v}
+							<li class="xg-col-12">
+								<div class="item">
+									<a class="item-title" href="{:xg_content_url($v['cid'],$v['id'])}">{$v.title}</a>
+									<div class="item-username">{$v.timedata.y}-{$v.timedata.m}-{$v.timedata.d}</div>
+								</div>
+							</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+			{/if}
+			{/contents}
+		</div>
+	</div>
+</div>
+{/if}
+{/recom-category}
+{/block}

@@ -1,0 +1,38 @@
+{:xg_form('pv-'.$name2,'省份',$value['pv'])->placeholder('请选择省份')->base_select()}
+{if $options['level']>1}{:xg_form('ct-'.$name2,'城市',$value['ct'])->options(['classname'=>'xg-ml-2'])->placeholder('请选择城市')->base_select()}{/if}
+{if $options['level']>2}{:xg_form('dc-'.$name2,'地区',$value['dc'])->options(['classname'=>'xg-ml-2'])->placeholder('请选择区县')->base_select()}{/if}
+{:xg_form($name)->hidden()}
+<script>
+(function(){
+	let value='{$value}';
+	if(value){
+		value=value.split(',');
+	}else{
+		value=[];
+	}
+	get('pv','省份',0);
+	function get(name,title,pid){
+		xg.ajax.get(xg.url('region',{pid}),function(res){
+			const data={};
+			let html=`<option value="">请选择${title}</option>`;
+			for(let i in res.data){
+				let val=value[['pv','ct','dc'].indexOf(name)];
+				let selected=(val==res.data[i].id||val==res.data[i].name);
+				html+=`<option value="${res.data[i].id}" ${selected?'selected':''}>${res.data[i].name}</option>`;
+			}
+			$('select[name="'+name+'-{$name2}"]').html(html);
+		});
+	}
+	$('select[name="pv-{$name2}"]').change(function(){
+		value[0]='';
+		$('select[name="ct-{$name2}"]').html(`<option value="">请选择城市</option>`);
+		$('select[name="dc-{$name2}"]').html(`<option value="">请选择区县</option>`);
+		get('ct','城市',$(this).val());
+	});
+	$('select[name="ct-{$name2}"]').change(function(){
+		value[1]='';
+		get('dc','区县',$(this).val());
+	});
+})();
+
+</script>

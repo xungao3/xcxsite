@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{include file="public/head"}
+		{block name="style"}{/block}
+		{block name="script"}{/block}
+		{:xg_hooks('view-head')->run()}
+	</head>
+	<body class="xg-body-app-{php echo XG_APP/} xg-body-ctl-{php echo XG_CTL/} xg-body-act-{php echo XG_ACT/}">
+		<div class="header xg-clear">
+			<div class="xg-fl">
+				{block name="header"}{/block}
+				{block name="lheader"}{/block}
+			</div>
+			<div class="xg-fr">
+				{block name="rheader"}{/block}
+			</div>
+			<?php if($rlinks){?>
+				<div class="links xg-clear">
+					<?php
+						foreach($rlinks as $k=>$v){
+							echo "<a href='$v'>$k</a>&nbsp;&nbsp;";
+						}
+					?>
+				</div>
+			<?php }?>
+		</div>
+		<script>
+		if($('.header div *').length==0){
+			$('.header').remove();
+		}else if($('.header .xg-fl *').length==0){
+			$('.links').addClass('xg-fl');
+		}
+		</script>
+		{block name="body"}{/block}
+		{include file="public/footer"}
+		<div class="xg-fixed-btns xg-fixed-btns-block">{block name="menus"}{/block}</div><div class="xg-fixed-btns-padding xg-fixed-btns-padding-block"></div>
+		<script>
+			if($('.xg-fixed-btns-block').children('a,div,button').length==0){
+				$('.xg-fixed-btns-block,.xg-fixed-btns-padding-block').remove();
+			}else if($('.xg-main-form').length){
+				$('.xg-fixed-btns').appendTo($('.xg-main-form'));
+			}
+		</script>
+		{block name="footer"}{/block}
+	</body>
+</html>

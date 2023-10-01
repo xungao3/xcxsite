@@ -1,0 +1,27 @@
+{extend name="public/common"}
+{block name="script"}
+<script>
+var catenames={:xg_jsonstr($catenames?$catenames:[])};
+</script>
+{/block}
+{block name="body"}
+<form class="xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>添加分类</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				<?php echo xg_form_item_text('title','分类标题',$info['title'],'');?>
+				<?php echo xg_form_item_text('name','分类名称',$info['name'],'');?>
+				<?php echo xg_form_item_select('model','所属模型',$model,$info['model'],'');?>
+				<?php echo xg_form_item_select('catetpl','分类页模板',$catetpl,$info['catetpl'],'');?>
+				<?php echo xg_form_item_select('conttpl','内容页模板',$conttpl,$info['conttpl'],'');?>
+				<?php echo xg_form_item_select('pid','父分类',$catelist,($info?$info['pid']:''),'');?>
+				<?php echo xg_form_item_textarea('description','描述',$info['description'],'');?>
+				<?php echo xg_form_item_radio('status','状态',['1'=>'启用','0'=>'停用','-1'=>'删除'],$info?$info['status']:1,'');?>
+				<input type="hidden" name="id" value="<?php echo $info['id']?>" />
+				<div class="xg-mt-3"><button class="xg-btn" type="submit">提交</button></div>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

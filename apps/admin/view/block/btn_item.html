@@ -1,0 +1,7 @@
+<div class="btn-item btn-item-{$index}">
+	{:xg_form_item_select('data['.$index.'][type]','按钮'.($index+1).'类型',['share'=>'分享按钮','star'=>'点赞按钮','custom'=>'自定义按钮'],$item['type'])}
+	{:xg_form_item_text('data['.$index.'][title]','按钮'.($index+1).'名称',$item['title'])}
+	{:xg_form_item_textarea('data['.$index.'][fun]','按钮'.($index+1).'执行函数',$item['fun'])}
+	<a class="btn-data-del" btn-index="{$index}" href="javascript:void(0);"></a>
+</div>
+<script>items_bind({$index});btn_item_count={$index};</script>

@@ -1,0 +1,28 @@
+{extend name="public/common"}
+{block name="body"}
+<table width="100%" class="xg-table">
+		<tr tr2>
+			<th>ID</th>
+			<th>标题</th>
+			<th>操作</th>
+		</tr>
+		{foreach list item}
+		<tr tr2>
+			<td>{$item.id}</td>
+			<td>{$item.title}</td>
+			<td>
+				<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="修改专题-{$item.id}" xg-tab-auto-close="1" href="{:xg_url('topic/topic',['id'=>$item['id']])}">修改</a>
+				<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="专题表单-{$item.id}" href="{:xg_url('topic/formdatas',['id'=>$item['id']])}">专题表单</a>
+				<a class="xg-fl xg-a xg-a-status xg-a-status-{$item.status} xg-ajax-get-status" href="<?php echo xg_url('topic/status',['tbname'=>'topic','id'=>$item['id']]);?>"><?php if($item['status']){echo '停用';}else{echo '启用';}?></a>
+				<a class="xg-fl xg-a xg-a-del xg-ajax-get" href="<?php echo xg_url('topic/delete',['id'=>$item['id']]);?>">删除</a>
+			</td>
+		</tr>
+		{/foreach}
+</table>
+<div class="xg-fixed-btns">
+	<a href="{:xg_url('topic/topic')}" class="xg-btn xg-admin-tab-link">添加专题</a>
+	<a href="{:xg_url('topic/fields')}" class="xg-btn xg-admin-tab-link">专题字段</a>
+	{:xg_hooks('topics-btns')->run()}
+</div>
+<div class="xg-fixed-btns-padding"></div>
+{/block}

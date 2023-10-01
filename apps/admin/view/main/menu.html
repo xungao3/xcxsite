@@ -1,0 +1,124 @@
+{:xg_hooks('menu-before')->run()}
+<ul class="xg-admin-menu xg-bg">
+	{if xg_have_auth('content')}
+	<li xg-admin-menu-group="content">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-wordpress"></span>内容管理</dt>
+			{foreach $models as $model}
+				{if xg_have_auth('content-xg-'.$model['name'],1)}<dd><a href="{:xg_url('content/contents',['model'=>$model['name']])}" target="xg-admin-iframe" class="xg-admin-tab-link">管理{$model.alias}</a></dd>{/if}
+			{/foreach}
+			{foreach $xg.admin.menu.content menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('category') or xg_have_auth('topic') or xg_have_auth('model') or xg_have_auth('theme')}
+	<li xg-admin-menu-group="contents">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-list-strong"></span>内容设置</dt>
+			{if xg_have_auth('category-categories')}<dd><a href="{:xg_url('category/categories')}" target="xg-admin-iframe" class="xg-admin-tab-link">分类列表</a></dd>{/if}
+			{if xg_have_auth('topic-topics')}<dd><a href="{:xg_url('topic/topics')}" target="xg-admin-iframe" class="xg-admin-tab-link">专题列表</a></dd>{/if}
+			{if xg_have_auth('model-models')}<dd><a href="{:xg_url('model/models')}" target="xg-admin-iframe" class="xg-admin-tab-link">模型列表</a></dd>{/if}
+			{if xg_have_auth('home-recom')}<dd><a href="{:xg_url('recom/recom')}" target="xg-admin-iframe" class="xg-admin-tab-link">推荐管理</a></dd>{/if}
+			{foreach $xg.admin.menu.contents menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('theme')}
+	<li xg-admin-menu-group="theme">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-backcolor"></span>主题管理</dt>
+			{if xg_have_auth('theme-themes')}<dd><a href="{:xg_url('theme/themes')}" target="xg-admin-iframe" class="xg-admin-tab-link">APP主题管理</a></dd>{/if}
+			{if xg_have_auth('app-applist')}<dd><a href="{:xg_url('app/applist')}" target="xg-admin-iframe" class="xg-admin-tab-link">APP应用管理</a></dd>{/if}
+			{if xg_have_auth('home-theme')}<dd><a href="{:xg_url('home/theme')}" target="xg-admin-iframe" class="xg-admin-tab-link">PC主题管理</a></dd>{/if}
+			{if xg_have_auth('home-nav-list')}<dd><a href="{:xg_url('recom/nav_list')}" target="xg-admin-iframe" class="xg-admin-tab-link">导航栏管理</a></dd>{/if}
+			{foreach $xg.admin.menu.theme menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('theme') or xg_have_auth('sys')}
+	<li xg-admin-menu-group="cache">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-backcolor"></span>缓存管理</dt>
+			{if xg_have_auth('system-clear')}<dd><a href="{:xg_url('system/clear')}" target="xg-admin-iframe" class="xg-admin-tab-link">清除缓存</a></dd>{/if}
+			{if xg_have_auth('app-cache')}<dd><a href="{:xg_url('app/cache')}" target="xg-admin-iframe" class="xg-admin-tab-link">APP缓存管理</a></dd>{/if}
+			{if xg_have_auth('home-cache')}<dd><a href="{:xg_url('home/cache')}" target="xg-admin-iframe" class="xg-admin-tab-link">HTML管理</a></dd>{/if}
+			{foreach $xg.admin.menu.cache menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('seo')}
+	<li xg-admin-menu-group="seo">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg">
+				<span class="xg-admin-menu-icon xg-icon xg-icon-globe"></span>
+				SEO管理
+			</dt>
+			{if xg_have_auth('seo-sitemap')}<dd><a href="{:xg_url('seo/sitemap')}" target="xg-admin-iframe" class="xg-admin-tab-link">SiteMap</a></dd>{/if}
+			{if xg_have_auth('seo-submit')}<dd><a href="{:xg_url('seo/submit')}" target="xg-admin-iframe" class="xg-admin-tab-link">自动提交</a></dd>{/if}
+			{foreach $xg.admin.menu.seo menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('admin') or xg_have_auth('user')}
+	<li xg-admin-menu-group="user">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg">
+				<span class="xg-admin-menu-icon xg-icon xg-icon-user"></span>
+				用户管理
+			</dt>
+			{if xg_have_auth('user-userlist')}<dd><a href="{:xg_url('user/userlist')}" target="xg-admin-iframe" class="xg-admin-tab-link">会员管理</a></dd>{/if}
+			{if xg_have_auth('user-grouplist')}<dd><a href="{:xg_url('user/grouplist')}" target="xg-admin-iframe" class="xg-admin-tab-link">会员组</a></dd>{/if}
+			{if xg_have_auth('user-fields')}<dd><a href="{:xg_url('user/fields')}" target="xg-admin-iframe" class="xg-admin-tab-link">会员字段</a></dd>{/if}
+			
+			
+			
+			{if xg_have_auth('admin-admin')}<dd><a href="{:xg_url('admin/admin')}" target="xg-admin-iframe" class="xg-admin-tab-link">添加管理员</a></dd>{/if}
+			{if xg_have_auth('admin-userlist')}<dd><a href="{:xg_url('admin/userlist')}" target="xg-admin-iframe" class="xg-admin-tab-link">管理员列表</a></dd>{/if}
+			{foreach $xg.admin.menu.user menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('other')}
+	<li xg-admin-menu-group="common">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg">
+				<span class="xg-admin-menu-icon xg-icon xg-icon-tasks"></span>
+				其他管理
+			</dt>
+			{if xg_have_auth('comment')}<dd><a href="{:xg_url('comment/comment')}" target="xg-admin-iframe" class="xg-admin-tab-link">评论列表</a></dd>{/if}
+			{if xg_have_auth('region')}<dd><a href="{:xg_url('region/region')}" target="xg-admin-iframe" class="xg-admin-tab-link">地区管理</a></dd>{/if}
+			{foreach $xg.admin.menu.common menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{if xg_have_auth('sys')}
+	<li xg-admin-menu-group="sys">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-hdd"></span>扩展系统</dt>
+			{if xg_have_auth('sys')}<dd><a href="{:xg_url('sys/syslist')}" target="xg-admin-iframe" class="xg-admin-tab-link">扩展系统列表</a></dd>{/if}
+			{foreach $xg.admin.menu.sys menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+	{foreach $xg.admin.menus set}
+	<li xg-admin-menu-group="{$set.name}">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon {$set.classname}"></span>{$set.title}</dt>
+			{foreach $set.data menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/foreach}
+	{if xg_have_auth('config') or xg_have_auth('sys') or xg_have_auth('addons')}
+	<li xg-admin-menu-group="config">
+		<dl class="xg-bg-black-1">
+			<dt class="xg-bg"><span class="xg-admin-menu-icon xg-icon xg-icon-cogs"></span>系统设置</dt>
+			{if xg_have_auth('addons')}<dd><a href="{:xg_url('addons/addonlist')}" target="xg-admin-iframe" class="xg-admin-tab-link">系统插件</a></dd>{/if}
+			{if xg_have_auth('config-index')}<dd><a href="{:xg_url('config/index')}" target="xg-admin-iframe" class="xg-admin-tab-link">系统设置</a></dd>{/if}
+			{if xg_have_auth('config-manage')}<dd><a href="{:xg_url('config/manage')}" target="xg-admin-iframe" class="xg-admin-tab-link">设置管理</a></dd>{/if}
+			{if xg_have_auth('config-config')}<dd><a href="{:xg_url('config/config')}" target="xg-admin-iframe" class="xg-admin-tab-link">添加设置项</a></dd>{/if}
+			{foreach $xg.admin.menu.config menu}<dd><a href="{$menu.url}" target="{$menu.target}" xg-tab-title="{$menu.tab-title}" class="{$menu.classname}">{$menu.title}</a></dd>{/foreach}
+		</dl>
+	</li>
+	{/if}
+</ul>
+{:xg_hooks('menu-after')->run()}

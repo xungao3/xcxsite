@@ -1,0 +1,47 @@
+{extend name="public/common"}
+{block name="body"}
+<table width="100%" align="center" class="xg-table">
+	<tr><th>名称</th><th>标识</th><th>路径</th><th>地址</th><th>描述</th><th>版本</th><th>作者</th><th width="250">操作</th></tr>
+	<?php
+		if($list){
+			foreach($list as $k=>$v){
+				?>
+					<tr align="center" tr2>
+						<td><?php echo $v['title'];?></td>
+						<td><?php echo $v['name'];?></td>
+						<td align="left"><?php echo $v['path'];?></td>
+						<td align="left"><?php echo $v['url'];?></td>
+						<td align="left"><?php echo $v['description'];?></td>
+						<td><?php echo $v['version'];?></td>
+						<td><?php if($v['developer']){?><?php echo $v['developer'];?><?php }?></td>
+						<td align="left" class="xg-a-btns"><?php
+							if($v['insed']){?>
+								<a class="xg-a xg-a-2 xg-a-status xg-a-status-{$v.status} xg-ajax-get-status" href="<?php echo xg_url('status',['tbname'=>'addons','name'=>$v['name']]);?>">
+									<?php if($v['status']>0){echo '停用';}else{echo '启用';}?>	
+								</a>
+								<a class="xg-a xg-a-2 xg-ajax-get" href="{:xg_url('uninstall?name='.$v['name'])}">卸载</a>
+								<a class="xg-a xg-a-2 xg-ajax-get" href="{:xg_url('reload?name='.$v['name'])}">重载</a>
+								<a class="xg-a xg-a-2 xg-admin-tab-link" xg-tab-title="<?php echo $v['title'];?>" href="{:xg_url('config',array('name'=>$v['name']))}">修改设置</a>
+						<?php }else{ ?>
+							<a class="xg-a xg-a-2" href="{:xg_url('install?name='.$v['name'])}">安装</a>
+						<?php } ?>
+						</td>
+					</tr>
+				<?php
+			}
+			if($pagehtml){
+				?><tr align="left"><td colspan="20"><?php echo $pagehtml;?></td></tr><?php
+			}
+		}else{
+			?><tr align="center"><td colspan="20"><div class="nors">暂无记录！</div></td></tr><?php
+		}
+	?>
+	</table>
+{/block}
+{block name="script"}
+<script>
+$(function(){call_admin_init_load_config();});
+</script>
+{/block}
+{block name="header"}
+{/block}

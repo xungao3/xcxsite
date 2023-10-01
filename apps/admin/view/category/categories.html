@@ -1,0 +1,73 @@
+{extend name="public/common"}
+{block name="header"}
+<a href="{:xg_url('category/category')}" class="xg-admin-tab-link">添加分类</a>
+{/block}
+{block name="body"}
+<form class="xg-form ajax-submit" method="post" id="listform">
+	<div class="mt0">
+		<table width="100%" class="xg-table">
+				<tr tr2>
+					<th width="1%"></th>
+					<th>ID</th>
+					<th>标题</th>
+					<th>标识</th>
+					<th>创建时间</th>
+					<th width="70">导航栏</th>
+					<th width="70">首页</th>
+					<th width="70">分类页</th>
+					<th width="70">内容页</th>
+					<th>排序</th>
+					<th>操作</th>
+				</tr>
+			<?php if($list){?>
+			<?php foreach($list as $k=>$v){
+				categroy_temp_tr($v,$nav,$recom);
+			}?>
+			<?php if($pagehtml){?><tr><td colspan="100"><?php echo $pagehtml;?></td></tr><?php }?>
+			<?php }else{?><tr><td colspan="100" align="center" height="150">暂无记录</td></tr><?php }?>
+		</table>
+	</div>
+</form>
+<?php
+function categroy_temp_tr($item,$nav,$recom){
+?>
+<tr tr2>
+	<td><div style="padding:0 1rem 0 {if is_array(xg_category($item['id'])['parents'])}{:count(xg_category($item['id'])['parents'])}{else}0{/if}rem;" class="xg-icon {if $item['children']}xg-icon-plus{else}xg-icon-minus{/if}"></div></td>
+	<td>{$item.id}</td>
+	<td><a class="xg-admin-tab-link" href="{:xg_url('content/contents',['model'=>$item['model'],'cid'=>$item['id']])}"><?php echo $item['title'];?></a></td>
+	<td><?php echo $item['name'];?></td>
+	<td><?php echo date('Y-m-d H:i:s',$item['createtime']);?></td>
+	<td align="center"><a href="{:xg_url('xswitch',['switch'=>'nav','type'=>'category','id'=>$item['id'],'level'=>3,'title'=>$item['title']])}" class="xg-icon xg-switch" xg-status="{$nav[$item['id']]?1:0}" xg-switch="nav"></a></td>
+	<td align="center"><a href="{:xg_url('xswitch',['switch'=>'recom','recom'=>'index','id'=>$item['id']])}" class="xg-icon xg-switch" xg-status="{:xg_in_array($item['id'],$recom['index'])}" xg-switch="recom"></a></td>
+	<td align="center"><a href="{:xg_url('xswitch',['switch'=>'recom','recom'=>'cate','id'=>$item['id']])}" class="xg-icon xg-switch" xg-status="{:xg_in_array($item['id'],$recom['cate'])}" xg-switch="recom"></a></td>
+	<td align="center"><a href="{:xg_url('xswitch',['switch'=>'recom','recom'=>'cont','id'=>$item['id']])}" class="xg-icon xg-switch" xg-status="{:xg_in_array($item['id'],$recom['cont'])}" xg-switch="recom"></a></td>
+	<td align="center"><input class="xg-td-input order-input xg-td-input-s" type="number" name="order" value="{$item.order}" data-id="{$item.id}"></td>
+	<td>
+		<a class="xg-fl xg-a xg-admin-tab-link" xg-tab-title="修改-{$item.title}" href="<?php echo xg_url('category/category',['cid'=>$item['cid'],'id'=>$item['id']]);?>">修改</a>
+		<a class="xg-fl xg-a xg-a-status xg-a-status-{$item.status} xg-ajax-get-status" href="<?php echo xg_url('category/status',['tbname'=>'category','id'=>$item['id']]);?>"><?php if($item['status']){echo '停用';}else{echo '启用';}?></a>
+		<a class="xg-fl xg-a xg-a-del xg-ajax-get" href="{:xg_url('delete',['id'=>$item['id']])}">删除</a>
+	</td>
+</tr>
+<?php
+if($item['children']){
+	foreach($item['children'] as $k=>$v){
+		categroy_temp_tr($v,$nav,$recom);
+	}
+}
+}
+?>
+<div class="xg-fixed-btns">
+	<a href="{:xg_url('category/category')}" class="xg-btn xg-admin-tab-link">添加分类</a>
+	{:xg_hooks('categories-btns')->run()}
+</div>
+<script>
+$('.order-input').change(function(){
+	const data=$(this).data();
+	data[$(this).attr('name')]=$(this).val();
+	xg.ajax.post(xg.url('order'),data,function(res){
+		console.log(res);
+	});
+});
+</script>
+{/block}
+{block name="footer"}<div class="xg-fixed-btns-padding"></div>{/block}

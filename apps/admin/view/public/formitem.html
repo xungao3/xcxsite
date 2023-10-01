@@ -1,0 +1,56 @@
+{if $item['type']=='image'}
+	{:xg_form_item_upload($item['name'],$item['title'],array('type'=>'image','data'=>array('fid'=>$fileid,'infoid'=>$fileid,'model'=>$model,'isimg'=>1,'resize'=>$item['cover-size']?$item['cover-size']:($item['remark']?$item['remark']:$coversize))),$info[$item['name']],'')}
+{/if}
+{if $item['type']=='video'}
+	{:xg_form_item_upload($item['name'],$item['title'],array('type'=>'video','data'=>array('fid'=>$fileid,'infoid'=>$fileid,'model'=>$model,'isimg'=>1,'resize'=>$item['cover-size']?$item['cover-size']:($item['remark']?$item['remark']:$coversize))),$info[$item['name']],'')}
+{/if}
+{if $item['type']=='select'}
+	{:xg_form($item['name'],$item['title'],$info[$item['name']])->values($item['remark'])->select()}
+{/if}
+{if $item['type']=='file'}
+	{:xg_form_item_upload($item['name'],$item['title'],array('data'=>array('fid'=>$fileid,'infoid'=>$fileid,'model'=>$model,'isimg'=>0)),$info[$item['name']],'')}
+{/if}
+{if $item['type']=='text'}
+	{:xg_form_item_text($item['name'],$item['title'],($info?$info[$item['name']]:''),'')}
+{/if}
+{if $item['type']=='datetime'}
+	{:xg_form($item['name'],$item['title'],($info?$info[$item['name']]:XG_TIME),'')->datetime()}
+{/if}
+{if $item['type']=='category'}
+	{:xg_form($item['name'],$item['title'])->values($catelist)->value($info?$info[$item['name']]:$cid)->select()}
+{/if}
+{if $item['type']=='status'}
+	{:xg_form_item_radio($item['name'],$item['title'],['1'=>'启用','0'=>'停用','-1'=>'删除'],$info?$info[$item['name']]:1,'')}
+{/if}
+{if $item['type']=='radio'}
+	{:xg_form($item['name'],$item['title'])->value($info[$item['name']])->values($item['remark'])->radio()}
+{/if}
+{if $item['type']=='checkbox'}
+	{:xg_form($item['name'].'[]',$item['title'])->value($info[$item['name']])->values($item['remark'])->checkbox()}
+{/if}
+{if $item['type']=='bool'}
+	{:xg_form_item_bool($item['name'],$item['title'],$item['remark'],($info?$info[$item['name']]:0))}
+{/if}
+{if ($item['type']=='region' or $item['type']=='regionid')}
+	{php $returnid=$item['type']=='regionid';/}
+	{:xg_form($item['name'],$item['title'],$info[$item['name']])->options(['returnid'=>$returnid,'level'=>3])->region()}
+{/if}
+{if ($item['type']=='city' or $item['type']=='cityid')}
+	{php $returnid=$item['type']=='cityid';/}
+	{:xg_form($item['name'],$item['title'],$info[$item['name']])->options(['returnid'=>$returnid,'level'=>2])->region()}
+{/if}
+{if ($item['type']=='province' or $item['type']=='provinceid')}
+	{php $returnid=$item['type']=='provinceid';/}
+	{:xg_form($item['name'],$item['title'],$info[$item['name']])->options(['returnid'=>$returnid,'level'=>1])->region()}
+{/if}
+{if $item['type']=='table'}
+	{php
+	$formtype=$item['data']['form'];
+	if(in_array($formtype,['select','radio','checkbox'])){
+		$tabledata=xg_model($item['data']['table'])->column($item['data']['show'],$item['data']['field']);
+		echo xg_form($item['name'].($formtype=='checkbox'?'[]':''),$item['title'],$info[$item['name']])->values($tabledata)->$formtype();
+	}elseif($formtype=='search' or $formtype=='search-multi'){
+		require $this->tpl_parse("public/fieldsearch");
+	}
+	/}
+{/if}

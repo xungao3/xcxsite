@@ -1,0 +1,12 @@
+{extend name="public/common"}
+{block name="body"}
+{include file="sys/form"}
+{/block}
+{block name="script"}
+<script>
+var addon_name='{$name}';
+$(function(){call_admin_init_load_config();});
+</script>
+{/block}
+{block name="header"}
+{/block}

@@ -1,0 +1,127 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="group">{:xg_form_item_btn_group('group','',['current'=>'当前内容','all'=>'所有内容'],'current')}</div><!--,'content'=>'搜索内容','filename'=>'搜索文件'-->
+<div class="search xg-hide"><input type="text" class="input"><button type="button" class="button">搜索</button></div>
+<div id="html">{include file="html"}</div>
+{/block}
+{block name="script"}
+<script>
+var selected=[];
+var count={:intval($count)};
+function event(){
+	$('.img-list li').each(function(){
+		var that=$(this);
+		var src=that.find('img').attr('src');
+		xg.img.size(src,function(size){
+			that.find('.size').html(size.width+'x'+size.height);
+		});
+		that.find('.xg-close').click(function(e){
+			e.stopPropagation();
+			xg.confirm('确定要删除此文件吗？',function(){
+				xg.ajax.get(xg.url('file/delete',{id:that.attr('fid')}),function(data){
+					if(data.ok===true){
+						xg.ok(data.msg);
+						that.remove();
+					}else if(data.msg){
+						xg.msg(data.msg,3);
+					}
+				},'json');
+			});
+		});
+	}).click(function(){
+		var url=$(this).attr('url');
+		if(selected.indexOf(url)>-1){
+			xg.delete(selected,url);
+		}else{
+			selected.push(url);
+			if(count>0&&selected.length>count){
+				selected.shift();
+			}
+		}
+		select();
+	});
+	select();
+	xg.img.resize('ul',1);
+}
+function select(){
+	$('li').removeClass('selected');
+	for(let i in selected){
+		$('li[url="'+selected[i]+'"]').addClass('selected');
+	}
+}
+function page(p){
+	var g=$('.xg-form-item-group input:checked').val();
+	var k=$('.input').val();
+	xg.ajax.get(null,{html:1,group:g,page:p,keywords:k,t:Math.random()},function(data){
+		if(data.ok===true){
+			$('#html').html(data.html);
+		}else if(data.msg){
+			xg.msg(data.msg,3);
+		}
+	},'json');
+}
+function group(g){
+	xg.ajax.get(null,{html:1,group:g,t:Math.random()},function(data){
+		if(data.ok===true){
+			$('#html').html(data.html);
+		}else if(data.msg){
+			xg.msg(data.msg,3);
+		}
+	},'json');
+}
+$(function(){
+	$('.xg-form-item-group input').change(function(){
+		var g=$('.xg-form-item-group input:checked').val();
+		if(g=='current'||g=='all'){
+			group(g);
+			$('.search').hide();
+			$('.input').val('');
+		}else if(g=='content'){
+			$('.search').show();
+			$('.input').attr('placeholder','搜索内容标题');
+		}else if(g=='filename'){
+			$('.search').show();
+			$('.input').attr('placeholder','搜索文件名称');
+		}
+	});
+	$('.input').keypress(function(e){
+		if(e.originalEvent.keyCode==13){
+			$('.button').click();
+		}
+	});
+	$('.button').click(function(){
+		var val=$('.input').val();
+		var g=$('.xg-form-item-group input:checked').val();
+		if(val){
+			xg.ajax.get(null,{html:1,group:g,keywords:val,t:Math.random()},function(data){
+				if(data.ok===true){
+					$('#html').html(data.html);
+				}else if(data.msg){
+					xg.msg(data.msg,3);
+				}
+			},'json');
+		}
+	});
+})
+</script>
+{/block}
+{block name="style"}
+<style>
+body{padding:0;}
+.group{padding:12px;padding-bottom:0;}
+.search{padding:12px;padding-bottom:0;}
+.input{height:1.5rem;padding:0 0.3rem;border:solid 1px #ddd;border-radius:0.2rem;line-height:1.5rem;}
+.button{height:calc(1.5rem + 2px);margin-left:0.5rem;padding:0 0.5rem;background:var(--xg-color);color:#fff;border-radius:0.2rem;border:none;}
+.img-list{display:flex;width:calc(100% + 20px);flex-wrap:wrap;padding:5px;}
+.img-list li{position:relative;width:144px;margin:5px;padding:7px;background:#f5f5f5;border-radius:10px;background:rgba(0,0,0,0.08);}
+.img-list li:hover{background:rgba(0,0,0,0.1);}
+.img-list li.selected{background:var(--xg-color);}
+.img-list .img{width:130px;height:130px;border-radius:5px;overflow:hidden;}
+.img-list .size{font-size:12px;line-height:19px;}
+.img-list .ext{font-size:12px;line-height:19px;}
+.img-list .name{font-size:12px;line-height:14px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.img-list img{width:130px;height:130px;}
+.xg-page{margin:10px;margin-bottom:35px;}
+.xg-close{position:absolute;right:7px;top:7px;}
+</style>
+{/block}

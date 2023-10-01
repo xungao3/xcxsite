@@ -1,0 +1,18 @@
+{extend name="public/common"}
+{block name="script"}
+<script>
+</script>
+{/block}
+{block name="style"}
+{/block}
+{block name="body"}
+<form class="xg-ajax-submit xg-form" method="post">
+{:xg_form('data[title]','显示标题',$info['title'])->text()}
+{:xg_form('data[description]','显示简介',$info['description'])->textarea()}
+{:xg_form('data[pic]','图片',$info['pic'])->image()}
+{:xg_form('data[bgpic]','背景图片',$info['bgpic'])->image()}
+{:xg_form('data[bgcolor]','背景颜色',$info['bgcolor'])->color()}
+{:xg_form('data[textcolor]','文本颜色',$info['textcolor'])->color()}
+{:xg_form('status','','')->hidden()}
+</form>
+{/block}

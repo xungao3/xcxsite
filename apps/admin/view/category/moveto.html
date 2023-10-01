@@ -1,0 +1,6 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form">
+{:xg_form('cid','选择分类')->values($cates)->select()}
+</form>
+{/block}

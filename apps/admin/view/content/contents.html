@@ -1,0 +1,164 @@
+{extend name="public/common"}
+{block name="header"}
+<form id="searchform">
+	{:xg_form()->get_items()}
+	关键词 :
+	<input type="text" name="keywords" value="{$keywords}" />
+	<span id="select_cid">
+	<select name="cid">
+	<option value="">所有分类</option>
+	<?php foreach($catelist as $k=>$v){?>
+		<option value="{$k}"{$k==$cid?' selected':''}>{$v.title}</option>
+	<?php }?>
+	</select>
+	</span>
+	状态 :
+	<select name="status">
+		<option value="">非删除的</option>
+		<option value="all"<?php echo ('all'==$status?' selected':'')?>>所有的</option>
+		<option value="1"<?php echo (1===$status?' selected':'')?>>启用的</option>
+		<option value="0"<?php echo (0===$status?' selected':'')?>>停用的</option>
+		<option value="-1"<?php echo (-1===$status?' selected':'')?>>删除的</option>
+	</select>
+	<input type="submit" value="搜索" />
+	<?php if($keywords){?><input type="button" value="清除搜索" /><?php }?>
+	<input type="hidden" name="model" value="{$model}" />
+</form>
+<script>
+$('input[value="清除搜索"]').click(function(){location="{:xg_url(['model'=>$model,'cid'=>$cid])}";});
+</script>
+{/block}
+{block name="body"}
+<form class="form1 ajax-submit" method="post" id="listform">
+	<table width="100%" class="xg-table" id="table-1">
+		<tr>
+			<th width="1" xg-table-checkbox="id"><input class="xg-checkall" type="checkbox" name="checkall" /></th>
+			<th xg-table-item-key="id" xg-table-item-order="id">ID</th>
+			{foreach $fields $k $v}
+				{if $k=='cid'}
+					<th xg-table-item-key="cate">所属分类</th>
+				{elseif $k=='pic'}
+					<th xg-table-img="pic">封面图</th>
+				{else}
+				{php if($k=='view'){
+					$order='xg-table-item-order="'.$k.'"';
+				}elseif($k=='newstime'){
+					$order='xg-table-item-order="'.$k.'"';
+				}else{
+					$order=null;
+				} /}
+					<th xg-table-item-key="{$k}" {$order}>{$v}</th>
+				{/if}
+			{/foreach}
+			{if xg_allmodels($model,'type')==1}
+				{foreach $recomsets $k $v}{if $k and $v}<th xg-table-item-key="recom-{$k}" xg-table-item-order="recom-{$k}">{$v}</th>{/if}{/foreach}
+			{/if}
+			<th xg-table-item-key="menu">操作</th>
+		</tr>
+		<tr><td colspan="100" class="xg-table-loading">加载中...</td></tr>
+		<tr><td colspan="100" class="xg-table-nors">无记录</td></tr>
+	</table>
+	<div class="xg-fixed-btns">
+		<?php if($status===-1){?>
+			<button class="xg-btn xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/clear');?>" xg-confirm="确定清空回收站吗？">清空</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/restore',['status'=>1]);?>" xg-confirm="确定还原这些信息吗？">还原</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/delete');?>" xg-confirm="确定彻底删除这些信息吗？">彻底删除</button>
+		<?php }else{?>
+			<a href="{:xg_url('content/content',['model'=>$model])}" class="xg-btn xg-admin-tab-link">添加{:xg_allmodels($model,'alias')}</a>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/status',['status'=>0]);?>" xg-confirm="确定停用这些信息吗？">停用</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit">移动到分类</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/copy');?>" xg-confirm="确定复制这些信息吗？">复制</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/status',['status'=>1]);?>" xg-confirm="确定启用这些信息吗？">启用</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/softdelete',['status'=>-1]);?>" xg-confirm="确定删除这些信息吗？">删除</button>
+			<button class="xg-btn xg-need-select xg-btn-action" type="submit" xg-action="<?php echo xg_url('content/delete');?>" xg-confirm="确定彻底删除这些信息吗？">彻底删除</button>
+			{if xg_allmodels($model,'type')==1}
+			<button class="xg-btn xg-need-select xg-btn-action xg-ajax-not-reload" type="submit" xg-action="<?php echo xg_url('content/submit',['level'=>'common']);?>">普通提交</button>
+			<button class="xg-btn xg-need-select xg-btn-action xg-ajax-not-reload" type="submit" xg-action="<?php echo xg_url('content/submit',['level'=>'hour']);?>">小时级提交</button>
+			<button class="xg-btn xg-need-select xg-btn-action xg-ajax-not-reload" type="submit" xg-action="<?php echo xg_url('content/submit',['level'=>'day']);?>">天级提交</button>
+			<button class="xg-btn xg-need-select xg-btn-action xg-ajax-not-reload" type="submit" xg-action="<?php echo xg_url('content/submit',['level'=>'week']);?>">周级提交</button>
+			{/if}
+			{:xg_hooks('submit-btns')->run()}
+		<?php }?>
+	</div>
+	<input type="hidden" name="model" value="{$model}" />
+</form>
+<script>
+xg.hooks('btn-action',function(that){
+	const model='{$model}';
+	if(!$(that).attr('xg-action')){
+		const id=xg.iframe(xg.url('category/moveto',{model}),function(){
+			if(xg.iframe(id)){
+				const val=xg.iframe(id).$('select').val();
+				if(!val){
+					xg.msg('请选择分类');
+					return false;
+				}
+				$(that).attr('xg-action',xg.url('category/moveto',{model:model,cid:val})).click();
+				setTimeout(function(){
+			    	$(that).removeAttr('xg-action');
+				},100);
+			}
+		},1,1);
+		return false;
+	}
+});
+xg.table('#table-1',{tr2:1,created:function(){
+	let timer=0;
+	$('#table-1').find('.xg-a-del,.xg-ajax-restore').attr('xg-table-reload','table-1');
+	$('#table-1').find('.newstime-input').change(function(){
+		const $that=$(this);
+		clearTimeout(timer);
+		timer=setTimeout(function(){
+			post($that)
+		},600);
+		function post($that){
+			xg.ajax.post(xg.url('newstime',{model:"{$model}",id:$that.data().id}),{time:$that.val()},function(res){
+				//xg.msg(res);
+				if(res.ok===true){
+					const table=xg.table.get('table-1');
+					if(table)table.reload();
+				}
+			});
+		}
+	});
+}}).name('table-1').load();
+$('.xg-btn-action').attr('xg-table-reload','table-1');
+xg.hooks('switch','content-focus',function(that){
+	if($(that).attr('xg-switch')!='focus')return;
+	const url=$(that).attr('href');
+	if($(that).attr('xg-status')>0){
+		//return true;
+	}
+	const winid=xg.iframe({src:url,ok:1,cancel:'删除',width:600,height:450,onok:function(){
+		xg.iframe(winid).$('.xg-form').find('input[name="status"]').val(1);
+		xg.iframe(winid).xg.msg=xg.msg;
+		xg.iframe(winid).$('.xg-form').submit();
+		setTimeout(function(){
+			xg.close(winid);
+			const table=xg.table.get('table-1');
+			if(table)table.reload();
+		},200);
+		return false;
+	},oncancel:function(){
+		xg.iframe(winid).$('.xg-form').find('input[name="status"]').val(0);
+		xg.iframe(winid).xg.msg=xg.msg;
+		xg.iframe(winid).$('.xg-form').submit();
+		setTimeout(function(){
+			xg.close(winid);
+			const table=xg.table.get('table-1');
+			if(table)table.reload();
+		},200);
+		return false;
+	}})
+	return false;
+});
+</script>
+{/block}
+{block name="footer"}<div class="xg-fixed-btns-padding"></div>{/block}
+{block name="style"}
+<style>
+.select_move_cid{padding:20px 40px 5px 40px; text-align:center;}
+.select_move_cid select{margin-top:20px;}
+.newstimeinput{width:10.5em; text-align:center;}
+</style>
+{/block}

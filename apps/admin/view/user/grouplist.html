@@ -1,0 +1,32 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.avatar img{max-width:100px; max-height:100px;}</style>
+{/block}
+{block name="header"}
+<a href="{:xg_url('group')}">添加用户组</a>
+{/block}
+{block name="body"}
+<table width="100%" class="xg-table">
+	<tr align="center">
+		<th>ID</th>
+		<th>分组名称</th>
+		<th>是否需要审核</th>
+		<th>操作</th>
+	</tr>
+	<?php if($list){?>
+	<?php foreach($list as $k=>$v){?>
+	<tr align="center" tr2>
+		<td>{$v.id}</td>
+		<td>{$v.name}</td>
+		<td>{$v['check']?'需要':'不需要'}</td>
+		<td align="left" class="xg-a-btns" width="270">
+			<a class="xg-a xg-a-2 xg-admin-tab-link" xg-tab-title="修改-{$v.name}" href="<?php echo xg_url('group',['id'=>$v['id']]);?>">修改</a>
+			<a class="xg-a xg-a-2 xg-a-status xg-a-status-{$v.status} xg-ajax-get-status" href="<?php echo xg_url('status',['tbname'=>'member_group','id'=>$v['id'],'pkname'=>'id']);?>"><?php if($v['status']){echo '停用';}else{echo '启用';}?></a>
+			<a class="xg-a xg-a-2 xg-a-del xg-ajax-get" href="<?php echo xg_url('delete',['tbname'=>'member_group','id'=>$v['id'],'pkname'=>'id']);?>">删除</a>
+			{:xg_hooks('grouplist-menu-after')->run($v,$list)}
+		</td>
+	</tr>
+	<?php }?>
+	<?php }?>
+</table>
+{/block}

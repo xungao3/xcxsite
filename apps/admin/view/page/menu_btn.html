@@ -1,0 +1,11 @@
+<?php
+$option=array('type'=>'image','tag'=>'thid_'.$thid.'_menu_icon_'.$i);
+$tip='可以上传图片，请上传png背景透明的图片，也可以选择图标：<a href="javascript:icon('.$i.');" style="color:red;">点击选择</a>。';
+$html.=xg_form_item_upload('menu_icon_'.$i,'按钮'.$i.'图标',$option,(isset($data['menu_icon_'.$i])?$data['menu_icon_'.$i]:''),$tip);
+$html.=xg_form_item_text('menu_name_'.$i,'按钮'.$i.'名称',$data['menu_name_'.$i],'四个汉字以内。');
+$html.=xg_form_item_label('链接内容','<a href="javascript:call_admin_link_select(\'menu_link\',\'menu_link_'.$i.'\');" class="xg-color">点击选择内容</a>');
+$html.='<div class="xg-mt-3 xg-max-500 link-select-slide"></div>';
+$html.=xg_form_item_text('menu_link_'.$i,'按钮'.$i.'连接',$data['menu_l_'.$i],$tip);
+$html.=xg_form_item_text('menu_title_'.$i,'按钮打开页面'.$i.'页面标题',$data['menu_title_'.$i]);
+echo $html;
+?>

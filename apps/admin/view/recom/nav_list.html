@@ -1,0 +1,102 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="header"><a href="javascript:add();">添加链接</a></div>
+{:categories_temp_table($data)}
+<script>
+function edit(id,type){
+	var ifr=xg.iframe(xg.url('nav',{id:id,type:type}),'修改链接',1,1,440,(type=='link'?360:280),function(){
+		var form=xg.iframe(ifr).$('.xg-form');
+		xg.ajax.post(xg.url('nav',{id:id}),form.serialize(),function(data){
+			xg.msg(data,function(){if(data.ok)location.reload();});
+		},'json');
+		return false;
+	});
+}
+function add(){
+	var ifr=xg.iframe(xg.url('nav',{type:'link'}),'添加链接',1,1,440,360,function(){
+		var form=xg.iframe(ifr).$('.xg-form');
+		xg.ajax.post(xg.url('nav'),form.serialize(),function(data){
+			xg.msg(data,function(){if(data.ok)location.reload();});
+		},'json');
+		return false;
+	});
+}
+function order(id){
+	var ids=[];
+	$('.order-'+id).each(function(i){
+		ids.push($(this).attr('nav-id'));
+		$(this).html(i);
+	});
+	xg.ajax.get(xg.url('nav_order',{ids:ids.join(',')}),function(data){
+		xg.msg(data);
+	});
+}
+</script>
+<?php
+function categories_temp_table($data,$pid=0){
+?>
+<table class="xg-table xg-drag xg-drag-{$pid}" width="1000">
+	{if !$pid}
+	<tr>
+		<th></th>
+		<th width="50">排序</th>
+		<th width="30">ID</th>
+		<th width="150">类型</th>
+		<th width="100">分类ID</th>
+		<th width="100">信息ID</th>
+		<th width="200">标题</th>
+		<th width="50">级别</th>
+		<th width="120">操作</th>
+	</tr>
+	{/if}
+	{foreach data as v}
+	<tr xg-drag-id="{$v.id}" class="xg-drag-item xg-drag-item-{$pid}">
+		<td colspan="100" style="padding:0;">
+			<div class="table-div table-div-{$pid}" style="padding-left:{$pid?1:0}rem;border-top:solid {$pid?1:0}px #ccc;">
+			<table class="xg-table" width="100%">
+				<tr>
+					<td><a class="xg-drag-btn xg-drag-btn-{$pid} xg-icon xg-icon-fullscreen"></a></td>
+					<td width="30" align="center" class="order order-{$pid}" nav-id="{$v.id}">{$v.order}</td>
+					<td width="50">{$v.id}</td>
+					<td width="150">{$v.type}</td>
+					<td width="100">{$v.cateid}</td>
+					<td width="100">{$v.infoid}</td>
+					<td width="200">{$v.title}</td>
+					<td width="50">{$v.level}</td>
+					<td width="120">
+						<a href="javascript:edit({$v.id},'{$v.type}');" class="xg-a">修改</a>
+						<a href="{:xg_url('nav_del',['id'=>$v['id']])}" xg-confirm="确定要删除此记录吗？" class="xg-a xg-ajax-get xg-a-del">删除</a>
+					</td>
+				</tr>
+			</table>
+			{if $v['children']}{:categories_temp_table($v['children'],$v['id'])}{/if}
+			</div>
+		</td>
+	</tr>
+	{/foreach}
+<script>
+$(function(){
+xg.drag({
+	s:'.xg-drag-{$pid}',
+	item:'.xg-drag-item-{$pid}',
+	btn:'.xg-drag-btn-{$pid}',
+	start:function(id){
+		$('.xg-drag-{$pid} .xg-drag').hide();
+	},
+	end:function(){
+		$('.xg-drag').show();
+		order({$pid});
+	}
+});
+})</script>
+</table>
+<?php
+}
+?>
+{/block}
+{block name="style"}
+<style>
+.xg-drag-layer{height:2px;background:#eee;}
+.xg-table .xg-table,.xg-table .xg-table td,.xg-table .xg-table th{border:none;}
+</style>
+{/block}

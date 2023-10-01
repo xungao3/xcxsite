@@ -1,0 +1,21 @@
+{extend name="public/common"}
+{block name="body"}
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg">清除缓存</div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				<form class="xg-form xg-ajax-submit xg-ajax-not-reload" method="pos">
+					<div class="xg-pt-2">{:xg_form('clear[]','清除缓存目录')->values(['db'=>'字段缓存','cache'=>'数据缓存','temp'=>'模板缓存','log'=>'系统日志'])->value(['db','cache','temp'])->base_checkbox()}</div>
+					<div class="xg-pt-1">{:xg_form('clear[]','清除APP缓存')->values(['content'=>'内容详情缓存','contents'=>'分类详情缓存','allcate'=>'全部分类缓存','curcate'=>'当前分类缓存','topic'=>'专题详情缓存','recom'=>'专题详情缓存'])->base_checkbox()}</div>
+					<button type="submit" class="xg-btn xg-mt-3">清除</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{/block}
+{block name="header"}
+{/block}
+{block name="style"}
+{/block}
+{block name="script"}
+{/block}

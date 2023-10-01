@@ -1,0 +1,55 @@
+{extend name="public/common"}
+{block name="script"}
+<script>
+var thid="{$thid}";
+function icon(i){
+	call_admin_icon('input[name="menu_icon_'+i+'"]',window);
+}
+function link(i) {
+	var iframe={
+		'选择页面':xg.url('link/page'),
+		'系统分类':xg.url('link/category')
+	};
+	$.extend(iframe,call_admin_select_content());
+	var id=parent.xg.iframe({cont:iframe,width:800,height:500,ok:1,cancel:1,onok:function(){
+	}});
+	var ifr=parent.xg.iframe(id);
+	for(var j in ifr){
+		ifr[j].target_win=window;
+		ifr[j].target_input='input[name="menu_icon_'+i+'"]';
+	}
+}
+</script>
+{/block}
+{block name="style"}
+<style>.xg-form-item-34ec18625b .xg-form-item{max-width:100%;}</style>
+{/block}
+{block name="body"}
+以下信息可以不全部填写，只有"图标,名称,内容"全部填写才会显示对应按钮项。
+<form class="xg-form" method="POST" action="javascript:void(0);">
+<script>
+function icon_nav_list_bind(i){
+	$('.icon-nav-list-del').unbind().click(function(){
+		var i=$(this).attr('btn-index');
+		$('.icon-nav-'+i).remove();
+	});
+}
+var icon_nav_count=0;
+</script>
+<div class="icon-nav-list">
+	{foreach icons index item}{include file="icon_nav"}{/foreach}
+</div>
+<a class="xg-block xg-mt-3 icon-nav-list-add" href="javascript:void(0);">增加</a>
+<script>
+$('.icon-nav-list-add').click(function(){
+	var html=$('.icon-nav-list-temp').html();
+	icon_nav_count++;
+	var i=icon_nav_count;
+	xg.ajax.get(xg.url('block/icon_nav',{thid:{$thid},index:i}),function(html){
+		$('.icon-nav-list').append(html);
+		icon_nav_list_bind(i);
+	});
+});
+</script>
+</form>
+{/block}

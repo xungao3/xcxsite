@@ -1,0 +1,26 @@
+<div class="xg-container">
+	<br><br>
+	<footer>
+		<div align="center">
+			<span style="display:inline-block;">
+			{if $xg.config.gongan-beian}ICP备案号：<a href="https://beian.miit.gov.cn/" target="_blank">{$xg.config.gongan-beian}</a></span>{/if}
+			{if $xg.config.icp-beian}<br><span style="display:inline-block;"><a target="_blank" href="https://www.beian.gov.cn/"><img src="http://e.xg3.cn/static/images/gongan_beian.png" style="margin-top:-3px; vertical-align:middle;" /></a>
+			<a target="_blank" href="https://www.beian.gov.cn/">{$xg.config.icp-beian}</a>{/if}
+		</span>
+		{if $xg.config.company-name}<br><br>{$xg.config.company-name}{/if}
+		<!-- <br><br><a href="//e.xg3.cn">讯高小程序</a> -->
+		</div>
+	</footer>
+	<br><br>
+</div>
+{if $xg.config.baidu-tongji}
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?{:xg_config('site.baidu-tongji')}";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+{/if}

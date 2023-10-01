@@ -1,0 +1,43 @@
+{extend name="public/common"}
+{block name="body"}
+	<form class="xg-form xg-mt--4" method="post">
+		<?php if($info['name']=='index'){
+			echo xg_form_item_hidden('name',$info['name']);
+		}else{
+			echo xg_form_item_text('name','标识',$info['name'],'只可填写小写英文字母，数字，下划线。<br>填写后请在“链接对应关系”页面选择分类所属页面。');
+		}?>
+		<?php echo xg_form_item_text('title','名称',$info['title'],'');?>
+		<?php if($info['name']=='index'){
+			echo xg_form_item_hidden('type',$info['type']);
+		}else{
+			echo xg_form_item_radio('type','页面类型',array('common'=>'普通','topic'=>'专题','cont'=>'内容','cate'=>'分类','login'=>'登录'),(isset($info['type'])?$info['type']:'common'),'');
+		}?>
+		<?php //echo xg_form_item_text('show','显示的标题',$info['show'],'可添加自定义标签，[title]表示内容标题，[classname]表示分类名，[sitename]表示站点名称。');?>
+		<?php echo xg_form_item_color('data[bg_color]','背景颜色',$info['data']?$info['data']['bg_color']:'','');?>
+		<?php echo xg_form('data[need_login]','是否需要登录',$info['data']['need_login'])->values(['不需要','需要','需要并且关联内容'])->radio();?>
+		<?php echo xg_form_item_text('data[login_page]','登录跳转页面',$info['data']['login_page'],'');?>
+		<?php echo xg_form_item_text('data[sys]','页面系统名称',$info['data']?$info['data']['sys']:'','');?>
+		<?php echo xg_form_item_text('data[cateid]','页面分类ID',$info['data']?$info['data']['cateid']:'','');?>
+		<?php echo xg_form_item_text('data[contid]','页面内容ID',$info['data']?$info['data']['contid']:'','');?>
+		<?php echo xg_form_item_btn('提交','xg-mt-1');?>
+	</form>
+{/block}
+{block name="script"}
+<script>
+$(document).ready(function(){
+	$('.xg-form').submit(function(){
+		var self=$(this);
+		if(!self.find('[name="title"]').val()){
+			self.find('[name="title"]').focus();
+			xg.msg('请填写标题');
+			return false;
+		}
+		$.post(self.attr("action"),self.serialize(),success,"json");
+		return false;
+		function success(data){
+			xg.msg(data,function(){if(data.ok===true)parent.pages();});
+		}
+	});
+});
+</script>
+{/block}

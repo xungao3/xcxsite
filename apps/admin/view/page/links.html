@@ -1,0 +1,75 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-ajax-submit xg-flex-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>添加内容</h3></div>
+		<div class="xg-box-cont">
+	每个分类只能存在于一个列表页面和一个内容页面。<br>如果在以下列表<span style="color:red; font-weight:900;">找不到某个页面</span>，请在修改页面的类型为内容页或列表页。<br><br>
+			<div class="xg-blue xg-bold-6">系统页面设置</div>
+			<div class="xg-flex xg-flex-wrap">
+				<?php 
+				foreach($pages as $K=>$v){
+					if($v['type']=='cont'){
+						echo xg_form('cont['.$v['name'].'][xg]','请选择使用 <span style="color:red;">['.$v['title'].']['.$v['name'].']</span> 内容页的分类',$links['cont'][$v['name']]['xg'])->cids();
+					}
+				}
+				?>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+			</div>
+			<br><br>
+			<div class="xg-mt--4 xg-flex xg-flex-wrap">
+				<?php
+				foreach($pages as $K=>$v){
+					if($v['type']=='cate'){
+						echo xg_form('cate['.$v['name'].'][xg]','请选择使用 <span style="color:red;">['.$v['title'].']['.$v['name'].']</span> 分类页的分类',$links['cate'][$v['name']]['xg'])->cids();
+					}
+				}?>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+			</div>
+			<br><br>
+			<div class="xg-mt--4 xg-flex xg-flex-wrap">
+				<?php
+				foreach($pages as $K=>$v){
+					if($v['type']=='topic'){
+						echo xg_form('topic['.$v['name'].'][xg]','请选择使用 <span style="color:red;">['.$v['title'].']['.$v['name'].']</span> 专题页',$links['topic'][$v['name']]['xg'])->tids();
+					}
+				}?>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+			</div>
+			<br><br>
+			{:xg_hooks('page-links')->run($pages,$links)}
+			<div class="xg-mt-3">{:xg_form_item_btn()}</div>
+		</div>
+	</div>
+</form>
+{/block}
+{block name="style"}
+{/block}
+{block name="script"}
+<script>
+var thid='{$thid}';
+</script>

@@ -1,0 +1,77 @@
+{extend name="public/common"}
+{block name="style"}
+<style>
+h2{font-size:1.5rem;line-height:2em;}
+.xg-form{margin-top:2rem;}
+.color-success{color:green;}
+.color-error{color:red;}
+</style>
+{/block}
+{block name="body"}
+<form class="xg-form xg-ajax-submit" method="post">
+	<div class="xg-container-m">
+		<div class="xg-box xg-box-a">
+			<div class="xg-box-title xg-bg">环境检测</div>
+			<div class="xg-box-cont xg-bg-black-05">
+				<table class="xg-table" width="100%">
+					<thead>
+						<tr>
+							<th width="33%">项目</th>
+							<th width="33%">所需配置</th>
+							<th width="33%">当前配置</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($env as $item){?>
+						<tr>
+							<td>{$item[0]}</td>
+							<td>{$item[1]}</td>
+							<td class="color-{$item[4]}">{$item[3]}</td>
+						</tr>
+						<?php }?>
+					</tbody>
+				</table>
+				<table class="xg-table xg-mt-4" width="100%">
+					<thead>
+						<tr>
+							<th width="33%">名称</th>
+							<th width="33%">类型</th>
+							<th width="33%">检查结果</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($func as $item){?>
+						<tr>
+							<td>{$item[0]}</td>
+							<td>{$item[3]}</td>
+							<td class="color-{$item[2]}">{$item[1]}</td>
+						</tr>
+						<?php }?>
+					</tbody>
+				</table>
+				<table class="xg-table xg-mt-4" width="100%">
+					<thead>
+						<tr>
+							<th width="33%">目录/文件</th>
+							<th width="33%">所需状态</th>
+							<th width="33%">当前状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($dirfile as $item){?>
+							<tr>
+								<td>{:str_replace(XG_PATH,'',$item[3])}</td>
+								<td>{$item[4]}</td>
+								<td class="color-{$item[2]}">{$item[1]}</td>
+							</tr>
+						<?php }?>
+					</tbody>
+				</table>
+				<div class="xg-mt-4">
+					<a href="{:xg_url('step2')}" class="xg-btn">下一步</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

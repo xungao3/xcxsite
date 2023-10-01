@@ -1,0 +1,16 @@
+<{$nophptagplace}?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{foreach alone v}
+	<sitemap>
+		<loc>{$v.url}</loc>
+	</sitemap>
+{/foreach}
+{foreach data v}
+	<url>
+		<loc>{$v.url}</loc>
+		<lastmod>{$v.time}</lastmod>
+		<changefreq>{$v.changefreq}</changefreq>
+		<priority>{$v.priority}</priority>
+	</url>
+{/foreach}
+</urlset>

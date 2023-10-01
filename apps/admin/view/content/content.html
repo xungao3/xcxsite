@@ -1,0 +1,243 @@
+{extend name="public/common"}
+{block name="script"}
+<script>
+var fileid="{$fileid}";
+var cid="<?php echo ($info?$info['cid']:$cid);?>";
+var newsid="<?php echo $info['id']?>";
+var id="<?php echo $info['id']?>";
+var url="<?php echo $url?>";
+var cor_list='<?php echo $cor_list?xg_jsonstr($cor_list):"[]"?>';
+xg.hooks('ajax-submited','content-submit',function(data){
+	if(data.newid){
+		id=data.newid;
+		cid=data.cid;
+		url=data.url;
+		upload_data({infoid:id});
+		$('input[name="id"]').val(data.newid);
+		$('.save-as').removeClass('xg-hide');
+		show_link();
+	}
+	xg.msg(data,function(){
+		if(!window.xg_submit_no_refresh&&data.goto)location=data.goto;
+	});
+	return false;
+});
+function upload_data(data){
+	let datas=window.updatas=$.extend({},window.updatas,data);
+	xg.mod('editor',function(a){
+		let es=xg.editor.get();
+		if(es&&es.length){
+			for(let i in es){
+				es[i].upload.data(data);
+			}
+		}
+	});
+	for(var i in window.xg_upload_list){
+		window.xg_upload_list[i].data(data);
+	}
+}
+window.updatas={};
+$(function(){
+	upload_data({fid:'{$fileid}',infoid:'{$fileid}',model:'{$model}'})
+});
+function show_link(){
+	if(id){
+		$('.save-as').removeClass('xg-hide');
+		if($('.xg-content-btns .view-btn').length==0){
+			{if xg_models($model,'type')==1}$('.xg-content-btns').append('<a target="_blank" href="'+url+'" class="xg-btn view-btn">预览</a>');{/if}
+			$('.xg-content-btns').append('<a href="'+xg.url('content/content',{model:'{$model}',cid:cid})+'" class="xg-btn">继续添加</a>');
+		}
+	}
+}
+function keysave(){
+	window.addEventListener("keydown", function(e) {
+		if((e.key=='s'||e.key=='S')&&(xg.device().mac ? e.metaKey : e.ctrlKey)){
+			e.preventDefault();
+			window.xg_submit_no_refresh=true;
+			$('.xg-form').submit();
+		}
+	}, false);
+}
+function change_cor(info,checked){
+	if($('#cor-ids input[value="'+info.id+'"]').length==0 && id!=info.id)$('<input type="checkbox" name="cor-ids[]" value="'+info.id+'" title="'+info.title+'"'+(checked?' checked':'')+' />').appendTo('#cor-ids');
+}
+function del_no_checked(){
+	$('#cor-ids input[type="checkbox"]').not(':checked').each(function(){
+		$(this).next('.xg-checkbox').remove();
+		$(this).remove();
+	});
+}
+function search_cor(keywords){
+	$.get(url('search_cor'),{keywords:keywords},function(data){
+		if(data.ok){
+			del_no_checked();
+			for(var i in data.list){
+				change_cor(data.list[i]);
+			}
+		}
+	},'json');
+}
+function select_image(name){
+	var data=$.extend({},window.updatas);
+	data.isimg=1;
+	data.count=1;
+	var id=xg.iframe({src:xg.url('file/select',data),width:960,height:600,ok:1,cancel:1,onok:function(){
+		var selected=xg.iframe(id).selected;
+		if(selected&&selected.length){
+			$('input[name="'+name+'"]').val(selected[0]);
+		}
+	}});
+}
+var png2jpg=null;
+function setpng2jpg(v){
+	upload_data({png2jpg:v});
+}
+$(document).ready(function(){
+	for(var i in cor_list){
+		change_cor(cor_list[i],true);
+	}
+	var timer;
+	$('input[name="cor_search"]').keyup(function(data){
+		var self=$(this);
+		clearTimeout(timer);
+		if(self.val()){
+			timer=setTimeout(function(){
+				search_cor(self.val());
+			},300);
+		}else{
+			del_no_checked();
+		}
+	});
+	$('#rewrite').click(function(){
+		var text=$($('[name="content"]').val()).text();
+		if(text){
+			xg.ajax.post(xg.url('wenxin/rewrite'),{text:text},function(data){
+				if(data.taskid){
+					xg.ok(data.msg,function(){xg.loading();});
+					check_task(data.taskid);
+				}else if(data.msg){
+					xg.err(data.msg);
+				}
+			},'json');
+		}else{
+			xg.msg('请填写要改写的内容');
+		}
+	});
+	$('.content-png2jpg').change(function(){
+		var input=$(this);
+		if(input.is(':checked')){
+			setpng2jpg(1);
+		}else{
+			setpng2jpg(null);
+		}
+	});
+});
+</script>
+{/block}
+{block name="style"}
+{/block}
+{block name="body"}
+<script>
+window.info=[];
+{php if($info){
+	$infojson=xg_jsonstr($info);
+	echo "window.info=$infojson;";
+} /}
+</script>
+<form class="xg-ajax-submit xg-form xg-flex-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>编辑内容</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4 xg-flex xg-flex-wrap">
+				{foreach form item}
+					{include file="public/formitem"}
+				{/foreach}
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<div class="xg-form-item-width"></div>
+				<input type="hidden" name="id" value="<?php echo $info['id']?>" />
+				<input type="hidden" name="fileid" value="<?php echo $fileid?>" />
+			</div>
+			<div class="xg-flex xg-flex-wrap">
+				{foreach form item}
+					{if $item['type']=='textarea'}
+						{:xg_form_item_textarea($item['name'],$item['title'],($info?$info[$item['name']]:''),'')}
+					{/if}
+				{/foreach}
+			</div>
+			{foreach form item}
+				{if $item['type']=='html'}{$item.data.form}{/if}
+			{/foreach}
+			<div class="xg-w-100">
+				{foreach form item}
+					{if $item['type']=='editor'}
+						{:xg_form_item_editor($item['name'],$item['title'],[],($info?$info[$item['name']]:''),'')}
+					{/if}
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	<div class="xg-fixed-btns">
+		<span class="xg-content-btns">
+			<button class="xg-btn" type="submit" title="提交后页面会跳转">提交</button>
+			<button class="xg-btn xg-not-refresh" type="submit" title="保存后页面不会跳转">保存</button>
+			<button class="xg-btn xg-not-refresh save-as xg-hide" type="submit" title="创建此内容的副本">另存为</button>
+			{if $previd}<a class="xg-btn" href="{:xg_url('content/content',['model'=>$model,'cid'=>$cid,'id'=>$previd])}">上一个</a>{/if}
+			{if $nextid}<a class="xg-btn" href="{:xg_url('content/content',['model'=>$model,'cid'=>$cid,'id'=>$nextid])}">下一个</a>{/if}
+		</span>
+		<label class="xg-label-checkbox xg-block xg-fl xg-mr-2 xg-mt-0"><input type="checkbox" class="content-png2jpg" checked>PNG转JPG</label>
+		<label class="xg-label-checkbox xg-block xg-fl xg-mr-2 xg-mt-0"><input type="checkbox" class="content-submit" name="submit" checked>提交搜索引擎</label>
+		{:xg_hooks('content-btns')->run()}
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+<script>
+$('.save-as').click(function(){
+	$('input[name="id"]').val('-1');
+	$('.xg-form').submit();
+	return false;
+});
+if(xg.storage('xg-no-png2jpg-{$model}')){
+	$('.content-png2jpg').prop('checked',false);
+}
+if(xg.storage('xg-no-submit-{$model}')){
+	$('.content-submit').prop('checked',false);
+}
+show_link();
+xg.mod('editor',function(a){
+	$(function(){
+		keysave();
+		$('.content-png2jpg').change(function(){
+			if($(this).is(':checked')){
+				xg.storage('xg-no-png2jpg-{$model}',null);
+			}else{
+				xg.storage('xg-no-png2jpg-{$model}',1);
+			}
+		}).change();
+		$('.content-submit').change(function(){
+			if($(this).is(':checked')){
+				xg.storage('xg-no-submit-{$model}',null);
+			}else{
+				xg.storage('xg-no-submit-{$model}',1);
+			}
+		}).change();
+		if(parent==self)return;
+		parent.xg.tab.get('xg-admin').event().onshow(function(){
+			setTimeout(function(){
+				$(window).scroll();
+			},10);
+		});
+	})
+});
+</script>
+{/block}

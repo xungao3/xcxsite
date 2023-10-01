@@ -1,0 +1,14 @@
+{extend name="public/common"}
+{block name="style"}
+{/block}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+<?php echo xg_form_item_upload('img','图片地址',array(),$img);?>
+</form>
+<script>
+$('.xg-form-item-img .xg-value-input').change(function(){
+	let img=$(this).val();
+	parent.slide_img=img;
+});
+</script>
+{/block}

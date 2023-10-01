@@ -1,0 +1,34 @@
+
+<script>
+function items_bind(i){
+	$('.btn-data-del').unbind().click(function(){
+		var i=$(this).attr('btn-index');
+		$('.btn-item-'+i).remove();
+	});
+	$('.btn-item-'+i).find('select').change(function(){
+		var tit=$('.btn-item-'+i).find('.xg-form-item-'+xg_form_items['data['+i+'][title]']+' input');
+		if(!tit.val()||tit.val()=='分享'||tit.val()=='点赞'){
+			var val='';
+			if($(this).val()=='share')val='分享';
+			if($(this).val()=='star')val='点赞';
+			tit.val(val);
+		}
+	});
+}
+var tn_item_count=0;
+</script>
+<div class="btn-data">
+	{foreach data index item}{include file="btn_item"}{/foreach}
+</div>
+<a class="btn-data-add" href="javascript:void(0);">增加按钮</a>
+<script>
+$('.btn-data-add').click(function(){
+	var html=$('.btn-data-temp').html();
+	icon_nav_count++;
+	var i=icon_nav_count;
+	xg.ajax.get(xg.url('block/btn_item',{thid:{$thid},index:i}),function(html){
+		$('.btn-data').append(html);
+		items_bind(i);
+	});
+});
+</script>

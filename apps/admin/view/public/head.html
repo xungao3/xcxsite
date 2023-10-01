@@ -1,0 +1,13 @@
+<meta charset="UTF-8">
+<title>{$xg.config.site-name}</title>
+<link href="__STATIC__/xg/xg.css" rel="stylesheet" />
+<link href="__CSS__/admin.css" rel="stylesheet" />
+<script>var xginfo={route:<?php echo XG_ROUTE;?>,app:"<?php echo (xg_config('app.map') and $appmap=array_flip(xg_config('app.map')) and $appmap[XG_APP])?$appmap[XG_APP]:XG_APP?>",controller:"<?php echo XG_CTL;?>",action:"<?php echo XG_ACT?>",root:"{:xg_url('/');}"};</script>
+<script src="__STATIC__/jquery.js"></script>
+<script src="__STATIC__/xg/xg.js"></script>
+<script src="__STATIC__/common.js"></script>
+<script src="__JS__/admin.js"></script>
+{if !$xg['config']['admin-theme-color']}{php $xg['config']['admin-theme-color']='#17f';/}{/if}
+<style>:root{--xg-rgb-r:{:xg_rgbi($xg['config']['admin-theme-color'],0)};--xg-rgb-g:{:xg_rgbi($xg['config']['admin-theme-color'],1)};--xg-rgb-b:{:xg_rgbi($xg['config']['admin-theme-color'],2)};}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<script>var pagelock=1;if(parent!==self&&parent.pagelock)document.write('<style>html{font-size:16px;}body{background:#fff;overflow-x:hidden;height:auto;padding:1rem;}.nav,header,.header,footer,.footer{display:none;}</style>');</script>

@@ -1,0 +1,26 @@
+{extend name="public/common"}
+{block name="style"}
+<style></style>
+{/block}
+{block name="body"}
+<form class="xg-form">
+<?php echo xg_form('tid','选择专题',$id)->values($data)->checkbox();?>
+</form>
+<script>
+var selname='{$selname}';
+if(!parent.input_link)parent.input_link={};
+if(!parent.input_link[selname])parent.input_link[selname]=[];
+$('.xg-form-item-tid input[type="checkbox"]').click(function(){
+	var id=$(this).val();
+	if($(this).is(':checked')){
+		parent.input_link[selname].push(id);
+	}else{
+		for(let i in parent.input_link[selname]){
+			if(parent.input_link[selname][i]==id){
+				delete parent.input_link[selname][i];
+			}
+		}
+	}
+});
+</script>
+{/block}

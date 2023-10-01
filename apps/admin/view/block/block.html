@@ -1,0 +1,256 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="block-cont xg-container-full xg-gutter-0">
+	<div class="xg-row">
+		<div class="xg-col-4 block-cont-1 block-cont-child block-add-items">
+			<div class="xg-box xg-box-a xg-tab-box xg-border xg-theme-border">
+				<ul class="xg-box-title xg-tab-title xg-bg xg-pd-0 xg-h-a">
+					<a href="javascript:items();" class="xg-fr xg-hide xg-icon xg-icon-arrow-left xg-mr-0 xg-ml--5 xg-lh-15"></a>
+					<li class="xg-this" xg-id="1">添加模块</li>
+					<li xg-id="2">管理页面</li>
+				</ul>
+				<ul class="xg-box-cont xg-tab-content">
+					<li class="xg-this blocks-list" xg-id="1">
+						<ul class="block-list xg-row"></ul>
+					</li>
+					<li class="xg-m-g-1 xg-h-100" xg-id="2"><iframe id="pages" src="{:xg_url('page/pages',['thid'=>$thid])}"></iframe></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			xg.tab('pages')
+			.bind('.block-add-items .xg-tab-title','.block-add-items .xg-tab-content')
+			.onshow(function(){
+				if($('.block-add-items .xg-icon-arrow-right').length){
+					items(1);
+				}
+			});
+		</script>
+		<div class="xg-col-4 block-cont-2 block-cont-child">
+			<div class="xg-box xg-box-a">
+				<div class="xg-box-title xg-bg">
+					<h3 class="h3">预览<span id="previewing-page"></span>
+						<span id="compiling-blocks"></span>
+					</h3>
+					<a href="javascript:preview();" class="xg-fr xg-icon xg-icon-redo xg-lh-25 xg-w-a xg-pd-0 xg-mr-3"></a>
+					<a href="{:xg_url('/preview/index/index',['thid'=>$thid])}" target="preview" class="xg-fr xg-icon xg-icon-home xg-lh-25 xg-w-a xg-pd-0"></a>
+					<a href="javascript:goback();" class="xg-fr xg-icon xg-icon-arrow-left xg-lh-25 xg-w-a xg-pd-0"></a>
+					<a href="javascript:view(1);" title="预览模式" class="preview-view preview-view-1 xg-fr xg-icon xg-op-5 xg-icon-vimeo-square xg-lh-25 xg-w-a xg-pd-0"></a>
+					<a href="javascript:view(0);" title="编辑模式" class="preview-view preview-view-0 xg-fr xg-icon xg-op-5 xg-icon-edit-sign xg-lh-25 xg-w-a xg-pd-0"></a>
+				</div>
+				<div class="xg-box-cont xg-pd-0 xg-over-auto"><iframe id="preview" name="preview" src="{:xg_url('preview/index/index',['thid'=>$thid,'pagename'=>'index'])}"></iframe></div>
+			</div>
+		</div>
+		<div class="xg-col-4 block-cont-3 block-cont-child">
+			<div class="block-info"></div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="style"}
+<style>
+.xg-row>div{padding:10px;}
+.block-cont{width:100%;height:calc(100vh - 100px);overflow:hidden;}
+.block-cont>.xg-row{flex-wrap:nowrap;overflow:auto;height:100%;}
+.block-cont-child{max-width:550px;height:100%;}
+.block-cont-child>div{height:100%;}
+.block-cont-child.block-cont-1 .xg-box-cont{height:calc(100% - 3rem);}
+.block-cont-child.block-cont-2 .xg-box-cont{height:calc(100% - 3rem);}
+.block-cont-child.block-cont-3 .xg-box-cont{height:calc(100% - 5.8rem);}
+.block-list{margin:0 -0.5rem;}
+.block-list li{text-align:center;}
+.block-list li a{display:block;max-width:7rem;margin:0 auto;padding:0.5rem 0;}
+.block-list li:hover a{background:var(--xg-color);color:#fff;border-radius:0.5rem;}
+.block-list li .xg-icon{display:block;font-size:4rem;line-height:1em;}
+.block-list.block-list-2 li .xg-icon{font-size:2.5rem;}
+.block-info{height:calc(100% - 5rem);}
+.block-info-btns{padding:0.5rem;padding-bottom:0;}
+#preview{display:block;width:calc(360px + 2px + 2rem);height:calc(100% - 2rem - 2px);margin:1rem auto;overflow:auto;border:solid #ddd 1px;}
+#pages{display:block;width:100%;height:100%;overflow:auto;}
+.block-cont-3{min-width:390px;max-width:none;flex:1;}
+.block-cont-3 .xg-drag-layer{height:0.5rem;background:rgba(0,0,0,0.4);border-radius:5px;margin-bottom:-0.5rem;}
+.block-cont-3 .link-select-item a{display:none;}
+.block-cont-3 .link-select-item:hover a{display:block;}
+.blocks-list{overflow-y:auto;overflow-x:hidden;height:100%;}
+</style>
+{/block}
+{block name="script"} 
+<script>
+var models=<?php
+$models=xg_models();
+$arr=[];
+foreach($models as $model){
+	if($model['type']==1){
+		$arr[$model['name']]=$model['alias'];
+	}
+}
+echo xg_jsonstr($arr);
+?>;
+
+var pageid=0;
+var tidi=0;
+var thid='{:intval($thid)}';
+var pagename='index';
+var block_sel_list=<?php
+	$blocksetlist=$sets;
+	if($isloop){
+		foreach($blocksetlist as $k=>$v){
+			if(!xg_in_array($k,array('custom_link','custom_cont','html_cont','margin'))){
+				unset($blocksetlist[$k]);
+			}
+		}
+	}
+	echo xg_jsonstr($blocksetlist);
+?>;
+function call_admin_block_init_block(){
+	for(var i in block_sel_list){
+		$('<li class="xg-col-6 xg-x-col-3 xg-l-col-3" title="'+block_sel_list[i]['desc']+'"><a href="javascript:call_admin_block_show_set(\''+i+'\');"><span class="'+block_sel_list[i]['icon']+'"></span>'+block_sel_list[i]['title']+'</a></li>').appendTo('.block-list');
+	}
+	<?php foreach($blockarr as $tid=>$block){
+		?>if(tidi<<?php echo $block[tid];?>)tidi=parseInt(<?php echo $block[tid];?>);<?php 
+	}?>
+	tidi+=1;
+}
+function order(o){
+	xg.ajax.get(xg.url('order'),{order:o},function(r){
+		if(r.ok!==true)xg.msg(r.msg);
+	},'json');
+}
+function remove(bid,fun){
+	xg.confirm('确定要删除此模块吗？',function(){
+		xg.ajax.get(xg.url('block/remove',{bid:bid}),function(data){
+			if(data.ok===true){
+				preview();//reload_block();
+			}else{
+				xg.err(data.msg);
+			}
+		});
+	});
+}
+function pages(){
+	xg.close(window.page_win);
+	$('#pages')[0].contentWindow.location.reload();
+}
+function items(a){
+	if(1)return;
+	if($('.block-add-items .xg-icon-arrow-left').length){
+		a||xg.tab('pages').show(1);
+		$('.block-list').addClass('block-list-2');
+		$('.block-add-items .xg-col-6').removeClass('xg-x-col-3 xg-l-col-3');
+		$('.block-add-items .xg-icon-arrow-left').removeClass('xg-icon-arrow-left').addClass('xg-icon-arrow-right');
+		$('.block-add-items').removeAttr('style').css({maxWidth:'235px'});
+	}else{
+		$('.block-list').removeClass('block-list-2');
+		$('.block-add-items .xg-col-6').addClass('xg-x-col-3 xg-l-col-3');
+		$('.block-add-items .xg-icon-arrow-right').removeClass('xg-icon-arrow-right').addClass('xg-icon-arrow-left');
+		if($(window).width()<1100){
+			$('.block-add-items').removeAttr('style').css({minWidth:'430px'});
+		}else{
+			$('.block-add-items').removeAttr('style');
+		}
+	}
+}
+window.viewmode=0;
+function view(v){
+	window.viewmode=v;
+	$('.preview-view').addClass('xg-op-5');
+	$('.preview-view-'+v).removeClass('xg-op-5');
+	preview_win().view(v);
+}
+function reload_block(bid){
+	preview_win().reload_block(bid);
+}
+function call_admin_compile_blocks(bid,sub){
+	$('#compiling-blocks').html(``);
+	bid+='';
+	if(sub&&bid){
+		window.blockpagename=bid;
+	}else{
+		delete window.blockpagename;
+	}
+	let appendhtml
+	if(window.blocks){
+		for(let pagename in window.blocks){
+			loopblocks(window.blocks[pagename]);
+		}
+	}
+	function loopblocks(blocks,pbid){
+		for(let i in blocks){
+			let block=blocks[i];
+			let bbid=block.bid+'';
+			if(bid==bbid){
+				if(window.blockpagename&&pbid){
+					appendhtml=` <a class="xg-pd-0 xg-inblock xg-fn" href="javascript:call_admin_compile_blocks(${pbid},2)">上级子模块</a>`;
+				}else{
+					appendhtml=` <a class="xg-pd-0 xg-ml-2 xg-inblock xg-fn" href="javascript:call_admin_compile_blocks(${bid});">退出子模块</a>`;
+				}
+				if(sub){
+					$('#compiling-blocks').html(' - 正在编辑子模块-'+bid+' '+appendhtml);
+				}else{
+					call_admin_block_show_set(block.block,block.bid);
+				}
+			}
+			loopblocks(block.blocks,bbid);
+		}
+	}
+	compile_blocks(sub?bid:null);
+}
+
+function call_admin_compile_done_blocks(){
+	$('.block-info').html('');
+	call_admin_compile_blocks();
+}
+function compile_blocks(bid){
+	preview_win().compile_blocks(bid);
+}
+function goback(bid){
+	preview_win().history.go(-1);
+}
+function copyblock(bid){
+	// xg.confirm('确定要复制此模块吗？',function(){
+	// 	xg.ajax.get(xg.url('copyselfblock',{bid}),function(res){
+	// 		xg.msg(res,function(){
+	// 			preview();
+	// 		});
+	// 	});
+	// });
+	let pagename=window.pagename;
+	const id=xg.iframe({title:'复制到',src:xg.url('moveblock',{thid,bid,pagename}),width:700,height:500,ok:1,cancel:1,onok:function(){
+		let val=xg.iframe(id)&&xg.iframe(id).$('input:checked').val();
+		if(xg.iframe(id)&&xg.iframe(id).$('input[name="moveto"]').val()){
+			val=xg.iframe(id).$('input[name="moveto"]').val();
+		}
+		if(val){
+			xg.ajax.get(xg.url('copyselfblock',{bid,pagename,moveto:val}),function(res){
+				reload_block();
+				xg.msg(res);
+			});
+			return true;
+		}
+		return false;
+	}});
+}
+function moveblock(bid){
+	let pagename=window.pagename;
+	const id=xg.iframe({title:'移动到',src:xg.url('moveblock',{thid,bid,pagename}),width:700,height:500,ok:1,cancel:1,onok:function(){
+		let val=xg.iframe(id)&&xg.iframe(id).$('input:checked').val();
+		if(xg.iframe(id)&&xg.iframe(id).$('input[name="moveto"]').val()){
+			val=xg.iframe(id).$('input[name="moveto"]').val();
+		}
+		if(val){
+			xg.ajax.get(xg.url('moveblock',{bid,pagename,moveto:val}),function(res){
+				reload_block();
+				xg.msg(res)
+			});
+		}
+	}});
+}
+function preview(){
+	preview_win().location.reload();
+}
+function preview_win(){
+	return $('#preview')[0].contentWindow;
+}
+$(function(){call_admin_block_init_block();});
+</script> 
+{/block}

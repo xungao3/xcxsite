@@ -1,0 +1,19 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-ajax-submit" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>分组信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--3"></div>
+			{:xg_form_item_text('name','分组名',$info['name'])}
+			{:xg_form('check','是否需要审核',$info['check'])->values(['不需要','需要'])->radio()}
+			{:xg_form('status','是否启用',isset($info['status'])?$info['status']:1)->values([1=>'启用',0=>'启不用'])->radio()}
+			{:xg_form_item_btn('提交')}
+		</div>
+	</div>
+</form>
+{/block}
+{block name="style"}
+{/block}
+{block name="script"}
+{/block}

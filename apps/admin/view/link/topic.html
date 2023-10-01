@@ -1,0 +1,37 @@
+{extend name="public/common"}
+{block name="style"}
+<style></style>
+{/block}
+{block name="body"}
+<form id="searchform" class="xg-form xg-flex">
+	{:xg_form()->get_items()}
+	<input type="text" style="width:250px;" name="keywords" value="{$keywords}" />
+	<input type="submit" class="xg-btn xg-mx-2" value="搜索" />
+	<?php if($keywords){?><a href="{:xg('baseurl')}" class="xg-btn">清除搜索</a><?php }?>
+</form>
+<form class="xg-form">
+<?php echo xg_form('id','选择专题',$id)->values($data)->radio();?>
+<div class="xg-mt-5">{$pagehtml}</div>
+</form>
+<script>
+var type='{$type}';
+var selname='{$selname}';
+if(parent.link_select&&parent.link_select[selname])$('input[type="radio"][value="'+parent.link_select[selname]+'"]').prop('checked',true);
+$('.xg-form-item-id input[type="radio"]').click(function(){
+	var value=$(this).val();
+	var title=$(this).text().trim();
+	if(parent.target_input){
+		if(type=='data-url')value=xg.rurl('app/index/data',{sys:'xg',tid:value});
+		parent.target_input.val(value);
+	}else if(window.target_win){
+		if(window.target_input){
+			window.target_win.$(window.target_input).val(value);
+		}else{
+			parent.input_link[selname]=value;
+		}
+	}else{
+		parent.link_select[selname]={key:'topic',topic:id,id:id,order:0,title:title};
+	}
+});
+</script>
+{/block}

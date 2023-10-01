@@ -1,0 +1,55 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-form xg-ajax-submit xg-ajax-not-reload" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>修改用户信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-pd-3 xg-mg--1 xg-bg-white xg-radius-5">
+				<div class="xg-mt--3"></div>
+				{:xg_form_item_text('username','用户名',$info['username'])}
+				{:xg_form_item_password('password','密码')}
+				{:xg_form_item_password('repassword','密码')}
+				{:xg_form_item_select('groupid','管理员类型',[1=>'超级管理员',2=>'普通管理员'],$info['groupid'])}
+				<div class="auth">
+					{foreach auth groupn authi}
+						<div class="xg-mt-4 xg-mb-1">
+							{if $group[$groupn]}<label class="xg-label-checkbox"><input {$info['auth'][$groupn]?'checked':''} class="checkbox-group" type="checkbox" group-name="{$groupn}" name="auth[{$groupn}]" value="1">{$group[$groupn]}</label>{/if}
+							<div class="xg-mt-1 xg-mb-1">
+								{foreach authi authn authj}
+									<label class="xg-label-checkbox"><input {$info['auth'][$authn]?'checked':''} class="checkbox-group-{$groupn}" type="checkbox" name="auth[{$authn}]" value="1">{$authj.title}</label>
+								{/foreach}
+							</div>
+						</div>
+						{if $groupn=='content'}
+							<div class="xg-mt-1 xg-mb-1">
+								<div class="xg-mt-1 xg-mb-1">
+									{foreach models model}
+										<label class="xg-label-checkbox"><input {$info['auth']['content-xg-'.$model['name']]?'checked':''} class="checkbox-group-content" type="checkbox" name="auth[content-xg-{$model.name}]" value="1">管理{$model.alias}</label>
+									{/foreach}
+								</div>
+							</div>
+						{/if}
+					{/foreach}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="xg-fixed-btns">
+		{:xg_form_item_btn('提交')}
+	</div>
+</form>
+<script>
+$('select[name="groupid"]').change(function(){
+	if($(this).val()=='1'){
+		$('.auth').hide();
+	}else{
+		$('.auth').show();
+	}
+}).change();
+$('.checkbox-group').change(function(){
+	const group=$(this).attr('group-name');
+	$(`.checkbox-group-${group}`).prop('checked',$(this).is(':checked'));
+});
+</script>
+<div class="xg-fixed-btns-padding"></div>
+{/block}

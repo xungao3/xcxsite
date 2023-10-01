@@ -1,0 +1,68 @@
+{extend name="public/common"}
+{block name="style"}
+<style>
+h1{padding:2rem 0.5rem;}
+h2{padding:1rem 0.5rem;}
+.main-model{width:100%;}
+.main-model li{width:15rem;margin:0.5rem;padding:1rem;background:var(--xg-color);line-height:1.5rem;border-radius:0.5rem;}
+.main-model .xg-icon{margin-right:0.8rem;font-size:3rem;line-height:3rem;color:#fff;}
+.main-model .model-title{display:flex;justify-content:space-between;width:100%;color:#fff;}
+.main-model .model-count{color:#fff;}
+</style>
+{/block}
+{block name="body"}
+<h1>{$xg.config.site-name}</h1>
+{if xg_have_auth('content')}
+<h2>外部模型</h2>
+<ul class="main-model xg-flex xg-flex-wrap">
+	{foreach counts i model}
+	{if $model['type']==1}
+		{if xg_have_auth('content-xg-'.$model['name'],1)}
+			<li style="background:{$colors[$i]};">
+				<div class="xg-flex">
+					<a href="{:xg_url('content/contents',['model'=>$model['name']])}" target="xg-admin-iframe" class="xg-flex xg-flex-1 xg-white xg-admin-tab-link" xg-tab-title="管理{$model.alias}"><div class="xg-icon xg-icon-hdd"></div>
+						<div class="model-info xg-flex-1">
+							<div class="model-title">{$model.title}</div>
+							<div class="model-count">记录:{$model.count1}+{$model.count2}</div>
+						</div>
+					</a>
+					<div class="xg-flex xg-flex-col">
+						<a href="{:xg_url('model/model',['id'=>$model['id']])}" target="xg-admin-iframe" class="xg-flex xg-white xg-admin-tab-link" xg-tab-title="修改模型-{$model.name}">修改</a>
+						<a href="{:xg_url('fields/fields',['mid'=>$model['id']])}" target="xg-admin-iframe" class="xg-flex xg-white xg-admin-tab-link" xg-tab-title="模型字段-{$model.name}">字段</a>
+					</div>
+				</div>
+			</li>
+		{/if}
+	{/if}
+	{/foreach}
+</ul>
+<h2>内部模型</h2>
+<ul class="main-model xg-flex xg-flex-wrap">
+	{foreach counts i model}
+	{if $model['type']==2}
+		{if xg_have_auth('content-xg-'.$model['name'],1)}
+			<li style="background:{$colors[$i]};">
+				<div class="xg-flex">
+					<a href="{:xg_url('content/contents',['model'=>$model['name']])}" target="xg-admin-iframe" class="xg-flex xg-flex-1 xg-white xg-admin-tab-link" xg-tab-title="管理{$model.alias}"><div class="xg-icon xg-icon-database"></div>
+						<div class="model-info xg-flex-1">
+							<div class="model-title">{$model.title}</div>
+							<div class="model-count">记录:{$model.count1}+{$model.count2}</div>
+						</div>
+					</a>
+					<div class="xg-flex xg-flex-col">
+						<a href="{:xg_url('model/model',['id'=>$model['id']])}" target="xg-admin-iframe" class="xg-flex xg-white xg-admin-tab-link" xg-tab-title="修改模型-{$model.name}">修改</a>
+						<a href="{:xg_url('fields/fields',['mid'=>$model['id']])}" target="xg-admin-iframe" class="xg-flex xg-white xg-admin-tab-link" xg-tab-title="模型字段-{$model.name}">字段</a>
+					</div>
+				</div>
+			</li>
+		{/if}
+	{/if}
+	{/foreach}
+</ul>
+{/if}
+
+
+
+
+{:xg_hooks('admin-index')->run()}
+{/block}

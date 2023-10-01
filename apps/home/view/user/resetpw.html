@@ -1,0 +1,38 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-container{max-width:1000px;}</style>
+{/block}
+{block name="body"}
+<div class="xg-container">
+	<div class="xg-box xg-box-a xg-mt-4 xg-n-mg-2">
+		<div class="xg-box-title xg-bg">找回密码</div>
+		<div class="xg-box-cont">
+			<div class="xg-x-mt-5 xg-l-mt-5 xg-m-mt-5 xg-x-mb-5 xg-l-mb-5 xg-m-mb-5">
+				<div class="xg-row xg-x-mt-3 xg-l-mt-3 xg-m-mt-3 xg-s-mt-3 xg-x-mb-3 xg-l-mb-3 xg-m-mb-3 xg-s-mb-3">
+					<div class="xg-x-col-4 xg-l-col-4 xg-m-col-4 xg-s-col-6 xg-x-offset-2 xg-l-offset-2 xg-m-offset-2 xg-s-offset-1">
+						<form class="xg-form xg-ajax-submit" method="post">
+							<input class="xg-w-100 xg-mt-0" type="text" placeholder="请输入用户名" name="username" value="" />
+							<input class="xg-w-100 xg-mt-3 xg-vcode-mobile" type="text" placeholder="请输入手机号" value="" name="mobile" />
+							<div class="xg-flex xg-mt-3 xg-ml-0 xg-mr-0 xg-border-c xg-radius-3">
+								<input class="xg-flex-1 xg-mg-0 xg-border-0" type="text" placeholder="请输入验证码" value="" name="vcode" />
+								<div class="xg-mg-0 xg-vcode xg-vcode-mobile" xg-vcode-type="1">获取</div>
+							</div>
+							<input class="xg-w-100 xg-mt-3" type="password" placeholder="请输入密码" name="password" value="" />
+							<input class="xg-w-100 xg-mt-3" type="password" placeholder="请输入确认密码" name="repassword" value="" />
+							<input class="xg-w-100 xg-mt-3 xg-btn" type="submit" value="提交" />
+						</form>
+					</div>
+					<div class="xg-x-col-5 xg-l-col-5 xg-m-col-5 xg-s-col-5 xg-s-mt-1 xg-n-mt-1">
+						<div class="xg-h-100 xg-flex xg-flex-col xg-flex-just-center xg-flex-align-center">
+							<div>还没有账号? <a href="{:xg_url('user/register')}">立即注册</a></div>
+							<div>忘记密码了? <a href="{:xg_url('user/resetpw')}">重置密码</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+{/block}

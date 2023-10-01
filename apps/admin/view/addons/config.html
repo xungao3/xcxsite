@@ -1,0 +1,33 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-form xg-ajax-not-reload" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>插件设置</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				{foreach config key conf}
+					{if $conf['type']=='call'}
+						{if $conf['call'] and $conf['call'][0] and $conf['call'][1] and method_exists($conf['call'][0],$conf['call'][1])}{php $class=new $conf['call'][0]();$action=$conf['call'][1];/}{:call_user_func([$class,$action])}{/if}
+					{else}
+						<?php $itemname=$conf['type'];echo xg_form($key,$conf['title'],isset($data[$key])?$data[$key]:$conf['value'])->values($conf['options'])->options($conf['options'])->$itemname();?>
+					{/if}
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	<div class="xg-fixed-btns">
+		<button class="xg-btn" type="submit">提交</button>
+		<a href="{:xg_url('save_config',['name'=>$name])}" class="xg-btn">导出设置</a>
+		<a href="javascript:void(0);" class="xg-btn load-config">导入设置</a>
+	</div>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+{/block}
+{block name="script"}
+<script>
+var addon_name='{$name}';
+$(function(){call_admin_init_load_config();});
+</script>
+{/block}
+{block name="header"}
+{/block}

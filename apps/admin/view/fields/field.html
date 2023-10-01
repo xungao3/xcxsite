@@ -1,0 +1,43 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>字段信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				<?php echo xg_form_item_text('name','字段标识',$info['name'],'比如：goodsname');?>
+				<?php echo xg_form_item_text('title','字段名称',$info['title'],'比如：商品名称');?>
+				<?php unset($form['category'],$form['status']);echo xg_form_item_select('type','数据类型',$type,$info['type'],'');?>
+				<?php echo xg_form_item_select('form','表单类型',$form,$info['form'],'');?>
+				<div class="table-info xg-max-500 xg-border xg-border-red xg-radius-3 xg-pd-3 xg-mt-3" style="display:none!important;">
+					<div class="xg-mt--4"></div>
+					{:xg_form('table-info[table]','关联表名',$info['data']['table'])->text()}
+					{:xg_form('table-info[field]','关联字段',$info['data']['field'])->text()}
+					{:xg_form('table-info[show]','显示字段',$info['data']['show'])->text()}
+					{:xg_form('table-info[form]','表单类型',$info['data']['form'])->values(['select'=>'下拉列表','radius'=>'单选','checkbox'=>'多选','search'=>'搜索','search-multi'=>'搜索多选'])->select()}
+				</div>
+				<div class="html-info xg-max-500 xg-border xg-border-red xg-radius-3 xg-pd-3 xg-mt-3" style="display:none!important;">
+					<div class="xg-mt--4"></div>
+					{:xg_form('html-info[form]','HTML代码',$info['data']['form'])->textarea()}
+				</div>
+				<script>
+					$('.xg-form-item-form select').change(tableinfo).change();
+					function tableinfo(){
+						$('.table-info').hide();
+						$('.html-info').hide();
+						if($(this).val()=='table'){
+							$('.table-info').show();
+						}else if($(this).val()=='html'){
+							$('.html-info').show();
+						}
+					}
+				</script>
+				<?php echo xg_form_item_text('length','长度',$info['length']?$info['length']:'','');?>
+				<?php //echo xg_form_item_text('func','处理函数',$info['func'],'');?>
+				<?php echo xg_form_item_textarea('remark','数据信息',$info['remark'],'');?>
+				<div class="xg-mt-3"><button class="xg-btn" type="submit">提交</button></div>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

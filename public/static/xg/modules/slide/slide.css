@@ -1,0 +1,31 @@
+/**
+ * XGPHP 轻量级PHP框架
+ * @link http://xgphp.xg3.cn
+ * @version 1.0.0
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ * @author 讯高科技 <xungaokeji@qq.com>
+*/
+.xg-slide{position:relative;overflow:hidden;z-index:1;width:100%;}
+.xg-slide ul{display:block;width:100%;position:absolute;height:100%;}
+.xg-slide ul:after{content:".";display:block;height:0!important;clear:both;visibility:hidden;overflow:hidden;}
+.xg-slide li{display:block;width:100%;float:left;position:relative;height:100%;overflow:hidden;}
+.xg-slide li img{width:100%;max-width:none;}
+.xg-slide .xg-slide-points{position:absolute;left:50%;bottom:0.5rem;transform:translateX(-50%);z-index:2;text-align:center;}
+.xg-slide .xg-slide-point{display:inline-block;width:0.5rem;height:0.5rem;margin:0.1rem 0.2rem;background:#fff;border-radius:50%;}
+.xg-slide .xg-slide-point.xg-this{background:var(--slide-theme-color,var(--theme-color,var(--xg-color,#666)));}
+.xg-slide .xg-slide-btn-l{display:none;position:absolute;width:2rem;height:2rem;left:0;top:50%;margin-top:-2rem;}
+.xg-slide .xg-slide-btn-r{display:none;position:absolute;width:2rem;height:2rem;right:0;top:50%;margin-top:-2rem;}
+
+.xg-slide .xg-slide-title{color:var(--slide-text-color,#000);}
+.xg-slide .xg-slide-title-top{top:0;bottom:auto;}
+.xg-slide .xg-slide-title-bottom{bottom:0;}
+.xg-slide .xg-slide-title-middle{top:calc(50% - 1.5rem)}
+
+.xg-slide-a .xg-slide-title{display:none;}
+
+.xg-slide-b .xg-slide-points{display:none;}
+.xg-slide-b .xg-slide-title{display:block;position:absolute;left:0;bottom:0;width:100%;height:3rem;padding:0.5rem 1rem;line-height:1.2rem;box-sizing:border-box;color:var(--slide-text-color,#fff);text-align:center;text-shadow:1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+
+.xg-slide-c .xg-slide-points{display:none;}
+.xg-slide-c .xg-slide-title{position:absolute;left:0;width:100%;height:2.4rem;bottom:0;padding:0.3rem 0.5rem;line-height:1.8rem;background:rgba(0, 0, 0, 0.5);box-sizing:border-box;color:#fff;text-align:center;}
+.xg-slide-c.xg-slide .xg-slide-title-middle{top:calc(50% - 1.2rem);}

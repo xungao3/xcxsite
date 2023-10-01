@@ -1,0 +1,60 @@
+<header>
+<div class="xg-nav-place xg-flex xg-flex-between xg-bg">
+	<a class="xg-logo xg-n-ml-2" href="{:xg_url('/')}"><img src="{$xg.config.site-logo}" /></a>
+	<a href="javascript:void(0);" class="xg-nav-toggler xg-icon xg-icon-tasks xg-white xg-mg-4 xg-em-15 xg-lh-1 xg-fr"></a>
+</div>
+<div class="xg-bg xg-pos-f xg-full-top xg-z-99">
+	<div class="xg-container-x xg-pd-0 xg-gutter-0">
+		<div class="xg-nav xg-n-bg xg-n-pos-f xg-n-full-left xg-n-w-50 xg-n-h-100 xg-n-em-09">
+			<div class="xg-nav-cont">
+				<a class="xg-logo xg-mr-4 xg-n-ml-2 xg-n-mr-2" href="{:xg_url('/')}"><img src="{$xg.config.site-logo}" /></a>
+				<ul class="xg-nav-items xg-n-over-hide">
+					<li class="xg-nav-item xg-n-w-100 xg-n-over-hide xg-lh-15 xg-n-lh-1 xg-pd-4 xg-n-pt-1 xg-n-pb-1 xg-n-pr-0 xg-center xg-n-left xg-hover-white-1">
+						<a class="xg-n-inline-block" href="{:xg_url('/')}">首页</a>
+					</li>
+					{nav pid="0"}
+						{if !$item['login'] or xg_login('home')}
+						<li class="xg-nav-item xg-n-w-100 xg-n-over-hide xg-pos-r xg-lh-15 xg-n-lh-1 xg-pd-4 xg-n-pt-1 xg-n-pb-1 xg-n-pr-0 xg-center xg-n-left xg-hover-white-1 xg-n-bg-none xg-nav-id-{$item.id}" xg-nav-id="{$item.id}">
+							<a class="xg-n-inline-block" href="{:xg_nav_link($item)}">{$item.title}</a>
+							{if $item['children']}
+							<div class="xg-nav-item-toggler xg-hide xg-n-show xg-pos-a xg-pos-right xg-pos-top xg-mt-1 xg-mr-4 xg-white"></div>
+							<ul class="xg-nav-items xg-n-w-100 xg-n-over-hide xg-n-hide xg-ml--4 xg-mt-4 xg-n-mt-2 xg-n-ml-0 xg-bg xg-n-bg-none" xg-nav-pid="{$pid}">
+								{nav pid="$item['id']"}
+									{if !$item['login'] or xg_login('home')}
+										<li class="xg-nav-item xg-n-w-100 xg-n-over-hide xg-lh-15 xg-n-lh-1 xg-pl-4 xg-pr-4 xg-pt-2 xg-pb-2 xg-n-pt-1 xg-n-pb-1 xg-n-pr-0 xg-center xg-n-left xg-bg-white-1 xg-hover-white-2 xg-n-bg-none xg-nav-id-{$item.id}" xg-nav-id="{$item.id}">
+											<a class="xg-n-inline-block" href="{:xg_nav_link($item)}">{$item.title}</a>
+											{if $item['children']}
+											<div class="xg-nav-item-toggler xg-hide xg-n-show xg-pos-a xg-pos-right xg-pos-top xg-mt-1 xg-mr-4 xg-white"></div>
+											<ul class="xg-nav-items xg-n-over-hide xg-n-hide xg-n-mt-2 xg-bg xg-n-bg-none" xg-nav-pid="{$pid}">
+												{nav pid="$item['id']"}
+													{if !$item['login'] or xg_login('home')}
+														<li class="xg-nav-item xg-n-w-100 xg-n-over-hide xg-lh-15 xg-n-lh-1 xg-pl-4 xg-pr-4 xg-pt-2 xg-pb-2 xg-n-pt-1 xg-n-pb-1 xg-n-pr-0 xg-center xg-n-left xg-bg-white-1 xg-hover-white-2 xg-n-bg-none xg-nav-id-{$item.id}" xg-nav-id="{$item.id}">
+															<a class="xg-n-inline-block" href="{:xg_nav_link($item)}">{$item.title}</a>
+														</li>
+													{/if}
+												{/nav}
+											</ul>
+											{/if}
+										</li>
+									{/if}
+								{/nav}
+							</ul>
+							{/if}
+						</li>
+						{/if}
+					{/nav}
+				</ul>
+				<ul class="xg-nav-menu xg-flex xg-n-flex-wrap xg-pd-2 xg-z-99 xg-bg">
+					<!-- <?php if(xg_login('home')){?>
+						<li class="xg-fl xg-radius-3 xg-bg-white-2 xg-over-hide xg-mg-1 xg-s-hide xg-n-show"><a class="xg-white xg-block xg-lh-1 xg-pd-2 xg-nowrap" href="/user/profile.html">欢迎你，<script>document.write(((window.xginfo||{}).username||'网站用户'))</script>!</a></li>
+						<li class="xg-fl xg-radius-3 xg-bg-red xg-over-hide xg-mg-1"><a class="xg-white xg-block xg-lh-1 xg-pd-2 xg-nowrap xg-ajax-get" href="/user/logout.html">退出登录</a></li>
+					<?php }else{?>
+						<li class="xg-fl xg-radius-3 xg-bg-green xg-over-hide xg-mg-1"><a class="xg-white xg-block xg-lh-1 xg-pd-2 xg-nowrap" href="/user/login.html">登录账号</a></li>
+						<li class="xg-fl xg-radius-3 xg-bg-red xg-over-hide xg-mg-1"><a class="xg-white xg-block xg-lh-1 xg-pd-2 xg-nowrap" href="/user/register.html">注册账号</a></li>
+					<?php }?> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</header>

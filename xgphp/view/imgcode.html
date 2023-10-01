@@ -1,0 +1,15 @@
+<style>
+.imgcode{padding:0.6rem 1rem;}
+#img-code-img{display:block;width:13rem;height:calc(13rem / 200 * 50);border-radius:0.3rem;}
+#img-code-input{width:13rem;height:2.4em;margin-top:0.5rem;padding:0.5rem;line-height:1.4rem;border:solid 1px #ddd;border-radius:0.3rem;box-sizing:border-box;}
+</style>
+<div class="imgcode" align="center">
+	<img id="img-code-img" src="<?php echo xg_url('base/verify',['id'=>$id,'t'=>md5(microtime())])?>" />
+	<input name="imgcode" id="img-code-input" autocomplete="off" type="text" />
+</div>
+<script>
+$('#img-code-img').click(imgcode);
+function imgcode(){
+	$(this).attr('src',"<?php echo xg_url('base/verify',['id'=>$id])?>"+'&t='+Math.random());
+}
+</script>

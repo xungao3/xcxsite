@@ -1,0 +1,62 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.avatar img{max-width:100px; max-height:100px;}</style>
+{/block}
+{block name="header"}
+<form>
+	{:xg_form()->get_items()}
+	<input type="text" name="keywords" value="<?php echo $keywords;?>" placeholder="搜索用户名手机" />
+	<input type="submit" value="搜索" />
+	<?php if(xg_input('get.keywords')){?><input type="button" value="清除搜索" /><?php }?>
+</form>
+<script>$('input[value="清除搜索"]').click(function(){location="{:xg('baseurl')}";});</script>
+{/block}
+{block name="body"}
+<table width="100%" class="xg-table">
+	<tr align="center">
+		<th>ID</th>
+		<th>用户名</th>
+		<th>用户组</th>
+		<th>手机号</th>
+		<th>登录</th>
+		<th>IP</th>
+		<th>注册时间</th>
+		{foreach listf f n}
+			<th>{$n}</th>
+		{/foreach}
+		<th>操作</th>
+	</tr>
+	<?php if($list){?>
+	<?php foreach($list as $k=>$v){?>
+	<tr align="center" tr2>
+		<td>{$v.userid}</td>
+		<td class="username_<?php echo $v['userid'];?>">{$v.username}</td>
+		<td>{$groups[$v['groupid']]}{if $v.apply_groupid}<div>{$groups[$v['apply_groupid']]}(待审核)</div>{/if}</td>
+		<td>{$v.mobile}</td>
+		<td>{$v.login_times}</td>
+		<td>注册:{$v.reg_ip}<br>登录:{$v.last_login_ip}</td>
+		<td>{:date('Y-m-d H:i:s',$v['reg_time'])}<br>{:date('Y-m-d H:i:s',$v['last_login_time'])}</td>
+		{foreach listf f n}
+			<td>{$v[$f]}</td>
+		{/foreach}
+		<td align="left" class="xg-a-btns" width="270">
+			<a class="xg-a xg-a-2 xg-admin-tab-link" xg-tab-title="修改-{$v.username}" href="<?php echo xg_url('edit',['userid'=>$v['userid']]);?>">修改</a>
+			<a class="xg-a xg-a-2 xg-a-status xg-a-status-{$v.status} xg-ajax-get-status" href="<?php echo xg_url('status',['tbname'=>'member','id'=>$v['userid'],'pkname'=>'userid']);?>"><?php if($v['status']){echo '停用';}else{echo '启用';}?></a>
+			{if $v.apply_groupid}<a class="xg-a xg-a-2 xg-a-status xg-a-status-0 check-group xg-ajax-get" href="<?php echo xg_url('checkgroup',['id'=>$v['userid']]);?>">审核用户组</a>{/if}
+			<a class="xg-a xg-a-2 xg-a-del xg-ajax-get" href="<?php echo xg_url('delete',['tbname'=>'member','id'=>$v['userid'],'pkname'=>'userid']);?>">删除</a>
+			{:xg_hooks('userlist-menu-after')->run($v,$list)}
+		</td>
+	</tr>
+	<?php }?>
+	<?php if($pagehtml){?>
+	<tr>
+		<td colspan="111"><?php echo $pagehtml?></td>
+	</tr>
+	<?php }?>
+	<?php }else{?>
+	<tr>
+		<td colspan="111" height="200" align="center">暂无记录！</td>
+	</tr>
+	<?php }?>
+</table>
+{/block}

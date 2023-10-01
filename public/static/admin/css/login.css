@@ -1,0 +1,14 @@
+html{width:100%;height:100%;overflow:hidden;}
+body{background:var(--xg-color);width:100%;height:100%;color:#fff;padding:0;overflow:hidden;}
+a,a:active,a:hover{color:#fff;}
+#canvas{position:absolute;z-index:1;}
+.global{position:relative;z-index:2;}
+.xg-admin-login-form{position:relative;;width:min(440px,calc(100% - 20px));margin:calc(45vh - 220px) auto 30px auto;background:rgba(255,255,255,0.2);border-radius:10px;overflow:hidden;z-index:2;}
+.xg-admin-login-form header{position:relative;;display:block;width:100%;margin:0 auto;height:70px;text-align:center;background:rgba(255,255,255,0.1);}
+.xg-admin-login-form header h1{position:absolute;width:100%;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;font-size:25px;}
+.xg-admin-login-form .form-cont{display:block;width:250px;margin:35px auto 50px auto;box-sizing:border-box;}
+.xg-admin-login-form .input label{display:block;margin-top:10px;margin-bottom:10px;}
+.xg-admin-login-form .input input{display:block;width:250px;height:38px;padding:8px;border:none;border-radius:5px;font-size:18px;line-height:1em;background:rgba(255,255,255,0.3);}
+.xg-admin-login-form .remember{display:block;width:250px;margin:auto;margin-top:20px;font-size:18px;line-height:18px;}
+.xg-admin-login-form .remember input{float:left;width:18px;height:18px;margin-right:4px;background:rgba(255,255,255,0.3)!important;}
+.xg-admin-login-form button{display:block;width:250px;margin:auto;margin-top:20px;padding:11px;line-height:16px;border:none;background:#fff;color:#fff!important;border-radius:5px;box-sizing:border-box;background:rgba(255,255,255,0.3);}

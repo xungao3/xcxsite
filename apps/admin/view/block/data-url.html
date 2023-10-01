@@ -1,0 +1,20 @@
+{html var="links"}
+<script>
+function select_data_url(){
+	const data={};
+	data['专题内容']=xg.url('link/topic',{thid:thid,type:'data-url'});
+	for(let i in window.systems){
+		const sys=window.systems[i];
+		data[sys.title+'分类']=xg.url(sys.name+'@link.category',{thid:thid,type:'data-url'});
+		data[sys.title+'内容']=xg.url(sys.name+'@link.content',{thid:thid,type:'data-url'});
+	}
+	data['数据地址']=xg.url('link/dataurl',{thid:thid,type:'data-url'});
+	window.target_input=$('.data-url-input')
+	const id=xg.iframe({cont:data},900,600,1,function(){
+		window.target_input.val(window.link_input_value||'');
+	});
+}
+</script>
+<a href="javascript:select_data_url();">选择地址</a>
+{/html}
+{:xg_form('data-url','模块数据请求地址',$url)->tip($links)->options(['classname'=>'data-url-input'])->text()}

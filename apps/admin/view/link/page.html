@@ -1,0 +1,22 @@
+{extend name="public/common"}
+{block name="style"}
+<style>.xg-form-item{max-width:100%;}</style>
+{/block}
+{block name="body"}
+<form class="xg-form xg-mt--4">
+<?php echo xg_form_item_radio('pnames','选择页面',$pnames,'');?>
+</form>
+<script>
+var selname='{$selname}';
+$('.xg-form-item-pnames input[type="radio"]').click(function(){
+	var pname=$(this).val();
+	var title=$(this).text().trim();
+	if(parent.link_select){
+		const obj={key:'pname',pname:pname,order:0,title:title};
+		parent.link_select[selname]=obj;
+	}else{
+		parent.link_input_value=pname;
+	}
+});
+</script>
+{/block}

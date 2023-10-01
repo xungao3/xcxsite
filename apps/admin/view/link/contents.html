@@ -1,0 +1,53 @@
+{extend name="public/common"}
+{block name="style"}
+<style></style>
+{/block}
+{block name="body"}
+<form id="searchform" class="xg-form xg-flex">
+	{:xg_form()->get_items()}
+	<input type="text" style="width:250px;" name="keywords" value="{$keywords}" />
+	<input type="hidden" name="cid" value="{$cid}" />
+	<input type="submit" class="xg-btn xg-mx-2" value="搜索" />
+	<?php if($keywords){?><a href="{:xg_url('',['tbname'=>$tbname])}" class="xg-btn">清除搜索</a><?php }?>
+</form>
+<form class="xg-form">
+<?php echo xg_form_item_select('cid','选择分类',$cates,$cid);?>
+<div class="xg-form-item-ids">
+{foreach conts id cont}
+<label class="xg-label-checkbox">
+	<input value="{$cont.id}" name="ids" data-id="{$cont.id}" data-tbname="{$cont.model}" data-title="{$cont.title}" data-cid="{$cont.cid}" type="checkbox" />
+	{$cont.title}
+</label>
+{/foreach}
+</div>
+<div class="xg-mt-5">{$pagehtml}</div>
+</form>
+<script>
+var cids={};
+var selname='{$selname}';
+if(parent.link_select&&parent.link_select[selname]){
+	var seldata=parent.link_select[selname];
+	for(var i in seldata){
+		$('input[type="checkbox"][data-id="'+seldata[i]['id']+'"][data-tbname="'+seldata[i]['model']+'"]').prop('checked',true);
+	}
+}
+$('.xg-form-item-cid select').change(function(){
+	location=xg.urladd({cid:$(this).val()},1);
+});
+$('.xg-form-item-ids input[type="checkbox"]').click(function(){
+	var data=$(this).data();
+	var cid=data.cid;
+	var id=data.id;
+	var title=data.title;
+	var tbname=data.tbname;
+	let obj={key:tbname,model:tbname,id,cid,title,order:parent.link_select_index[selname]};
+	obj[tbname]=id;
+	if($(this).is(':checked')){
+		parent.link_select_index[selname]++;
+		parent.link_select[selname]=xg.push(parent.link_select[selname],obj,tbname);
+	}else{
+		parent.link_select[selname]=xg.delete(parent.link_select[selname],obj,tbname);
+	}
+});
+</script>
+{/block}

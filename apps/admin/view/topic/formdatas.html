@@ -1,0 +1,25 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-ajax-not-reload" method="post">
+	<table class="xg-table" id="table-1" width="100%">
+		<tr>
+			<th width="1" xg-table-checkbox="id"><input class="xg-checkall" type="checkbox" name="checkall" /></th>
+			<th xg-table-item-key="id">ID</th>
+			<th xg-table-item-key="title">标题</th>
+			<th xg-table-item-key="time">提交时间</th>
+			<th xg-table-item-key="links">操作</th>
+		</tr>
+		<tr><td colspan="100" class="xg-table-loading">加载中...</td></tr>
+		<tr><td colspan="100" class="xg-table-nors">无记录</td></tr>
+	</table>
+</form>
+<div class="xg-fixed-btns-padding"></div>
+<script>
+xg.table('#table-1',{tr2:1}).name('table-1').load();
+xg.hooks('switch-after','region',function(that,data){
+	if(data.ok===true){
+		xg.table.get('table-1').reload();
+	}
+});
+</script>
+{/block}

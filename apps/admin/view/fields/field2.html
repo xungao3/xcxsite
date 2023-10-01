@@ -1,0 +1,14 @@
+{extend name="public/common"}
+{block name="body"}
+<form class="xg-ajax-submit xg-form" method="post">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg"><h3>字段信息</h3></div>
+		<div class="xg-box-cont">
+			<div class="xg-mt--4">
+				{:xg_form('remark','图片尺寸',$info['remark'])->text()}
+				<div class="xg-mt-3"><button class="xg-btn" type="submit">提交</button></div>
+			</div>
+		</div>
+	</div>
+</form>
+{/block}

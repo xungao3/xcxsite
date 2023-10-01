@@ -1,0 +1,52 @@
+{extend name="public/common"/}
+{block name="body"}
+<form class="configform ajax-submit" method="post">
+	<table width="100%" align="center" class="xg-table">
+		<tr>
+			<th>ID</th>
+			<th>应用标识</th>
+			<th>应用名称</th>
+			<th>主题ID</th>
+			<!-- <th>测试主题ID</th>
+			<th>是否开启搜索</th>
+			<th>是否开启用户中心</th>
+			<th>测试用户</th> -->
+			<th>主题颜色</th>
+			<th>标题字体颜色</th>
+			<th>网站名称</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+	<?php foreach($applist as $k=>$v){?>
+		<tr tr2 align="center">
+			<td><?php echo $v['id']?></td>
+			<td><?php echo $v['name']?></td>
+			<td><?php echo $v['title']?></td>
+			<td><?php echo $v['theme_id']?></td>
+			<!-- <td><?php echo ($v['test_theme_id']?$v['test_theme_id']:'')?></td>
+			<td><?php echo $v['open_search']?'开启':'不开启'?></td>
+			<td><?php echo $v['open_ucenter']==2?'禁止登录':($v['open_ucenter']?'开启':'不开启');?></td>
+			<td><?php echo $v['test_user']?></td> -->
+			<td><?php echo $v['theme_color']?></td>
+			<td><?php echo $v['title_color']?></td>
+			<td><?php echo $v['site_name']?></td>
+			<td><?php echo $v['status']?'启用中':'禁用中'?></td>
+			<td align="left">
+				<a class="xg-a" href="<?php echo xg_url('app/appset',array('id'=>$v['id']));?>">修改</a>
+				{if xg_in_array($v['name'],$tpls)}<a class="xg-a xg-admin-tab-link" href="<?php echo xg_url('app/appdata',array('name'=>$v['name']));?>" xg-tab-title="{$v.title}">设置</a>{/if}
+			</td>
+		</tr>
+	<?php }
+	if(!$applist){
+		?><tr align="left"><td colspan="20"><div class="nors">暂无记录</div></td></tr><?php
+	}?>
+	<?php
+	if($pagehtml){
+		?><tr align="left"><td colspan="20"><?php echo $pagehtml;?></td></tr><?php
+	}?>
+	</table>
+</form>
+{/block}
+{block name="menus"}
+<a href="{:xg_url('appset')}" class="xg-btn xg-admin-tab-link">添加应用</a>
+{/block}

@@ -1,0 +1,40 @@
+/**
+ * XGPHP 轻量级PHP框架
+ * @link http://xgphp.xg3.cn
+ * @version 1.0.0
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ * @author 讯高科技 <xungaokeji@qq.com>
+*/
+.xg-editor{border:solid 1px #ddd;border-radius:calc(var(--radius) * 3);overflow:hidden;}
+.xg-editor .xg-editor-topbar{margin-top:-1px;border-radius:calc(var(--radius) * 3) calc(var(--radius) * 3) 0 0 ;border:none!important;background:#fff;overflow:hidden;box-shadow:0 -1px 0 0 var(--xg-color) inset;z-index:9999;}
+.xg-editor .xg-editor-source .xg-icon{opacity:0.5;}
+.xg-editor .xg-editor-source .xg-icon.xg-icon-html{opacity:1;}
+.xg-editor .xg-editor-text{display:block;width:100%;min-width:100%;min-height:300px;margin:0;padding:5px;border:none;border-radius:0;box-sizing:border-box;background:#f5f5f5;line-height:normal;}
+.xg-editor .xg-editor-text.xg-hide{display:none;}
+.xg-editor .xg-editor-dom{position:relative;display:block;min-height:300px;padding:5px;outline:none;box-sizing:border-box;line-height:normal;overflow:hidden;}
+.xg-editor .xg-editor-dom.xg-hide{display:none;}
+.xg-editor .xg-editor-dom a{text-decoration:none;color:#25e}
+.xg-editor .xg-editor-btns{float:left;margin:-1px 0 0 -1px;border:solid 1px;border-bottom:none;background:#fff;overflow:visible;}
+.xg-editor .xg-editor-btn{float:left;width:23px;height:22px;line-height:23px;padding:7px;background:#fff;font-size:22px;border-top:solid 0px;border-bottom:solid 1px;text-align:center;color:var(--xg-color);box-sizing:content-box;}
+.xg-editor .xg-editor-btn:hover{background:rgba(var(--xg-rgb),0.2);}
+
+.xg-editor-info{height:37px;}
+
+.xg-editor-dom{background:#fff;}
+.xg-editor-dom ol li{padding-left:0.5rem;list-style-type:decimal!important;list-style-position:inside;}
+.xg-editor-dom ul li{padding-left:0.5rem;list-style-type:disc!important;list-style-position:inside;}
+.xg-editor-dom ul li::marker{font-size:0.7rem;}
+
+.xg-editor-uppic-pop{margin-left:-30px;margin-top:6px;padding:0.5rem;border:solid 1px var(--xg-color);border-radius:0 0 calc(var(--radius) * 3) calc(var(--radius) * 3);background:#fff;}
+
+.xg-editor-table-pop{margin-left:-31px;margin-top:6px;padding:calc(0.5rem + 1px) 0.5rem 0.5rem calc(0.5rem + 1px) ;border:solid 1px var(--xg-color);border-radius:0 0 calc(var(--radius) * 3) calc(var(--radius) * 3);background:#fff;}
+.xg-editor-table-tr{display:flex;}
+.xg-editor-table-td{display:block;width:15px;height:15px;border:solid 1px var(--xg-color);margin:0 0 1px 1px;}
+.xg-editor-table-td.xg-editor-table-bg{background:var(--xg-color);box-shadow:0 0 0 100px rgba(255,255,255,0.5) inset;}
+.xg-editor-table-more{margin-top:0.5rem;}
+
+.xg-editor-color-pop{margin-left:-31px;margin-top:6px;padding:calc(0.5rem + 1px) 0.5rem 0.5rem calc(0.5rem + 1px) ;border:solid 1px var(--xg-color);border-radius:0 0 calc(var(--radius) * 3) calc(var(--radius) * 3);background:#fff;}
+.xg-editor-color-tr{display:flex;}
+.xg-editor-color-td{position:relative;display:block;width:15px;height:15px;margin:0 0 1px 1px;z-index:1;}
+.xg-editor-color-td:hover{width:17px;height:17px;margin:-1px -1px 0 0;border:solid 1px #000;z-index:2;}
+.xg-editor-color-more{margin-top:0.5rem;}

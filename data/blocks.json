@@ -1,0 +1,276 @@
+{
+	"sets": {
+		"nav": {
+			"title": "导航栏",
+			"icon": "xg-icon xg-icon-ellipsis",
+			"desc": "",
+			"sets": {
+				"内容管理": "nav-source,nav-data",
+				"外观设置": "nav-theme,nav-index,width,height,theme-color,text-color,bg-color,border,border-width,margin,radius"
+			}
+		},
+		"slide": {
+			"title": "轮播列表",
+			"icon": "xg-icon xg-icon-film",
+			"desc": "",
+			"sets": {
+				"内容管理": "sys,source,recom,show-count,slide-data,slide-imgs",
+				"外观设置": "slide-theme,slide-vert--todo,height,slide-title-pos,theme-color,bg-color,border,border-width,text-color--todo,margin,radius"
+			}
+		},
+		"sidebar": {
+			"title": "侧边筛选菜单",
+			"icon": "xg-icon xg-icon-columns",
+			"desc": "",
+			"sets": {
+				"基本管理": "sys,sidebar-source,sidebar-data,sidebar-width,sidebar-holder,theme-color,theme-color2"
+			}
+		},
+		"search-bar": {
+			"title": "搜索栏",
+			"icon": "xg-icon xg-icon-mag",
+			"desc": "",
+			"sets": {
+				"基本管理": "sys,link,theme-color,bg-color,width,height,margin,padding,placeholder"
+			}
+		},
+		"cate-list": {
+			"title": "分类列表",
+			"icon": "xg-icon xg-icon-th",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,cate-list,cate-list-level,cateids",
+				"外观设置": "theme-color,bg-color,border,border-width,text-color,margin,padding,radius"
+			}
+		},
+		"cate-box": {
+			"title": "内容盒子",
+			"icon": "xg-icon xg-icon-cube",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,source,recom,list-url,title,cateids,show-count,show-desc,info-left,info-right,toplink",
+				"外观设置": "box-theme,list-theme,theme-color,bg-color,border,border-width,title-color,desc-color,img-height,margin,padding,radius",
+				"样式设置": "box-style,cont-list-style"
+			}
+		},
+		"cate-boxes": {
+			"title": "分类盒子",
+			"icon": "xg-icon xg-icon-cubes",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,recom-cate,show-count,show-desc,info-left,info-right",
+				"外观设置": "box-theme,list-theme,theme-color,bg-color,border,border-width,title-color,desc-color,img-height,margin,padding,radius",
+				"样式设置": "box-style,cont-list-style"
+			}
+		},
+		"info-list": {
+			"title": "内容列表",
+			"icon": "xg-icon xg-icon-list-strong",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,cateid,pagesize,pagenav,show-desc,info-left,info-right",
+				"外观设置": "box-theme,list-theme,theme-color,bg-color,border,border-width,title-color,desc-color,img-height,margin,padding,radius",
+				"样式设置": "box-style,cont-list-style"
+			}
+		},
+		"html": {
+			"title": "HTML内容",
+			"icon": "xg-icon xg-icon-html",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,name,html,emit,show",
+				"基本设置": "indent,para-dis,margin,padding,radius,fontsize,align,bg-color,text-color,border,border-width"
+			}
+		},
+		"picker": {
+			"title": "筛选器",
+			"icon": "xg-icon xg-icon-arrows-sign",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,picker-data,placeholder,show,emit,weight,width,height,margin,padding,radius,fontsize,align,bg-color,text-color,border,border-width"
+			}
+		},
+		"region": {
+			"title": "地区选择器",
+			"icon": "xg-icon xg-icon-temple",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,region-level,region-status,show,emit,weight,width,height,margin,padding,radius,fontsize,align,bg-color,text-color,border,border-width"
+			}
+		},
+		"custom": {
+			"title": "自定义内容",
+			"icon": "xg-icon xg-icon-vimeo-square",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,name,custom,link,emit,data-url,success-link,show,styles,classnames,weight,width,height,line-height,margin,padding,radius,fontsize,align,bg-color,text-color,border,border-width"
+			}
+		},
+		"form": {
+			"title": "表单模块",
+			"icon": "xg-icon xg-icon-keyboard",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,blocks,name,show,blocks-display,scroll-todo,styles,classnames,width,height,line-height,margin,padding,radius,theme-color,bg-color,border,border-width",
+				"数据设置": "data-url,success-link,link-data-todo,block-data-todo,block-hook-todo"
+			}
+		},
+		"input": {
+			"title": "输入框",
+			"icon": "xg-icon xg-icon-edit-sign",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,name,form-name,form-type,value,emit,show,styles,classnames,weight,width,height,line-height,margin,padding,radius,fontsize,align,bg-color,text-color,border,border-width"
+			}
+		},
+		"icon": {
+			"title": "字体图标",
+			"icon": "xg-icon xg-icon-smile",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,name,icon,emitdata-url,success-link,show,styles,classnames,width,height,line-height,align,weight,margin,padding,radius,fontsize,bg-color,text-color,border,border-width"
+			}
+		},
+		"menu": {
+			"title": "菜单栏",
+			"icon": "xg-icon xg-icon-th-large",
+			"desc": "",
+			"sets": {
+				"内容设置": "menu-data",
+				"外观设置": "theme-color,bg-color,text-color,radius"
+			}
+		},
+		"comment": {
+			"title": "评论列表",
+			"icon": "xg-icon xg-icon-commenting",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,cmt-title,theme-color,bg-color,border,border-width,margin,padding,radius"
+			}
+		},
+		"btn": {
+			"title": "按钮",
+			"icon": "xg-icon xg-icon-hand-up",
+			"desc": "",
+			"sets": {
+				"按钮设置": "sys,name,emit,data-url,success-link,btn-size,btn-icon,btn-text,btn-action,width,height,margin,padding,radius,fontsize,text-color,theme-color"
+			}
+		},
+		"checkbox": {
+			"title": "多选框",
+			"icon": "xg-icon xg-icon-check-sign",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,name,form-name,opdata,multi,emit,margin,padding,radius,fontsize,text-color,theme-color"
+			}
+		},
+		"radio": {
+			"title": "单选框",
+			"icon": "xg-icon xg-icon-ok-circle",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,name,form-name,opdata,multi,emit,margin,padding,radius,fontsize,text-color,theme-color"
+			}
+		},
+		"blocks": {
+			"title": "自定义模块",
+			"icon": "xg-icon xg-icon-calendar-plus",
+			"desc": "",
+			"sets": {
+				"基本设置": "blocks,name,cateid,show,blocks-display,scroll-todo,styles,classnames,width,height,margin,padding,radius,theme-color,bg-color,border,border-width",
+				"数据设置": "data-url,success-link,link,link-data-todo,block-data-todo,block-hook-todo"
+			}
+		},
+		"list": {
+			"title": "列表模块",
+			"icon": "xg-icon xg-icon-justify",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,blocks,name,cateid,auto-load,show,blocks-display,scroll-todo,styles,classnames,width,height,margin,padding,radius,theme-color,bg-color,border,border-width",
+				"数据设置": "data-url,success-link,link-data-todo,block-data-todo,block-hook-todo"
+			}
+		},
+		"popup": {
+			"title": "弹窗模块",
+			"icon": "xg-icon xg-icon-calendar-empty",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,blocks,name,cateid,show,popup-pos,blocks-display,scroll-todo,styles,classnames,width,height,z-index,margin,padding,radius,theme-color,bg-color,border,border-width",
+				"数据设置": "data-url,success-link,link-data,block-data,block-hook"
+			}
+		},
+		"image": {
+			"title": "图片模块",
+			"icon": "xg-icon xg-icon-picture",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,name,emit,data-url,success-link,styles,classnames,picurl,link-data,width,height,margin,radius"
+			}
+		},
+		"options": {
+			"title": "筛选菜单",
+			"icon": "xg-icon xg-icon-filter",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,options-source,options-data,options-btn,theme-color,bg-color,margin,padding,radius"
+			}
+		},
+		"img-nav": {
+			"title": "图片导航",
+			"icon": "xg-icon xg-icon-file-image",
+			"desc": "",
+			"sets": {
+				"内容设置": "sys,source,recom,show-count,img-nav-data",
+				"模块设置": "width,height,margin,padding,radius,wrap",
+				"元素设置": "item-margin,item-padding,item-width,item-height,item-radius",
+				"图片设置": "img-margin,img-padding,img-width,img-height,img-radius"
+			}
+		},
+		"icon-nav": {
+			"title": "图标导航框",
+			"icon": "xg-icon xg-icon-h-sign",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,margin,padding,radius,fontsize,bg-color,text-color,border,border-width",
+				"图标设置": "icon-margin,icon-padding,icon-width,icon-height,icon-radius,icon-bg-width,icon-bg-height,icon-bg-radius",
+				"图标列表": "icon-nav-list"
+			}
+		},
+		"video": {
+			"title": "视频模块",
+			"icon": "xg-icon xg-icon-instagram",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,src,margin,padding,radius,bg-color,border,border-width"
+			}
+		},
+		"web": {
+			"title": "网页模块",
+			"icon": "xg-icon xg-icon-external-link",
+			"desc": "",
+			"sets": {
+				"基本设置": "sys,src"
+			}
+		}
+	},
+	"names": {
+		"theme-color": "主题颜色",
+		"bg-color": "背景颜色",
+		"text-color": "文本颜色",
+
+		"nav-theme": "导航栏主题",
+		"nav-index": "是否显示首页",
+		"nav-data": "导航栏内容",
+		"": ""
+	},
+	"sets-todo": {
+		"form-item": {
+			"title": "文本框",
+			"icon": "xg-icon xg-icon-edit-sign",
+			"desc": "",
+			"sets": {
+				"基本设置": "form-item-type,margin,padding,radius,fontsize,bg-color,border,border-width"
+			}
+		}
+	}
+}

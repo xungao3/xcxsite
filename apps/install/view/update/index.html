@@ -1,0 +1,38 @@
+{extend name="public/common"}
+{block name="body"}
+<div class="xg-container-m xg-mt-4">
+	<div class="xg-box xg-box-a">
+		<div class="xg-box-title xg-bg">升级程序</div>
+		<div class="xg-box-cont">
+			<ul id="logul"></ul>
+		</div>
+	</div>
+</div>
+{/block}
+{block name="script"}
+<script>
+var step2='sql';
+var sqli=0;
+function doupdate(){
+	xg.ajax.post('update',{jstime:Math.random()},function(res){
+		if(res.ok===true){
+			writelog(res.msg);
+			doupdate();
+		}else if(res.ok===1){
+			writelog(res.msg);
+		}else{
+			var msg='发生错误：'+res.msg;
+			xg.err(msg);
+			writelog(msg);
+			return;
+		}
+	},'json');
+}
+function writelog(msg){
+	$('<li>'+msg+'</li>').appendTo('#logul');
+}
+$(document).ready(function(){
+	doupdate();
+});
+</script>
+{/block}
